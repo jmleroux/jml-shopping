@@ -44,15 +44,15 @@ class Application extends Silex\Application
     public function registerServices()
     {
         $this['product_service'] = function () {
-            return new \Api\ProductService($this);
+            return new ProductService($this);
         };
 
         $this['user_service'] = function () {
-            return new \Api\UserService($this);
+            return new UserService($this);
         };
 
         $this['category_service'] = function () {
-            return new \Api\CategoryService($this);
+            return new CategoryService($this);
         };
     }
 

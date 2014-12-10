@@ -6,7 +6,6 @@ use Api\Entity\Category;
 use Api\Entity\CategoryHydrator;
 use Doctrine\DBAL\Connection;
 use Silex;
-use StdClass;
 
 class CategoryService
 {

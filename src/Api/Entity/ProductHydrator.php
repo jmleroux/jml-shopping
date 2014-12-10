@@ -47,6 +47,7 @@ class ProductHydrator implements HydratorInterface
         if (isset($data['category'])) {
             /** @var CategoryService $categoryService */
             $categoryService = $this->app['category_service'];
+            /** @var Category $category */
             $category        = $categoryService->getHydrator()->hydrate($data['category'], new Category());
             $product->setCategory($category);
         }
