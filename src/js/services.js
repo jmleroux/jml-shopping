@@ -8,6 +8,6 @@ services.factory('userService', function () {
 
     userService.getTokenHeader = function() {
         return {'X-token': userService.token};
-    }
+    };
     return userService;
 });

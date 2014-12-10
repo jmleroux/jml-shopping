@@ -56,9 +56,6 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
 shoppingList.controller('CategoryListCtrl', ['$scope', '$http', 'userService',
     function ($scope, $http, userService) {
         $scope.user = userService;
-        var master = {
-            label: ''
-        };
         $http.get('api.php/category', {headers: $scope.user.getTokenHeader()}).success(function (data) {
             $scope.categoryList = data;
         });
