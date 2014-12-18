@@ -13,13 +13,13 @@ class CategoryHydrator implements HydratorInterface
     {
         /** @var Category $category */
         return array(
-            'id'       => $category->getId(),
-            'label'  => $category->getLabel(),
+            'id'    => $category->getId(),
+            'label' => $category->getLabel(),
         );
     }
 
     /**
-     * @param array  $data
+     * @param array    $data
      * @param Category $category
      * @return object
      */

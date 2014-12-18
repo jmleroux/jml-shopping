@@ -24,8 +24,8 @@
 
         <div collapse="isCollapsed" class="navbar-collapse bs-js-navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#/product-list">Home</a></li>
-                <li class="active"><a href="#/category-list">Categories</a></li>
+                <li ng-class="{active: navbar.active == 'product-list'}"><a href="#/product-list">Home</a></li>
+                <li ng-class="{active: navbar.active == 'category-list'}"><a href="#/category-list">Categories</a></li>
             </ul>
             <div id="login-container" ng-switch="user.token">
                 <form novalidate class="navbar-form navbar-right" ng-switch-when="" ng-enter="login(post)">

@@ -31,6 +31,13 @@ class CategoryService
         ORDER BY c.label";
         $rows = $this->getDb()->fetchAll($sql);
 
+        $cleaner = function ($row) {
+            $row['id'] = (int) $row['id'];
+            return $row;
+        };
+
+        $rows = array_map($cleaner, $rows);
+
         return $rows;
     }
 
@@ -50,29 +57,28 @@ class CategoryService
         return $category;
     }
 
-
     public function create(Category $category)
     {
-        $sql      = "INSERT INTO categories (id, label)
+        $sql    = "INSERT INTO categories (id, label)
         VALUES (null, ?)";
-        $values   = array(
+        $values = array(
             $category->getLabel(),
         );
-        $rows = $this->getDb()->executeUpdate($sql, $values);
+        $rows   = $this->getDb()->executeUpdate($sql, $values);
 
         return $rows;
     }
 
     public function update(Category $product)
     {
-        $sql      = "UPDATE categories
+        $sql    = "UPDATE categories
         SET label = ?
         WHERE id = ?";
-        $values   = array(
+        $values = array(
             $product->getLabel(),
             $product->getId(),
         );
-        $rows = $this->getDb()->executeUpdate($sql, $values);
+        $rows   = $this->getDb()->executeUpdate($sql, $values);
 
         return $rows;
     }
@@ -103,6 +109,7 @@ class CategoryService
         if (null == $this->hydrator) {
             $this->hydrator = new CategoryHydrator($this->app);
         }
+
         return $this->hydrator;
     }
 }

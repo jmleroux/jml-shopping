@@ -12,9 +12,6 @@ class Category
      */
     protected $label = '';
 
-    /**
-     * @return string
-     */
     public function getLabel()
     {
         return $this->label;
@@ -28,9 +25,6 @@ class Category
         $this->label = $label;
     }
 
-    /**
-     * @return int
-     */
     public function getId()
     {
         return $this->id;
@@ -41,14 +35,6 @@ class Category
      */
     public function setId($id)
     {
-        $this->id = $id;
-    }
-
-    public function extract()
-    {
-        return array(
-            'id'    => $this->getId(),
-            'label' => $this->getLabel(),
-        );
+        $this->id = (int) $id;
     }
 }

@@ -3,15 +3,17 @@ var shoppingList = angular.module('shoppingListControllers', ['shoppingServices'
 shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$filter',
     function ($scope, $http, userService, $filter) {
         $scope.user = userService;
-        $scope.categoryList = [];
+        $scope.categories = [];
+        $scope.products = [];
         $scope.product = {
             product : '',
             category: null,
             quantity : 0
         };
+        $scope.navbar.active = 'product-list';
         $scope.list = function (product) {
             $http.get('api.php/category', {headers: $scope.user.getTokenHeader()}).success(function (data) {
-                $scope.categoryList = data;
+                $scope.categories = data;
             });
             $http.get('api.php/product', {headers: $scope.user.getTokenHeader()}).success(function (data) {
                 $scope.products = data;
@@ -20,7 +22,7 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
         $scope.get = function (product) {
             $http.get('api.php/product/' + product.id, {headers: $scope.user.getTokenHeader()}).success(function (data) {
                 $scope.product = data;
-                $scope.product.category = $filter('filter')($scope.categoryList, {id: $scope.product.category.id})[0];
+                $scope.product.category = $filter('filter')($scope.categories, {id: $scope.product.category.id}, true)[0];
                 $scope.focusInput = true;
             });
         };
@@ -28,6 +30,7 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
             $http.post('api.php/product', product, {headers: $scope.user.getTokenHeader()}).success(function (data) {
                 $scope.products = data;
                 $scope.product = null;
+                $scope.focusInput = true;
             });
         };
         $scope.deleteProduct = function (productId) {
@@ -46,6 +49,10 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
                 $scope.products = data;
             });
         };
+        $scope.reset = function() {
+            $scope.product = angular.copy({});
+            $scope.focusInput = true;
+        };
         $scope.$watch(
             function() { return userService.token; },
             function (newVal) {$scope.list();}
@@ -56,8 +63,9 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
 shoppingList.controller('CategoryListCtrl', ['$scope', '$http', 'userService',
     function ($scope, $http, userService) {
         $scope.user = userService;
+        $scope.navbar.active = 'category-list';
         $http.get('api.php/category', {headers: $scope.user.getTokenHeader()}).success(function (data) {
-            $scope.categoryList = data;
+            $scope.categories = data;
         });
         $scope.get = function (category) {
             $http.get('api.php/category/' + category.id, {headers: $scope.user.getTokenHeader()}).success(function (data) {
@@ -66,13 +74,13 @@ shoppingList.controller('CategoryListCtrl', ['$scope', '$http', 'userService',
         };
         $scope.update = function (category) {
             $http.post('api.php/category', category, {headers: $scope.user.getTokenHeader()}).success(function (data) {
-                $scope.categoryList = data;
+                $scope.categories = data;
                 $scope.category = null;
             });
         };
         $scope.delete = function (categoryId) {
             $http.delete('api.php/category/' + categoryId, {headers: $scope.user.getTokenHeader()}).success(function (data) {
-                $scope.categoryList = data;
+                $scope.categories = data;
             });
         };
     }
@@ -81,6 +89,9 @@ shoppingList.controller('CategoryListCtrl', ['$scope', '$http', 'userService',
 shoppingList.controller('MainCtrl', ['$scope', '$location',
     function ($scope, $location) {
         $scope.baseUrl = $location.absUrl();
+        $scope.navbar = {
+            active: null
+        };
     }
 ]);
 

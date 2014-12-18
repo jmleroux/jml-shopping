@@ -9,7 +9,7 @@
                     <th>Category</th>
                     <th style="width: 15px;">Operations</th>
                 </tr>
-                <tr ng-if="token">
+                <tr>
                     <td>
                         <input type="text" id="label" class="form-control input-sm"
                                ng-model="category.label" ng-enter="update(category)"/>
@@ -20,7 +20,7 @@
                         </button>
                     </td>
                 </tr>
-                <tr ng-repeat="item in categoryList" ng-cloak>
+                <tr ng-repeat="item in categories" ng-cloak>
                     <td>{{item.label}}</td>
                     <td>
                         <button type="button" class="btn btn-default btn-xs"

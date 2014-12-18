@@ -20,15 +20,18 @@
                     <td>
                         <select id="category" class="form-control input-sm"
                                 ng-model="product.category"
-                                ng-options="category.label for category in categoryList"></select>
+                                ng-options="category.label for category in categories"></select>
                     </td>
                     <td>
                         <input type="number" id="quantity" class="form-control input-sm"
                                ng-model="product.quantity" ng-enter="update(product)"/>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default" ng-click="update(product)">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="update(product)">
                             <span class="glyphicon glyphicon-ok-circle"></span>
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="reset()">
+                            <span class="glyphicon glyphicon-refresh"></span>
                         </button>
                     </td>
                 </tr>

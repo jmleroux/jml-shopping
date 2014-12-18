@@ -76,7 +76,7 @@ $app->post(
 
 $app->delete(
     '/product/{id}',
-    function (Api\Application $app, Request $request, $id) {
+    function (Api\Application $app, $id) {
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
@@ -91,7 +91,7 @@ $app->delete(
 
 $app->delete(
     '/product',
-    function (Api\Application $app, Request $request) {
+    function (Api\Application $app) {
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
@@ -126,9 +126,10 @@ $app->get(
         };
         /** @var  \Api\CategoryService $service */
         $service = $app['category_service'];
+        /** @var \Api\Entity\Category $category */
         $category = $service->getCategory($id);
 
-        return $app->json($category->extract());
+        return $app->json($service->getHydrator()->extract($category));
     }
 );
 
@@ -142,18 +143,20 @@ $app->post(
             return $app->getUnauthorizedResponse('Please sign in.');
         };
 
-        /** @var  CategoryService $service */
-        $service = $app['category_service'];
+        /** @var  CategoryService $categoryService */
+        $categoryService = $app['category_service'];
 
-        $post = json_decode($request->getContent());
-        $category = $service->parseRequest($post);
+        $post = json_decode($request->getContent(), true);
+        $category = new \Api\Entity\Category();
+        $categoryService->getHydrator()->hydrate($post, $category);
+
 
         if ($category->getId()) {
-            $service->update($category);
+            $categoryService->update($category);
         } else {
-            $service->create($category);
+            $categoryService->create($category);
         }
-        $rows = $service->getAll();
+        $rows = $categoryService->getAll();
 
         return $app->json($rows);
     }
@@ -161,7 +164,7 @@ $app->post(
 
 $app->delete(
     '/category/{id}',
-    function (Application $app, Request $request, $id) {
+    function (Application $app, $id) {
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
