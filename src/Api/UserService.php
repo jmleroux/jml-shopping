@@ -22,7 +22,7 @@ class UserService
 
     public function __construct(Silex\Application $app)
     {
-        $this->app = $app;
+        $this->app           = $app;
         $this->encryptionKey = $app['seed'];
     }
 
@@ -32,33 +32,35 @@ class UserService
         FROM users u
         WHERE u.login = ?";
 
-        $values = array($username);
-        $row = $this->getDb()->fetchAssoc($sql, $values);
+        $values = [$username];
+        $row    = $this->getDb()->fetchAssoc($sql, $values);
 
-        $authenticationResult = array(
+        $authenticationResult = [
             'username' => $username,
-            'token' => '',
-        );
+            'token'    => '',
+        ];
         if ($row) {
             $verified = password_verify($password, $row['password']);
             if ($verified) {
                 $authenticationResult['token'] = $this->encryptToken($username);
             }
         }
+
         return $authenticationResult;
     }
 
     private function encryptToken($username)
     {
         $encryptor = $this->getEncryptor();
-        $token = $encryptor->encrypt($username . '-+-' . time());
+        $token     = $encryptor->encrypt($username . '-+-' . time());
+
         return $username . '-+-' . base64_encode($token);
     }
 
     public function tokenIsValid($payload)
     {
         list($username, $base64Token) = explode('-+-', $payload);
-        $token = base64_decode($base64Token);
+        $token     = base64_decode($base64Token);
         $encryptor = $this->getEncryptor();
         $decrypted = $encryptor->decrypt($token);
         if ($decrypted) {
@@ -69,8 +71,10 @@ class UserService
             if (time() - (int) $time > $this->tokenLifetime) {
                 return false;
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -85,5 +89,13 @@ class UserService
     protected function getEncryptor()
     {
         return new AesEncryptor($this->encryptionKey);
+    }
+
+    public function createUser($login, $clearPassword)
+    {
+        $encryptedPassword = password_hash($clearPassword, PASSWORD_BCRYPT);
+        $sql               = "INSERT INTO users (login, password) VALUES (?, ?);";
+        $values            = [$login, $encryptedPassword];
+        $this->getDb()->executeUpdate($sql, $values);
     }
 }
