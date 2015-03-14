@@ -6,9 +6,9 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
         $scope.categories = [];
         $scope.products = [];
         $scope.product = {
-            product : '',
+            product: '',
             category: null,
-            quantity : 0
+            quantity: 0
         };
         $scope.navbar.active = 'product-list';
         $scope.list = function (product) {
@@ -49,13 +49,17 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
                 $scope.products = data;
             });
         };
-        $scope.reset = function() {
+        $scope.reset = function () {
             $scope.product = angular.copy({});
             $scope.focusInput = true;
         };
         $scope.$watch(
-            function() { return userService.token; },
-            function (newVal) {$scope.list();}
+            function () {
+                return userService.token;
+            },
+            function (newVal) {
+                $scope.list();
+            }
         );
     }
 ]);
@@ -104,21 +108,28 @@ shoppingList.controller('NavbarCtrl', ['$scope', '$http', 'userService',
             userService.token = localUser.token;
         }
         $scope.login = function (post) {
-            $http.post('api.php/login', post).success(function (data) {
-                if (data.token) {
-                    $scope.isCollapsed = true;
-                }
-                userService.username = data.username;
-                userService.token = data.token;
-            });
+            $http.post('api.php/login', post)
+                .success(function (data) {
+                    if (data.token) {
+                        $scope.isCollapsed = true;
+                    }
+                    userService.username = data.username;
+                    userService.token = data.token;
+                    $scope.mymessage = "";
+                })
+                .error(function() {
+                    $scope.mymessage = "Invalid login";
+                });
         };
-        $scope.logout = function() {
+        $scope.logout = function () {
             $scope.isCollapsed = true;
             userService.username = '';
             userService.token = '';
             sessionStorage.clear();
         };
-        $scope.$watch(function() { return userService.token; }, function (newVal) {
+        $scope.$watch(function () {
+            return userService.token;
+        }, function (newVal) {
             sessionStorage.setItem('user', JSON.stringify(userService));
         });
     }

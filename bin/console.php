@@ -7,7 +7,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $config = include __DIR__ . '/../config/global.php';
 
-use Console\Command;
+use Jmleroux\Console\Command;
 
-$app = new Console\Application($config);
+$app = new Jmleroux\Console\Application($config);
 $app['console']->run();

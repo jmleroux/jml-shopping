@@ -29,6 +29,7 @@
             </ul>
             <div id="login-container" ng-switch="user.token">
                 <form novalidate class="navbar-form navbar-right" ng-switch-when="" ng-enter="login(post)">
+                    <span ng-bind="mymessage"></span>
                     <div class="form-group">
                         <input type="text" id="username" class="form-control input-sm"
                                placeholder="login" ng-model="post.username"/>
@@ -50,7 +51,6 @@
                     </ul>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

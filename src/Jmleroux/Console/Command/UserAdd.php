@@ -1,5 +1,5 @@
 <?php
-namespace Jmleroux\ConsoleCommand;
+namespace Jmleroux\Console\Command;
 
 use Jmleroux\Api\UserService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -31,15 +31,21 @@ class UserAdd extends Command
         $login = $input->getArgument('login');
         $password = $input->getArgument('password');
 
+        $app = $this->getSilexApplication();
+
         /** @var UserService $userService */
-        $userService = $this->getSilexApplication()['user_service'];
+        $userService = $app['user_service'];
 
         try {
             $userService->createUser($login, $password);
-            $output->writeln(sprintf('User "%s" created with password "%s"', $login, $password));
+            $message = sprintf('User "%s" created with password "%s"', $login, $password);
+            $app['monolog']->addDebug('Testing the Monolog logging.');
+            $output->writeln($message);
         }
         catch (UniqueConstraintViolationException $e) {
-            $output->writeln('User already in database.');
+            $message = 'User already in database.';
+            $app['monolog']->addDebug($message);
+            $output->writeln('<error>'.$message.'</error>');
         }
     }
 }

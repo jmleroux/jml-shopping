@@ -2,10 +2,10 @@
 
 namespace Jmleroux\Console;
 
-use Api;
+use Jmleroux\Api;
 use Knp\Provider\ConsoleServiceProvider;
 
-class Application extends Jmleroux\Api\Application
+class Application extends Api\Application
 {
     public function __construct(array $values = array())
     {

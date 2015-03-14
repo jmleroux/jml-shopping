@@ -13,7 +13,7 @@ class Application extends Silex\Application
      */
     private $config;
 
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         parent::__construct($values['app']);
 
@@ -35,9 +35,15 @@ class Application extends Silex\Application
     {
         $this->register(
             new Silex\Provider\DoctrineServiceProvider(),
-            array(
+            [
                 'db.options' => $this->config['db.options'],
-            )
+            ]
+        );
+        $this->register(
+            new Silex\Provider\MonologServiceProvider(),
+            [
+                'monolog.logfile' => $this['app.root'] . '/runtime/log/application.log',
+            ]
         );
     }
 
@@ -68,13 +74,14 @@ class Application extends Silex\Application
     {
         /** @var RequestStack $requestStack */
         $requestStack = $this['request_stack'];
-        $request = $requestStack->getCurrentRequest();
-        $token = $request->headers->get('x-token');
+        $request      = $requestStack->getCurrentRequest();
+        $token        = $request->headers->get('x-token');
         if (!$token) {
             return false;
         };
         /** @var  UserService $userService */
         $userService = $this['user_service'];
+
         return $userService->tokenIsValid($token);
     }
 }
