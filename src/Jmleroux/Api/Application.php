@@ -1,6 +1,6 @@
 <?php
 
-namespace Api;
+namespace Jmleroux\Api;
 
 use Silex;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -19,7 +19,7 @@ class Application extends Silex\Application
 
         $this->config = $values;
 
-        $localConfigFile = __DIR__ . '/../../config/local.php';
+        $localConfigFile = $this['app.root'] . '/config/local.php';
         if (file_exists($localConfigFile)) {
             $localConfig = include $localConfigFile;
             foreach ($localConfig['app'] as $key => $value) {

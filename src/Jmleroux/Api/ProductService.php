@@ -1,9 +1,9 @@
 <?php
 
-namespace Api;
+namespace Jmleroux\Api;
 
-use Api\Entity\Product;
-use Api\Entity\ProductHydrator;
+use Jmleroux\Api\Entity\Product;
+use Jmleroux\Api\Entity\ProductHydrator;
 use Doctrine\DBAL\Connection;
 use Silex;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Api\Entity;
+namespace Jmleroux\Api\Entity;
 
 class Category
 {

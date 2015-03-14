@@ -1,20 +1,20 @@
 <?php
-use Api\Application;
-use Api\CategoryService;
+use Jmleroux\Api\Application;
+use Jmleroux\Api\CategoryService;
 use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $config = include __DIR__ . '/../config/global.php';
 
-$app = new Api\Application($config);
+$app = new Application($config);
 
 $app->post(
     '/login',
     function (Request $request, Application $app) {
         $post = json_decode($request->getContent());
         $username = strip_tags($post->username);
-        /** @var  \Api\UserService $userService */
+        /** @var  Jmleroux\Api\UserService $userService */
         $userService = $app['user_service'];
         $authenticationResult = $userService->authenticate($username, $post->password);
         if (!$authenticationResult['token']) {
@@ -30,7 +30,7 @@ $app->get(
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\ProductService $productService */
+        /** @var Jmleroux\Api\ProductService $productService */
         $productService = $app['product_service'];
         $rows = $productService->getAll();
 
@@ -44,7 +44,7 @@ $app->get(
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\ProductService $service */
+        /** @var  Jmleroux\Api\ProductService $service */
         $service = $app['product_service'];
         $product = $service->getProduct($id);
 
@@ -54,14 +54,14 @@ $app->get(
 
 $app->post(
     '/product',
-    function (Request $request, Api\Application $app) {
+    function (Request $request, Jmleroux\Api\Application $app) {
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
         $post = json_decode($request->getContent(), true);
-        /** @var  \Api\ProductService $productService */
+        /** @var  Jmleroux\Api\ProductService $productService */
         $productService = $app['product_service'];
-        $product = new \Api\Entity\Product();
+        $product = new Jmleroux\Api\Entity\Product();
         $productService->getHydrator()->hydrate($post, $product);
         if ($product->getId()) {
             $productService->update($product);
@@ -76,11 +76,11 @@ $app->post(
 
 $app->delete(
     '/product/{id}',
-    function (Api\Application $app, $id) {
+    function (Jmleroux\Api\Application $app, $id) {
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\ProductService $productService */
+        /** @var  Jmleroux\Api\ProductService $productService */
         $productService = $app['product_service'];
         $productService->remove($id);
         $rows = $productService->getAll();
@@ -91,11 +91,11 @@ $app->delete(
 
 $app->delete(
     '/product',
-    function (Api\Application $app) {
+    function (Jmleroux\Api\Application $app) {
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\ProductService $productService */
+        /** @var  \Jmleroux\Api\ProductService $productService */
         $productService = $app['product_service'];
         $productService->removeAll();
         $rows = $productService->getAll();
@@ -110,7 +110,7 @@ $app->get(
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\CategoryService $categoryService */
+        /** @var  \Jmleroux\Api\CategoryService $categoryService */
         $categoryService = $app['category_service'];
         $rows = $categoryService->getAll();
 
@@ -124,9 +124,9 @@ $app->get(
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\CategoryService $service */
+        /** @var  \Jmleroux\Api\CategoryService $service */
         $service = $app['category_service'];
-        /** @var \Api\Entity\Category $category */
+        /** @var \Jmleroux\Api\Entity\Category $category */
         $category = $service->getCategory($id);
 
         return $app->json($service->getHydrator()->extract($category));
@@ -147,7 +147,7 @@ $app->post(
         $categoryService = $app['category_service'];
 
         $post = json_decode($request->getContent(), true);
-        $category = new \Api\Entity\Category();
+        $category = new \Jmleroux\Api\Entity\Category();
         $categoryService->getHydrator()->hydrate($post, $category);
 
 
@@ -168,7 +168,7 @@ $app->delete(
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\CategoryService $service */
+        /** @var  \Jmleroux\Api\CategoryService $service */
         $service = $app['category_service'];
         $service->remove($id);
         $rows = $service->getAll();
@@ -183,7 +183,7 @@ $app->delete(
         if (!$app->authenticate()) {
             return $app->getUnauthorizedResponse('Please sign in.');
         };
-        /** @var  \Api\CategoryService $categoryService */
+        /** @var  \Jmleroux\Api\CategoryService $categoryService */
         $categoryService = $app['category_service'];
         $rows = $categoryService->getAll();
 

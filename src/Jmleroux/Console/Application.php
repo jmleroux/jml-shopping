@@ -1,11 +1,11 @@
 <?php
 
-namespace Console;
+namespace Jmleroux\Console;
 
 use Api;
 use Knp\Provider\ConsoleServiceProvider;
 
-class Application extends Api\Application
+class Application extends Jmleroux\Api\Application
 {
     public function __construct(array $values = array())
     {

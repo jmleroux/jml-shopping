@@ -1,7 +1,7 @@
 <?php
-namespace Api\Entity;
+namespace Jmleroux\Api\Entity;
 
-use Api\CategoryService;
+use Jmleroux\ApiCategoryService;
 use Silex;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 

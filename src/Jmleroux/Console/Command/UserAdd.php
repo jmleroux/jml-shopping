@@ -1,7 +1,7 @@
 <?php
-namespace Console\Command;
+namespace Jmleroux\ConsoleCommand;
 
-use Api\UserService;
+use Jmleroux\Api\UserService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Knp\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

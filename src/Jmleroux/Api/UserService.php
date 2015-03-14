@@ -1,6 +1,6 @@
 <?php
 
-namespace Api;
+namespace Jmleroux\Api;
 
 use Doctrine\DBAL\Connection;
 use Keboola\Encryption\AesEncryptor;

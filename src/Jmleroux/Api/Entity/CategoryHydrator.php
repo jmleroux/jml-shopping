@@ -1,5 +1,5 @@
 <?php
-namespace Api\Entity;
+namespace Jmleroux\Api\Entity;
 
 use Zend\Stdlib\Hydrator\HydratorInterface;
 

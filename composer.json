@@ -1,26 +1,25 @@
 {
-  "name": "jmleroux/jmlshopping",
-  "description": "My shopping list",
-  "homepage": "https://github.com/jmleroux/jml-shopping",
-  "minimum-stability": "dev",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/jmleroux/ConsoleServiceProvider"
+    "name": "jmleroux/jmlshopping",
+    "description": "My shopping list",
+    "homepage": "https://github.com/jmleroux/jml-shopping",
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jmleroux/ConsoleServiceProvider"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "doctrine/dbal": "~2.4",
+        "silex/silex": "~2.0",
+        "keboola/php-encryption": "0.2.1",
+        "zendframework/zend-stdlib": "~2.3",
+        "knplabs/console-service-provider": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jmleroux\\": "src/Jmleroux"
+        }
     }
-  ],
-  "require": {
-    "php": ">=5.4",
-    "doctrine/dbal": "~2.4",
-    "silex/silex": "~2.0",
-    "keboola/php-encryption": "0.2.1",
-    "zendframework/zend-stdlib": "~2.3",
-    "knplabs/console-service-provider": "~2.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Api\\": "src/Api",
-      "Console\\": "src/Console"
-    }
-  }
 }

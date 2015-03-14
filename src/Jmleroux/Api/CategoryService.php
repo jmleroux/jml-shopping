@@ -1,9 +1,9 @@
 <?php
 
-namespace Api;
+namespace Jmleroux\Api;
 
-use Api\Entity\Category;
-use Api\Entity\CategoryHydrator;
+use Jmleroux\Api\Entity\Category;
+use Jmleroux\Api\Entity\CategoryHydrator;
 use Doctrine\DBAL\Connection;
 use Silex;
 
