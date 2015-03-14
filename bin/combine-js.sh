@@ -1,14 +1,20 @@
 #!/bin/bash
 myLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 
-targetFile=$myLocation/../../public/js/jmlshopping.js;
+srcDirectory=$myLocation/../src/js;
+publicDirectory=$myLocation/../public/js;
 
-cd $myLocation;
+headerJs=$publicDirectory/main.js;
+inlineJs=$publicDirectory/jmlshopping.js;
+
+cd $srcDirectory;
 
 cat angular.min.js              \
     angular-route.min.js        \
     ui-bootstrap-tpls.min.js    \
-    services.js                 \
+> $headerJs;
+
+cat services.js                 \
     controllers.js              \
     shopping.js                 \
-> $targetFile;
+> $inlineJs;

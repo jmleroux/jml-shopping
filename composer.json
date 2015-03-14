@@ -5,10 +5,10 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4",
-        "doctrine/dbal": "2.4.3",
+        "doctrine/dbal": "~2.4",
         "silex/silex": "dev-master",
         "keboola/php-encryption": "0.2.1",
-        "zendframework/zend-stdlib": "2.3.3"
+        "zendframework/zend-stdlib": "~2.3"
     },
     "autoload": {
         "psr-4": {
