@@ -15,7 +15,7 @@
         "silex/silex": "~2.0",
         "keboola/php-encryption": "0.2.1",
         "zendframework/zend-stdlib": "~2.3",
-        "knplabs/console-service-provider": "~2.0",
+        "cilex/console-service-provider": "~2.0@dev",
         "monolog/monolog": "dev-master"
     },
     "autoload": {

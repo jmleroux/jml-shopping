@@ -2,12 +2,12 @@
 
 namespace Jmleroux\Console;
 
+use Cilex\Provider\Console\ConsoleServiceProvider;
 use Jmleroux\Api;
-use Knp\Provider\ConsoleServiceProvider;
 
 class Application extends Api\Application
 {
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         parent::__construct($values);
 
@@ -20,8 +20,7 @@ class Application extends Api\Application
 
         $this->register(new ConsoleServiceProvider(), [
             'console.name' => 'MyConsole',
-            'console.version' => '2.1',
-            'console.project_directory' => $this['app.root']
+            'console.version' => '2.1'
         ]);
     }
 
