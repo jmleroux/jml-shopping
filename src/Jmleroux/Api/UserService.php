@@ -98,4 +98,11 @@ class UserService
         $values            = [$login, $encryptedPassword];
         $this->getDb()->executeUpdate($sql, $values);
     }
+
+    public function deleteUser($login)
+    {
+        $sql               = "DELETE FROM users WHERE login=?;";
+        $values            = [$login];
+        $this->getDb()->executeUpdate($sql, $values);
+    }
 }

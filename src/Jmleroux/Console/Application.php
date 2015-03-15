@@ -29,6 +29,7 @@ class Application extends Api\Application
         $console = $this['console'];
 
         $console->add(new Command\UserAdd());
+        $console->add(new Command\UserDelete());
         $console->add(new Command\ClearRuntime());
     }
 }

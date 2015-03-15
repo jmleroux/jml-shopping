@@ -8,28 +8,22 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserAdd extends Command
+class UserDelete extends Command
 {
     protected function configure()
     {
-        $this->setName("user:add")
-            ->setDescription("Add user")
+        $this->setName("user:del")
+            ->setDescription("Delete user")
             ->addArgument(
                 'login',
                 InputArgument::REQUIRED,
                 'User login'
-            )
-            ->addArgument(
-                'password',
-                InputArgument::REQUIRED,
-                'User password'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $login = $input->getArgument('login');
-        $password = $input->getArgument('password');
 
         /** @var \Cilex\Provider\Console\ContainerAwareApplication $app */
         $app = $this->getApplication();
@@ -38,13 +32,13 @@ class UserAdd extends Command
         $userService = $app->getService('user_service');
 
         try {
-            $userService->createUser($login, $password);
-            $message = sprintf('User "%s" created with password "%s"', $login, $password);
+            $userService->deleteUser($login);
+            $message = sprintf('User "%s" deleted', $login);
             $app->getService('monolog')->addDebug($message);
             $output->writeln($message);
         }
         catch (UniqueConstraintViolationException $e) {
-            $message = 'User already in database.';
+            $message = 'User not found in database.';
             $app->getService('monolog')->addDebug($message);
             $output->writeln('<error>'.$message.'</error>');
         }
