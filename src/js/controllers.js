@@ -6,6 +6,7 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
         $scope.categories = [];
         $scope.products = [];
         $scope.product = {
+            id: null,
             product: '',
             category: null,
             quantity: 0
@@ -33,11 +34,11 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
                 $scope.focusInput = true;
             });
         };
-        $scope.deleteProduct = function (productId) {
-            if (!confirm('Delete product ?')) {
+        $scope.deleteProduct = function (id, label) {
+            if (!confirm('Delete product ' + label + ' ?')) {
                 return;
             }
-            $http.delete('api.php/product/' + productId, {headers: $scope.user.getTokenHeader()}).success(function (data) {
+            $http.delete('api.php/product/' + id, {headers: $scope.user.getTokenHeader()}).success(function (data) {
                 $scope.products = data;
             });
         };
@@ -117,7 +118,7 @@ shoppingList.controller('NavbarCtrl', ['$scope', '$http', 'userService',
                     userService.token = data.token;
                     $scope.mymessage = "";
                 })
-                .error(function() {
+                .error(function () {
                     $scope.mymessage = "Invalid login";
                 });
         };
