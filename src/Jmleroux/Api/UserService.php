@@ -39,7 +39,7 @@ class UserService
             'username' => $username,
             'token'    => '',
         ];
-        if ($row) {
+        if (!empty($row)) {
             $verified = password_verify($password, $row['password']);
             if ($verified) {
                 $authenticationResult['token'] = $this->encryptToken($username);
