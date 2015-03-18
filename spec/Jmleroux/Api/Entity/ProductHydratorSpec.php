@@ -56,31 +56,4 @@ class ProductHydratorSpec extends ObjectBehavior
 
         $this->extract($product)->shouldReturn($this->arrayData);
     }
-
-    function it_can_hydrate(
-        $application,
-        Product $product,
-        Category $category,
-        CategoryService $categoryService,
-        CategoryHydrator $categoryHydrator
-    ) {
-//        $category->setId(2)
-//            ->shouldBeCalled();
-//        $category->setLabel('category')
-//            ->shouldBeCalled();
-//
-//        $application['category_service']->willReturn($categoryService);
-//        $categoryService->getHydrator()->willReturn($categoryHydrator);
-//
-//        $product->setId(1)
-//            ->shouldBeCalled();
-//        $product->setProduct('foo')
-//            ->shouldBeCalled();
-//        $product->setQuantity(666)
-//            ->shouldBeCalled();
-//        $product->setCategory($category)
-//            ->shouldBeCalled();
-//
-//        $this->hydrate($this->arrayData, $product)->shouldReturn($product);
-    }
 }
