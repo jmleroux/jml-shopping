@@ -13,7 +13,8 @@
         "monolog/monolog": "dev-master"
     },
     "require-dev": {
-        "phpspec/phpspec": "dev-master"
+        "phpspec/phpspec": "dev-master",
+        "henrikbjorn/phpspec-code-coverage": "~0.2"
     },
     "autoload": {
         "psr-4": {
