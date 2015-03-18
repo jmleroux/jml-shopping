@@ -3,7 +3,6 @@
 namespace spec\Jmleroux\Api;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Silex\Application;
 
 class CategoryServiceSpec extends ObjectBehavior
