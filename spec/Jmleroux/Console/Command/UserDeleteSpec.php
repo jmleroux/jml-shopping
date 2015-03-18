@@ -3,7 +3,6 @@
 namespace spec\Jmleroux\Console\Command;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class UserDeleteSpec extends ObjectBehavior
 {
