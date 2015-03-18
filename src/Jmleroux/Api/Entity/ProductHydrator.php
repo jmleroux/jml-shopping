@@ -1,7 +1,7 @@
 <?php
 namespace Jmleroux\Api\Entity;
 
-use Jmleroux\ApiCategoryService;
+use Jmleroux\Api\CategoryService;
 use Silex;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
@@ -25,12 +25,12 @@ class ProductHydrator implements HydratorInterface
     {
         $categoryHydrator = new CategoryHydrator();
 
-        return array(
+        return [
             'id'       => $product->getId(),
             'product'  => $product->getProduct(),
             'quantity' => $product->getQuantity(),
             'category' => $categoryHydrator->extract($product->getCategory()),
-        );
+        ];
     }
 
     /**

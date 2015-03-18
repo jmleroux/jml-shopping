@@ -3,21 +3,16 @@ namespace Jmleroux\Api\Entity;
 
 class Product
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $id = null;
-    /**
-     * @var Category
-     */
+
+    /** @var Category */
     protected $category = null;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $product = '';
-    /**
-     * @var int
-     */
+
+    /** @var int */
     protected $quantity = 0;
 
     public function setCategory(Category $category)

@@ -3,13 +3,10 @@ namespace Jmleroux\Api\Entity;
 
 class Category
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $id = null;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     protected $label = '';
 
     public function getLabel()
@@ -22,7 +19,7 @@ class Category
      */
     public function setLabel($label)
     {
-        $this->label = $label;
+        $this->label = trim($label);
     }
 
     public function getId()

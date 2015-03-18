@@ -3,20 +3,17 @@
     "description": "My shopping list",
     "homepage": "https://github.com/jmleroux/jml-shopping",
     "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/jmleroux/ConsoleServiceProvider"
-        }
-    ],
     "require": {
         "php": ">=5.4",
-        "doctrine/dbal": "~2.4",
+        "doctrine/dbal": "~2.5",
         "silex/silex": "~2.0",
         "keboola/php-encryption": "0.2.1",
         "zendframework/zend-stdlib": "~2.3",
         "cilex/console-service-provider": "~2.0@dev",
         "monolog/monolog": "dev-master"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "dev-master"
     },
     "autoload": {
         "psr-4": {
