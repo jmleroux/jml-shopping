@@ -11,7 +11,7 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
             category: null,
             quantity: 0
         };
-        $scope.navbar.active = 'product-list';
+        $scope.navbar = {active: 'product-list'};
         $scope.list = function (product) {
             $http.get('api.php/category', {headers: $scope.user.getTokenHeader()}).success(function (data) {
                 $scope.categories = data;
@@ -58,7 +58,7 @@ shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$
             function () {
                 return userService.token;
             },
-            function (newVal) {
+            function () {
                 $scope.list();
             }
         );
@@ -130,7 +130,7 @@ shoppingList.controller('NavbarCtrl', ['$scope', '$http', 'userService',
         };
         $scope.$watch(function () {
             return userService.token;
-        }, function (newVal) {
+        }, function () {
             sessionStorage.setItem('user', JSON.stringify(userService));
         });
     }
