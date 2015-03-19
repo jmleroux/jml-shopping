@@ -3,7 +3,6 @@
 namespace spec\Jmleroux\Api\Entity;
 
 use Jmleroux\Api\Entity\Category;
-use Jmleroux\Api\Entity\Product;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

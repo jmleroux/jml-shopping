@@ -3,9 +3,7 @@
 namespace spec\Jmleroux\Api\Entity;
 
 use Jmleroux\Api\Application;
-use Jmleroux\Api\CategoryService;
 use Jmleroux\Api\Entity\Category;
-use Jmleroux\Api\Entity\CategoryHydrator;
 use Jmleroux\Api\Entity\Product;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
