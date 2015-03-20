@@ -6,7 +6,6 @@ use Jmleroux\Api\Application;
 use Jmleroux\Api\Entity\Category;
 use Jmleroux\Api\Entity\Product;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ProductHydratorSpec extends ObjectBehavior
 {
