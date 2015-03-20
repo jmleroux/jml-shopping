@@ -107,7 +107,7 @@ class CategoryService
     public function getHydrator()
     {
         if (null == $this->hydrator) {
-            $this->hydrator = new CategoryHydrator($this->app);
+            $this->hydrator = new CategoryHydrator();
         }
 
         return $this->hydrator;

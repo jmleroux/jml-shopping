@@ -3,8 +3,6 @@
 namespace spec\Jmleroux\Api;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationSpec extends ObjectBehavior
 {
