@@ -26,9 +26,9 @@ class CategoryService
 
     public function getAll()
     {
-        $sql  = "SELECT *
+        $sql  = 'SELECT *
         FROM categories c
-        ORDER BY c.label";
+        ORDER BY c.label';
         $rows = $this->getDb()->fetchAll($sql);
 
         $cleaner = function ($row) {
@@ -43,9 +43,9 @@ class CategoryService
 
     public function getCategory($categoryId)
     {
-        $sql = "SELECT c.id AS categoryId, c.label
+        $sql = 'SELECT c.id AS categoryId, c.label
         FROM categories c
-        WHERE c.id = ?";
+        WHERE c.id = ?';
 
         $values = array($categoryId);
         $row    = $this->getDb()->fetchAssoc($sql, $values);
@@ -59,8 +59,8 @@ class CategoryService
 
     public function create(Category $category)
     {
-        $sql    = "INSERT INTO categories (id, label)
-        VALUES (null, ?)";
+        $sql    = 'INSERT INTO categories (id, label)
+        VALUES (null, ?)';
         $values = array(
             $category->getLabel(),
         );
@@ -71,9 +71,9 @@ class CategoryService
 
     public function update(Category $product)
     {
-        $sql    = "UPDATE categories
+        $sql    = 'UPDATE categories
         SET label = ?
-        WHERE id = ?";
+        WHERE id = ?';
         $values = array(
             $product->getLabel(),
             $product->getId(),
@@ -89,7 +89,7 @@ class CategoryService
      */
     public function remove($categoryId)
     {
-        $sql    = "DELETE FROM categories WHERE id = ?";
+        $sql    = 'DELETE FROM categories WHERE id = ?';
         $values = array($categoryId);
         $this->getDb()->executeUpdate($sql, $values);
 

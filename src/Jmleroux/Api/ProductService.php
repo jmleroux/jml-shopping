@@ -26,11 +26,11 @@ class ProductService
 
     public function getAll()
     {
-        $sql = "SELECT p.id, p.product, p.quantity,
+        $sql = 'SELECT p.id, p.product, p.quantity,
         c.id AS categoryId, c.label
         FROM products p
         LEFT JOIN categories c ON p.category = c.id
-        ORDER BY c.label";
+        ORDER BY c.label';
 
         $products = $this->getDb()->fetchAll($sql);
 
@@ -39,11 +39,11 @@ class ProductService
 
     public function getProduct($productId)
     {
-        $sql = "SELECT p.id, p.product, p.quantity,
+        $sql = 'SELECT p.id, p.product, p.quantity,
         c.id AS categoryId, c.label
         FROM products p
         LEFT JOIN categories c ON p.category = c.id
-        WHERE p.id = ?";
+        WHERE p.id = ?';
 
         $values = array($productId);
         $row    = $this->getDb()->fetchAssoc($sql, $values);
@@ -65,7 +65,7 @@ class ProductService
      */
     public function remove($productId)
     {
-        $sql    = "DELETE FROM products WHERE id = ?";
+        $sql    = 'DELETE FROM products WHERE id = ?';
         $values = array($productId);
         $this->getDb()->executeUpdate($sql, $values);
 
@@ -74,7 +74,7 @@ class ProductService
 
     public function removeAll()
     {
-        $sql = "DELETE FROM products";
+        $sql = 'DELETE FROM products';
         $this->getDb()->executeQuery($sql);
 
         return null;
@@ -82,8 +82,8 @@ class ProductService
 
     public function create(Product $product)
     {
-        $sql      = "INSERT INTO products (id, product, category, quantity)
-        VALUES (null, ?, ?, ?)";
+        $sql      = 'INSERT INTO products (id, product, category, quantity)
+        VALUES (null, ?, ?, ?)';
         $values   = array(
             $product->getProduct(),
             $product->getCategory() ? $product->getCategory()->getId() : null,
@@ -96,9 +96,9 @@ class ProductService
 
     public function update(Product $product)
     {
-        $sql      = "UPDATE products
+        $sql      = 'UPDATE products
         SET product = ?, category = ?, quantity = ?
-        WHERE id = ?";
+        WHERE id = ?';
         $values   = array(
             $product->getProduct(),
             $product->getCategory()->getId(),

@@ -12,8 +12,8 @@ class UserDelete extends Command
 {
     protected function configure()
     {
-        $this->setName("user:del")
-            ->setDescription("Delete user")
+        $this->setName('user:del')
+            ->setDescription('Delete user')
             ->addArgument(
                 'login',
                 InputArgument::REQUIRED,

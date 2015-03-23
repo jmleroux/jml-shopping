@@ -9,8 +9,8 @@ class ClearRuntime extends Command
 {
     protected function configure()
     {
-        $this->setName("runtime:clear")
-            ->setDescription("Clear logs and cache");
+        $this->setName('runtime:clear')
+            ->setDescription('Clear logs and cache');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

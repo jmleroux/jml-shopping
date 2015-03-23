@@ -12,8 +12,8 @@ class UserAdd extends Command
 {
     protected function configure()
     {
-        $this->setName("user:add")
-            ->setDescription("Add user")
+        $this->setName('user:add')
+            ->setDescription('Add user')
             ->addArgument(
                 'login',
                 InputArgument::REQUIRED,

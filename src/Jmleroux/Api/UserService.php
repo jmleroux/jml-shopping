@@ -28,9 +28,9 @@ class UserService
 
     public function authenticate($username, $password)
     {
-        $sql = "SELECT login, password
+        $sql = 'SELECT login, password
         FROM users u
-        WHERE u.login = ?";
+        WHERE u.login = ?';
 
         $values = [$username];
         $row    = $this->getDb()->fetchAssoc($sql, $values);
@@ -94,14 +94,14 @@ class UserService
     public function createUser($login, $clearPassword)
     {
         $encryptedPassword = password_hash($clearPassword, PASSWORD_BCRYPT);
-        $sql               = "INSERT INTO users (login, password) VALUES (?, ?);";
+        $sql               = 'INSERT INTO users (login, password) VALUES (?, ?);';
         $values            = [$login, $encryptedPassword];
         $this->getDb()->executeUpdate($sql, $values);
     }
 
     public function deleteUser($login)
     {
-        $sql               = "DELETE FROM users WHERE login=?;";
+        $sql               = 'DELETE FROM users WHERE login=?;';
         $values            = [$login];
         $this->getDb()->executeUpdate($sql, $values);
     }
