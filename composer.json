@@ -2,11 +2,10 @@
     "name": "jmleroux/jmlshopping",
     "description": "My shopping list",
     "homepage": "https://github.com/jmleroux/jml-shopping",
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5",
         "doctrine/dbal": "@stable",
-        "silex/silex": "~2.0",
+        "silex/silex": "~2.0@dev",
         "defuse/php-encryption": "@stable",
         "zendframework/zend-hydrator": "@stable",
         "cilex/console-service-provider": "~2.0@dev",
@@ -14,7 +13,7 @@
     },
     "require-dev": {
         "phpspec/phpspec": "@stable",
-        "henrikbjorn/phpspec-code-coverage": "@stable"
+        "henrikbjorn/phpspec-code-coverage": "^2.0"
     },
     "config": {
         "bin-dir": "bin"
