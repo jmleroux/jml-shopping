@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Jmleroux\Api\Entity;
+namespace spec\Jmleroux\Core\Entity;
 
-use Jmleroux\Api\Entity\Category;
+use Jmleroux\Core\Entity\Category;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -10,7 +10,7 @@ class ProductSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Api\Entity\Product');
+        $this->shouldHaveType('Jmleroux\Core\Entity\Product');
     }
 
     function it_can_set_id()

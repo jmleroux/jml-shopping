@@ -1,27 +1,32 @@
 <?php
 
-namespace Jmleroux\Api;
+namespace Jmleroux\Core;
 
-use Jmleroux\Api\Entity\Product;
-use Jmleroux\Api\Entity\ProductHydrator;
+use Jmleroux\Core\Entity\Product;
+use Jmleroux\Core\Entity\ProductHydrator;
 use Doctrine\DBAL\Connection;
-use Silex;
 
 class ProductService
 {
     /**
-     * @var \Silex\Application
+     * @var Connection
      */
-    protected $app;
+    protected $db;
+
+    /**
+     * @var CategoryService
+     */
+    protected $categoryService;
 
     /**
      * @var ProductHydrator
      */
     protected $hydrator;
 
-    public function __construct(Silex\Application $app)
+    public function __construct(Connection $db, CategoryService $categoryService)
     {
-        $this->app = $app;
+        $this->db = $db;
+        $this->categoryService = $categoryService;
     }
 
     public function getAll()
@@ -32,7 +37,7 @@ class ProductService
         LEFT JOIN categories c ON p.category = c.id
         ORDER BY c.label';
 
-        $products = $this->getDb()->fetchAll($sql);
+        $products = $this->db->fetchAll($sql);
 
         return $products;
     }
@@ -45,11 +50,11 @@ class ProductService
         LEFT JOIN categories c ON p.category = c.id
         WHERE p.id = ?';
 
-        $values = array($productId);
-        $row    = $this->getDb()->fetchAssoc($sql, $values);
+        $values = [$productId];
+        $row = $this->db->fetchAssoc($sql, $values);
 
         $row['category'] = [
-            'id'    => $row['categoryId'],
+            'id' => $row['categoryId'],
             'label' => $row['label']
         ];
 
@@ -65,9 +70,9 @@ class ProductService
      */
     public function remove($productId)
     {
-        $sql    = 'DELETE FROM products WHERE id = ?';
-        $values = array($productId);
-        $this->getDb()->executeUpdate($sql, $values);
+        $sql = 'DELETE FROM products WHERE id = ?';
+        $values = [$productId];
+        $this->db->executeUpdate($sql, $values);
 
         return null;
     }
@@ -75,53 +80,45 @@ class ProductService
     public function removeAll()
     {
         $sql = 'DELETE FROM products';
-        $this->getDb()->executeQuery($sql);
+        $this->db->executeQuery($sql);
 
         return null;
     }
 
     public function create(Product $product)
     {
-        $sql      = 'INSERT INTO products (id, product, category, quantity)
+        $sql = 'INSERT INTO products (id, product, category, quantity)
         VALUES (null, ?, ?, ?)';
-        $values   = array(
+        $values = [
             $product->getProduct(),
             $product->getCategory() ? $product->getCategory()->getId() : null,
             $product->getQuantity(),
-        );
-        $products = $this->getDb()->executeUpdate($sql, $values);
+        ];
+        $products = $this->db->executeUpdate($sql, $values);
 
         return $products;
     }
 
     public function update(Product $product)
     {
-        $sql      = 'UPDATE products
+        $sql = 'UPDATE products
         SET product = ?, category = ?, quantity = ?
         WHERE id = ?';
-        $values   = array(
+        $values = [
             $product->getProduct(),
             $product->getCategory()->getId(),
             $product->getQuantity(),
             $product->getId(),
-        );
-        $products = $this->getDb()->executeUpdate($sql, $values);
+        ];
+        $products = $this->db->executeUpdate($sql, $values);
 
         return $products;
-    }
-
-    /**
-     * @return Connection
-     */
-    protected function getDb()
-    {
-        return $this->app['db'];
     }
 
     public function getHydrator()
     {
         if (null == $this->hydrator) {
-            $this->hydrator = new ProductHydrator($this->app);
+            $this->hydrator = new ProductHydrator($this->categoryService);
         }
 
         return $this->hydrator;

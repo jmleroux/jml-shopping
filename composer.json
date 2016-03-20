@@ -4,17 +4,20 @@
     "homepage": "https://github.com/jmleroux/jml-shopping",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4",
-        "doctrine/dbal": "~2.5",
+        "php": ">=5.5",
+        "doctrine/dbal": "@stable",
         "silex/silex": "~2.0",
-        "keboola/php-encryption": "0.2.1",
-        "zendframework/zend-stdlib": "~2.3",
+        "defuse/php-encryption": "@stable",
+        "zendframework/zend-hydrator": "@stable",
         "cilex/console-service-provider": "~2.0@dev",
-        "monolog/monolog": "dev-master"
+        "monolog/monolog": "@stable"
     },
     "require-dev": {
-        "phpspec/phpspec": "dev-master",
-        "henrikbjorn/phpspec-code-coverage": "~1.0"
+        "phpspec/phpspec": "@stable",
+        "henrikbjorn/phpspec-code-coverage": "@stable"
+    },
+    "config": {
+        "bin-dir": "bin"
     },
     "autoload": {
         "psr-4": {

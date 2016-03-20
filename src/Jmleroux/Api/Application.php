@@ -2,6 +2,9 @@
 
 namespace Jmleroux\Api;
 
+use Jmleroux\Core\CategoryService;
+use Jmleroux\Core\ProductService;
+use Jmleroux\Core\UserService;
 use Silex;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +45,7 @@ class Application extends Silex\Application
         $this->register(
             new Silex\Provider\MonologServiceProvider(),
             [
-                'monolog.logfile' => $this['app.root'] . '/runtime/log/application.log',
+                'monolog.logfile' => $this['app.root'] . '/var/logs/application.log',
             ]
         );
     }
@@ -50,15 +53,15 @@ class Application extends Silex\Application
     public function registerServices()
     {
         $this['product_service'] = function () {
-            return new ProductService($this);
+            return new ProductService($this['db'], $this['category_service']);
         };
 
         $this['user_service'] = function () {
-            return new UserService($this);
+            return new UserService($this['db'], $this['seed']);
         };
 
         $this['category_service'] = function () {
-            return new CategoryService($this);
+            return new CategoryService($this['db']);
         };
     }
 

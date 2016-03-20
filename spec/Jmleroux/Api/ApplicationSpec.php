@@ -35,6 +35,6 @@ class ApplicationSpec extends ObjectBehavior
     {
         $this->offsetGet('db.options')->shouldReturn($this->config['db.options']);
         $this->offsetGet('monolog.logfile')
-            ->shouldReturn($this->config['app']['app.root'] . '/runtime/log/application.log');
+            ->shouldReturn($this->config['app']['app.root'] . '/var/logs/application.log');
     }
 }

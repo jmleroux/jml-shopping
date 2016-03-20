@@ -1,10 +1,10 @@
 <?php
 
-namespace spec\Jmleroux\Api\Entity;
+namespace spec\Jmleroux\Core\Entity;
 
-use Jmleroux\Api\Application;
-use Jmleroux\Api\Entity\Category;
-use Jmleroux\Api\Entity\Product;
+use Jmleroux\Core\CategoryService;
+use Jmleroux\Core\Entity\Category;
+use Jmleroux\Core\Entity\Product;
 use PhpSpec\ObjectBehavior;
 
 class ProductHydratorSpec extends ObjectBehavior
@@ -19,15 +19,15 @@ class ProductHydratorSpec extends ObjectBehavior
         ],
     ];
 
-    function let(Application $application)
+    function let(CategoryService $categoryService)
     {
-        $this->beConstructedWith($application);
+        $this->beConstructedWith($categoryService);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Api\Entity\ProductHydrator');
-        $this->shouldHaveType('Zend\Stdlib\Hydrator\HydratorInterface');
+        $this->shouldHaveType('Jmleroux\Core\Entity\ProductHydrator');
+        $this->shouldImplement('Zend\Hydrator\HydratorInterface');
     }
 
     function it_can_extract(Product $product, Category $category)

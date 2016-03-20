@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Jmleroux\Api\Entity;
+namespace spec\Jmleroux\Core\Entity;
 
-use Jmleroux\Api\Entity\Category;
+use Jmleroux\Core\Entity\Category;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -10,8 +10,8 @@ class CategoryHydratorSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Api\Entity\CategoryHydrator');
-        $this->shouldHaveType('Zend\Stdlib\Hydrator\HydratorInterface');
+        $this->shouldHaveType('Jmleroux\Core\Entity\CategoryHydrator');
+        $this->shouldImplement('Zend\Hydrator\HydratorInterface');
     }
 
     function it_can_extract(Category $category)

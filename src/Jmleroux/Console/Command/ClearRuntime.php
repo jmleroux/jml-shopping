@@ -21,7 +21,7 @@ class ClearRuntime extends Command
         $applicationLog = $app->getService('monolog.logfile');
         unlink($applicationLog);
 
-        $cache = $app->getService('app.root') . '/cache';
+        $cache = $app->getService('app.root') . '/var';
         exec(sprintf('rm -rf %s/*', $cache));
     }
 }

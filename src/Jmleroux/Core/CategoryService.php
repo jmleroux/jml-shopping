@@ -1,27 +1,26 @@
 <?php
 
-namespace Jmleroux\Api;
+namespace Jmleroux\Core;
 
-use Jmleroux\Api\Entity\Category;
-use Jmleroux\Api\Entity\CategoryHydrator;
+use Jmleroux\Core\Entity\Category;
+use Jmleroux\Core\Entity\CategoryHydrator;
 use Doctrine\DBAL\Connection;
-use Silex;
 
 class CategoryService
 {
     /**
-     * @var \Silex\Application
+     * @var Connection
      */
-    protected $app;
+    protected $db;
 
     /**
      * @var CategoryHydrator
      */
     protected $hydrator;
 
-    public function __construct(Silex\Application $app)
+    public function __construct(Connection $db)
     {
-        $this->app = $app;
+        $this->db = $db;
     }
 
     public function getAll()
@@ -29,7 +28,7 @@ class CategoryService
         $sql  = 'SELECT *
         FROM categories c
         ORDER BY c.label';
-        $rows = $this->getDb()->fetchAll($sql);
+        $rows = $this->db->fetchAll($sql);
 
         $cleaner = function ($row) {
             $row['id'] = (int) $row['id'];
@@ -48,7 +47,7 @@ class CategoryService
         WHERE c.id = ?';
 
         $values = array($categoryId);
-        $row    = $this->getDb()->fetchAssoc($sql, $values);
+        $row    = $this->db->fetchAssoc($sql, $values);
 
         $category = new Category();
         $category->setId($row['categoryId']);
@@ -64,7 +63,7 @@ class CategoryService
         $values = array(
             $category->getLabel(),
         );
-        $rows   = $this->getDb()->executeUpdate($sql, $values);
+        $rows   = $this->db->executeUpdate($sql, $values);
 
         return $rows;
     }
@@ -78,7 +77,7 @@ class CategoryService
             $product->getLabel(),
             $product->getId(),
         );
-        $rows   = $this->getDb()->executeUpdate($sql, $values);
+        $rows   = $this->db->executeUpdate($sql, $values);
 
         return $rows;
     }
@@ -91,17 +90,9 @@ class CategoryService
     {
         $sql    = 'DELETE FROM categories WHERE id = ?';
         $values = array($categoryId);
-        $this->getDb()->executeUpdate($sql, $values);
+        $this->db->executeUpdate($sql, $values);
 
         return null;
-    }
-
-    /**
-     * @return Connection
-     */
-    protected function getDb()
-    {
-        return $this->app['db'];
     }
 
     public function getHydrator()

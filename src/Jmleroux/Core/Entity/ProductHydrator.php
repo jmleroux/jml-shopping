@@ -1,20 +1,19 @@
 <?php
-namespace Jmleroux\Api\Entity;
+namespace Jmleroux\Core\Entity;
 
-use Jmleroux\Api\CategoryService;
-use Silex;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Jmleroux\Core\CategoryService;
+use Zend\Hydrator\HydratorInterface;
 
 class ProductHydrator implements HydratorInterface
 {
     /**
-     * @var Silex\Application
+     * @var CategoryService
      */
-    protected $app;
+    protected $categoryService;
 
-    public function __construct(Silex\Application $app)
+    public function __construct(CategoryService $categoryService)
     {
-        $this->app = $app;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -26,15 +25,15 @@ class ProductHydrator implements HydratorInterface
         $categoryHydrator = new CategoryHydrator();
 
         return [
-            'id'       => $product->getId(),
-            'product'  => $product->getProduct(),
+            'id' => $product->getId(),
+            'product' => $product->getProduct(),
             'quantity' => $product->getQuantity(),
             'category' => $categoryHydrator->extract($product->getCategory()),
         ];
     }
 
     /**
-     * @param array   $data
+     * @param array $data
      * @param Product $product
      * @return object
      */
@@ -47,10 +46,7 @@ class ProductHydrator implements HydratorInterface
             $product->setProduct($data['product']);
         }
         if (isset($data['category'])) {
-            /** @var CategoryService $categoryService */
-            $categoryService = $this->app['category_service'];
-            /** @var Category $category */
-            $category        = $categoryService->getHydrator()->hydrate($data['category'], new Category());
+            $category = $this->categoryService->getHydrator()->hydrate($data['category'], new Category());
             $product->setCategory($category);
         }
         if (isset($data['quantity'])) {

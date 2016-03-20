@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Jmleroux\Api\Entity;
+namespace spec\Jmleroux\Core\Entity;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -9,7 +9,7 @@ class CategorySpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Api\Entity\Category');
+        $this->shouldHaveType('Jmleroux\Core\Entity\Category');
     }
 
     function it_can_set_id()

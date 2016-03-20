@@ -1,7 +1,7 @@
 <?php
-namespace Jmleroux\Api\Entity;
+namespace Jmleroux\Core\Entity;
 
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\HydratorInterface;
 
 class CategoryHydrator implements HydratorInterface
 {
