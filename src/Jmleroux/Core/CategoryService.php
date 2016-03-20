@@ -25,13 +25,14 @@ class CategoryService
 
     public function getAll()
     {
-        $sql  = 'SELECT *
+        $sql = 'SELECT *
         FROM categories c
         ORDER BY c.label';
         $rows = $this->db->fetchAll($sql);
 
         $cleaner = function ($row) {
             $row['id'] = (int) $row['id'];
+
             return $row;
         };
 
@@ -42,15 +43,15 @@ class CategoryService
 
     public function getCategory($categoryId)
     {
-        $sql = 'SELECT c.id AS categoryId, c.label
+        $sql = 'SELECT c.id, c.label
         FROM categories c
         WHERE c.id = ?';
 
-        $values = array($categoryId);
-        $row    = $this->db->fetchAssoc($sql, $values);
+        $values = [$categoryId];
+        $row = $this->db->fetchAssoc($sql, $values);
 
         $category = new Category();
-        $category->setId($row['categoryId']);
+        $category->setId((int) $row['id']);
         $category->setLabel($row['label']);
 
         return $category;
@@ -58,26 +59,26 @@ class CategoryService
 
     public function create(Category $category)
     {
-        $sql    = 'INSERT INTO categories (id, label)
+        $sql = 'INSERT INTO categories (id, label)
         VALUES (null, ?)';
-        $values = array(
+        $values = [
             $category->getLabel(),
-        );
-        $rows   = $this->db->executeUpdate($sql, $values);
+        ];
+        $rows = $this->db->executeUpdate($sql, $values);
 
         return $rows;
     }
 
     public function update(Category $product)
     {
-        $sql    = 'UPDATE categories
+        $sql = 'UPDATE categories
         SET label = ?
         WHERE id = ?';
-        $values = array(
+        $values = [
             $product->getLabel(),
             $product->getId(),
-        );
-        $rows   = $this->db->executeUpdate($sql, $values);
+        ];
+        $rows = $this->db->executeUpdate($sql, $values);
 
         return $rows;
     }
@@ -88,8 +89,8 @@ class CategoryService
      */
     public function remove($categoryId)
     {
-        $sql    = 'DELETE FROM categories WHERE id = ?';
-        $values = array($categoryId);
+        $sql = 'DELETE FROM categories WHERE id = ?';
+        $values = [$categoryId];
         $this->db->executeUpdate($sql, $values);
 
         return null;

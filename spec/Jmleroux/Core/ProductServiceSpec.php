@@ -17,7 +17,8 @@ class ProductServiceSpec extends ObjectBehavior
         CategoryService $categoryService,
         CategoryHydrator $categoryHydrator,
         Category $category
-    ) {
+    )
+    {
         $categoryService->getHydrator()->willReturn($categoryHydrator);
         $categoryHydrator->hydrate(Argument::type('array'), new Category())
             ->willReturn($category);
@@ -42,15 +43,14 @@ class ProductServiceSpec extends ObjectBehavior
         $this->getAll()->shouldReturn([$product]);
     }
 
-    function it_fetch_one_products(
-        $connection
-    ) {
+    function it_fetch_one_products($connection)
+    {
         $row = [
-            'id'         => 1,
-            'product'    => 'product-label',
-            'quantity'   => 666,
+            'id' => 1,
+            'product' => 'product-label',
+            'quantity' => 666,
             'categoryId' => 10,
-            'label'      => 'category-label',
+            'label' => 'category-label',
         ];
 
         $connection->fetchAssoc(Argument::type('string'), Argument::type('array'))
@@ -63,5 +63,54 @@ class ProductServiceSpec extends ObjectBehavior
     {
         $connection->executeQuery('DELETE FROM products')->shouldBeCalled();
         $this->removeAll()->shouldReturn(null);
+    }
+
+    function it_removes_one_product($connection)
+    {
+        $connection->executeUpdate('DELETE FROM products WHERE id = ?', [1])->shouldBeCalled();
+        $this->remove(1)->shouldReturn(null);
+    }
+
+    function it_updates_one_product(Product $product, Category $category, $connection)
+    {
+        $category->getId()->willReturn(99);
+
+        $product->getId()->willReturn(1);
+        $product->getProduct()->willReturn('foobar');
+        $product->getQuantity()->willReturn(2);
+        $product->getCategory()->willReturn($category);
+
+        $values = ['foobar', 99, 2, 1];
+        $connection->executeUpdate(Argument::any(), $values)->shouldBeCalled();
+
+        $this->update($product)->shouldReturn(null);
+    }
+
+    function it_creates_one_product(Product $product, Category $category, $connection)
+    {
+        $category->getId()->willReturn(99);
+
+        $product->getId()->willReturn(1);
+        $product->getProduct()->willReturn('foobar');
+        $product->getQuantity()->willReturn(2);
+        $product->getCategory()->willReturn($category);
+
+        $values = ['foobar', 99, 2];
+        $connection->executeUpdate(Argument::any(), $values)->shouldBeCalled();
+
+        $this->create($product)->shouldReturn(null);
+    }
+
+    function it_creates_one_product_without_category(Product $product, $connection)
+    {
+        $product->getId()->willReturn(1);
+        $product->getProduct()->willReturn('foobar');
+        $product->getQuantity()->willReturn(2);
+        $product->getCategory()->willReturn(null);
+
+        $values = ['foobar', null, 2];
+        $connection->executeUpdate(Argument::any(), $values)->shouldBeCalled();
+
+        $this->create($product)->shouldReturn(null);
     }
 }

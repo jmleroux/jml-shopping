@@ -32,7 +32,7 @@ class UserService
         WHERE u.login = ?';
 
         $values = [$username];
-        $row = $this->getDb()->fetchAssoc($sql, $values);
+        $row = $this->db->fetchAssoc($sql, $values);
 
         $authenticationResult = [
             'username' => $username,
@@ -75,26 +75,18 @@ class UserService
         return false;
     }
 
-    /**
-     * @return Connection
-     */
-    protected function getDb()
-    {
-        return $this->db['db'];
-    }
-
     public function createUser($login, $clearPassword)
     {
         $encryptedPassword = password_hash($clearPassword, PASSWORD_BCRYPT);
         $sql = 'INSERT INTO users (login, password) VALUES (?, ?);';
         $values = [$login, $encryptedPassword];
-        $this->getDb()->executeUpdate($sql, $values);
+        $this->db->executeUpdate($sql, $values);
     }
 
     public function deleteUser($login)
     {
         $sql = 'DELETE FROM users WHERE login=?;';
         $values = [$login];
-        $this->getDb()->executeUpdate($sql, $values);
+        $this->db->executeUpdate($sql, $values);
     }
 }
