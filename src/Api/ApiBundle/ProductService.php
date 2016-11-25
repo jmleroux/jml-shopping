@@ -1,13 +1,15 @@
 <?php
 
-namespace Jmleroux\Core;
+namespace Jmleroux\JmlShopping\Api\ApiBundle;
 
-use Jmleroux\Core\Entity\Product;
-use Jmleroux\Core\Entity\ProductHydrator;
 use Doctrine\DBAL\Connection;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\ProductHydrator;
+use PDO;
 
 class ProductService
 {
+    const TABLENAME = 'products';
     /**
      * @var Connection
      */
@@ -31,31 +33,33 @@ class ProductService
 
     public function getAll()
     {
-        $sql = 'SELECT p.id, p.product, p.quantity,
-        c.id AS categoryId, c.label
-        FROM products p
-        LEFT JOIN categories c ON p.category = c.id
-        ORDER BY c.label';
+        $qb = $this->db->createQueryBuilder();
+        $qb->select('p.id, p.product, p.quantity, c.id AS categoryId, c.label')
+            ->from(self::TABLENAME, 'p')
+            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category = c.id')
+            ->orderBy('c.label');
 
-        $products = $this->db->fetchAll($sql);
+        $stmt = $qb->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $products;
     }
 
-    public function getProduct($productId)
+    public function getProduct($id)
     {
-        $sql = 'SELECT p.id, p.product, p.quantity,
-        c.id AS categoryId, c.label
-        FROM products p
-        LEFT JOIN categories c ON p.category = c.id
-        WHERE p.id = ?';
+        $qb = $this->db->createQueryBuilder();
+        $qb->select('p.id, p.product, p.quantity, c.id AS categoryId, c.label')
+            ->from(self::TABLENAME, 'p')
+            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category = c.id')
+            ->where('p.id = :productId')
+            ->setParameter('productId', $id, PDO::PARAM_INT);
 
-        $values = [$productId];
-        $row = $this->db->fetchAssoc($sql, $values);
+        $stmt = $qb->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $row['category'] = [
-            'id' => $row['categoryId'],
-            'label' => $row['label']
+            'id'    => $row['categoryId'],
+            'label' => $row['label'],
         ];
 
         $product = new Product();
@@ -66,6 +70,7 @@ class ProductService
 
     /**
      * @param int $productId
+     *
      * @return null
      */
     public function remove($productId)

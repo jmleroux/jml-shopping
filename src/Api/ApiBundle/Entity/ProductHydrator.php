@@ -1,7 +1,8 @@
 <?php
-namespace Jmleroux\Core\Entity;
 
-use Jmleroux\Core\CategoryService;
+namespace Jmleroux\JmlShopping\Api\ApiBundle\Entity;
+
+use Jmleroux\JmlShopping\Api\ApiBundle\CategoryService;
 use Zend\Hydrator\HydratorInterface;
 
 class ProductHydrator implements HydratorInterface

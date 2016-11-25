@@ -1,13 +1,15 @@
 <?php
 
-namespace Jmleroux\Core;
+namespace Jmleroux\JmlShopping\Api\ApiBundle;
 
-use Jmleroux\Core\Entity\Category;
-use Jmleroux\Core\Entity\CategoryHydrator;
 use Doctrine\DBAL\Connection;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\CategoryHydrator;
 
 class CategoryService
 {
+    const TABLENAME = 'categories';
+
     /**
      * @var Connection
      */

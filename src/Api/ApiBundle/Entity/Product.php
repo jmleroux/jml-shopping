@@ -1,5 +1,6 @@
 <?php
-namespace Jmleroux\Core\Entity;
+
+namespace Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
 class Product
 {
