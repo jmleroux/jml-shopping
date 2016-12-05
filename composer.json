@@ -6,7 +6,7 @@
         "php": ">=5.5",
         "doctrine/dbal": "@stable",
         "silex/silex": "~2.0@dev",
-        "defuse/php-encryption": "@stable",
+        "defuse/php-encryption": "~1.2",
         "zendframework/zend-hydrator": "@stable",
         "cilex/console-service-provider": "~2.0@dev",
         "monolog/monolog": "@stable"
