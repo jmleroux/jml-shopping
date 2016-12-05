@@ -12,7 +12,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 
-$loader = require __DIR__.'/../src/Api/autoloader.php';
+$loader = require __DIR__.'/../Api/app/autoloader.php';
 
 Debug::enable();
 

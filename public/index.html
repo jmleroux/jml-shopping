@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="fr" ng-app="shoppingApp">
+<html lang="fr">
 <head>
     <meta charset="utf-8"/>
     <title>JML Shoping List</title>
-    <meta http-equiv="cache-control" content="public">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="img/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/style.css" media="screen" rel="stylesheet" type="text/css"/>
-    <script src="js/main.js"></script>
 </head>
-<body ng-controller="MainCtrl">
-<div class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavbarCtrl">
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
+            <button class="navbar-toggle" type="button">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -22,32 +20,31 @@
             <a class="navbar-brand" href="">JML Shopping List</a>
         </div>
 
-        <div collapse="isCollapsed" class="navbar-collapse bs-js-navbar-collapse collapse">
+        <div class="navbar-collapse bs-js-navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li ng-class="{active: navbar.active == 'product-list'}"><a href="#/product-list">Products</a></li>
                 <li ng-class="{active: navbar.active == 'category-list'}"><a href="#/category-list">Categories</a></li>
             </ul>
-            <div id="login-container" ng-switch="user.token">
-                <form novalidate class="navbar-form navbar-right" ng-switch-when="" ng-enter="login(post)">
-                    <span ng-bind="mymessage"></span>
+            <div id="login-container">
+                <form novalidate class="navbar-form navbar-right">
                     <div class="form-group">
                         <input type="text" id="username" class="form-control input-sm"
-                               placeholder="login" ng-model="post.username"/>
+                               placeholder="login"/>
                     </div>
                     <div class="form-group">
                         <input type="password" id="password" class="form-control input-sm"
-                               placeholder="password" ng-model="post.password"/>
+                               placeholder="password"/>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-default" ng-click="login(post)">
+                        <button type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                         </button>
                     </div>
                 </form>
-                <div class="navbar-collapse navbar-right" ng-switch-default>
+                <div class="navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li><a>{{user.username}}</a></li>
-                        <li><a href="#" ng-click="logout()">Logout</a></li>
+                        <li><a href="#">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -55,16 +52,10 @@
     </div>
 </div>
 
-<div ng-view></div>
-
-<div class="container">
-    <div class="row">
-        <hr>
-        <footer ng-controller="FooterCtrl">
-            <p>&copy; 2014 - {{ getDatetime | date:'y' }} by jmleroux. All rights reserved.</p>
-        </footer>
-    </div>
+<div id="product-list">
 </div>
-<script src="js/jmlshopping.js"></script>
-</body>
+
+<script src="./node_modules/react/dist/react.js"></script>
+<script src="./node_modules/react-dom/dist/react-dom.js"></script>
+<script src="./js/dist/bundle.js"></script></body>
 </html>

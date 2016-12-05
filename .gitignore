@@ -2,4 +2,4 @@
 composer.lock
 vendor
 coverage.clover
-var
+public/node_modules

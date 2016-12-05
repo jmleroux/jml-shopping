@@ -1,9 +1,0 @@
-product_list:
-    path: /products
-    defaults: { _controller: ApiBundle:Product:list }
-    methods: [GET]
-
-product_view:
-    path: /product/{id}
-    defaults: { _controller: ApiBundle:Product:view }
-    methods: [GET]

@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Jmleroux\\JmlShopping\\": "src"
+            "Jmleroux\\JmlShopping\\Api\\": "Api/src"
         }
     }
 }

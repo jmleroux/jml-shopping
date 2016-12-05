@@ -1,7 +1,0 @@
-<?php
-return array(
-    'app' => array(
-        'debug' => true,
-        'seed' => 'override the application token seed',
-    ),
-);
