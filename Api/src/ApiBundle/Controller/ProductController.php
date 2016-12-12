@@ -7,6 +7,7 @@ use Jmleroux\JmlShopping\Api\ApiBundle\Entity\ProductHydrator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
@@ -30,21 +31,40 @@ class ProductController extends Controller
 
     public function createAction(Request $request)
     {
-        $repo = $this->get('jmlshopping.product');
         $data = json_decode($request->getContent(), true);
+
+        if (!$this->validateProductData($data)) {
+            return new JsonResponse(null, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         $product = new Product();
         $hydrator = new ProductHydrator($this->get('jmlshopping.category'));
         $hydrator->hydrate($data, $product);
-        $product = $repo->create($product);
-        $response = new JsonResponse($product);
+
+        $repo = $this->get('jmlshopping.product');
+        $existingProduct = $repo->findByName($product->getName());
+
+        if (null === $existingProduct) {
+            $product = $repo->create($product);
+            $response = new JsonResponse($product, Response::HTTP_CREATED);
+        } else {
+            $response = new JsonResponse($existingProduct, Response::HTTP_IM_USED);
+        }
 
         return $response;
     }
 
     public function updateAction(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+
+        $product = new Product();
+        $hydrator = new ProductHydrator($this->get('jmlshopping.category'));
+        $hydrator->hydrate($data, $product);
+
         $repo = $this->get('jmlshopping.product');
-        $product = $repo->update([]);
+        $product = $repo->update($product);
+
         $response = new JsonResponse($product);
 
         return $response;
@@ -57,5 +77,14 @@ class ProductController extends Controller
         $response = new JsonResponse($product);
 
         return $response;
+    }
+
+    private function validateProductData($data)
+    {
+        if (!isset($data['name']) || empty($data['name'])) {
+            return false;
+        }
+
+        return true;
     }
 }

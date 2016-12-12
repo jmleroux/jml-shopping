@@ -14,6 +14,7 @@ services:
         class: Jmleroux\JmlShopping\Api\ApiBundle\UserService
         arguments:
             - '@database_connection'
+            - '%encoder.seed%'
 
     jmlshopping.security.user_provider:
         class: Jmleroux\JmlShopping\Api\ApiBundle\Security\UserProvider

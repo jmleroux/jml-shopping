@@ -1,3 +1,8 @@
+user_login:
+    path: /login
+    defaults: { _controller: ApiBundle:Token:login }
+    methods: [POST]
+
 product_list:
     path: /products
     defaults: { _controller: ApiBundle:Product:list }

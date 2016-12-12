@@ -48,12 +48,45 @@ class ProductService
         $stmt = $qb->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $row['category'] = [
-            'id'    => $row['categoryId'],
-            'label' => $row['label'],
-        ];
+        if (false !== $row) {
+            $row['category'] = [
+                'id'    => $row['categoryId'],
+                'label' => $row['label'],
+            ];
 
-        return $row;
+            return $row;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param int $name
+     *
+     * @return array|null
+     */
+    public function findByName($name)
+    {
+        $qb = $this->db->createQueryBuilder();
+        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label')
+            ->from(self::TABLENAME, 'p')
+            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')
+            ->where('p.name = :name')
+            ->setParameter('name', $name, PDO::PARAM_STR);
+
+        $stmt = $qb->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (false !== $row) {
+            $row['category'] = [
+                'id'    => $row['categoryId'],
+                'label' => $row['label'],
+            ];
+
+            return $row;
+        }
+
+        return null;
     }
 
     /**

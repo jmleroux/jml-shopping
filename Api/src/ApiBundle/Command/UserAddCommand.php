@@ -1,18 +1,18 @@
 <?php
-namespace Jmleroux\Console\Command;
 
-use Jmleroux\Api\UserService;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Symfony\Component\Console\Command\Command;
+namespace Jmleroux\JmlShopping\Api\ApiBundle\Command;
+
+use Doctrine\DBAL\DBALException;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserAdd extends Command
+class UserAddCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName('user:add')
+        $this->setName('jmlshopping:user:add')
             ->setDescription('Add user')
             ->addArgument(
                 'login',
@@ -31,21 +31,15 @@ class UserAdd extends Command
         $login = $input->getArgument('login');
         $password = $input->getArgument('password');
 
-        /** @var \Cilex\Provider\Console\ContainerAwareApplication $app */
-        $app = $this->getApplication();
-
-        /** @var UserService $userService */
-        $userService = $app->getService('user_service');
+        $userService = $this->getContainer()->get('jmlshopping.user');
 
         try {
             $userService->createUser($login, $password);
             $message = sprintf('User "%s" created with password "%s"', $login, $password);
-            $app->getService('monolog')->addDebug($message);
             $output->writeln($message);
         }
-        catch (UniqueConstraintViolationException $e) {
+        catch (DBALException $e) {
             $message = 'User already in database.';
-            $app->getService('monolog')->addDebug($message);
             $output->writeln('<error>'.$message.'</error>');
         }
     }

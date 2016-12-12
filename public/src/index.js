@@ -1,20 +1,30 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {createStore} from 'redux';
+
+import thunkMiddleware from 'redux-thunk'
+import createLogger from 'redux-logger'
+import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux';
+
 import reducer from './reducer';
-import {ProductTable} from './containers';
+import {ProductTable, Navbar} from './containers';
 
-const store = createStore(reducer);
+const loggerMiddleware = createLogger();
 
-someAsyncCall().then(function(response) {
-    store.dispatch(someActionCreator(response));
-});
-fetch("api_dev.php/products")
-    .then(response => response.json())
-    .then(json => {
-        store.dispatch(someActionCreator(response));
-    });
+const store = createStore(
+    reducer,
+    applyMiddleware(
+        thunkMiddleware,
+        loggerMiddleware
+    )
+);
+
+render(
+    <Provider store={store}>
+        <Navbar />
+    </Provider>,
+    document.getElementById("login-container")
+);
 
 render(
     <Provider store={store}>

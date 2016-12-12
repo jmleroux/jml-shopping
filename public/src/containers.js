@@ -1,15 +1,21 @@
 import {connect} from 'react-redux';
-import * as components from './components/ProductTable';
-import {addProduct, deleteProduct} from './actions';
+import NavbarComponent from './components/Navbar';
+import ProductTableComponent from './components/ProductTable';
+import {login, logout, listProducts, addProduct, deleteProduct} from './actions';
 
 export const ProductTable = connect(
-    function mapStateToProps(state) {
-        return {products: state};
-    },
-    function mapDispatchToProps(dispatch) {
-        return {
-            addProduct: (text, category, quantity) => dispatch(addProduct(text, category, quantity)),
-            deleteProduct: id => dispatch(deleteProduct(id))
-        };
-    }
-)(components.ProductTable);
+    (state) => ({username: state.auth.username, product: state.products.product, products: state.products.products}),
+    (dispatch) => ({
+        listProducts: () => dispatch(listProducts()),
+        addProduct: (text, category, quantity) => dispatch(addProduct(text, category, quantity)),
+        deleteProduct: id => dispatch(deleteProduct(id))
+    })
+)(ProductTableComponent);
+
+export const Navbar = connect(
+    (state) => ({username: state.auth.username}),
+    (dispatch) => ({
+        login: (username, password) => dispatch(login(username, password)),
+        logout: () => dispatch(logout())
+    })
+)(NavbarComponent);

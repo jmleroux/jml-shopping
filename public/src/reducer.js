@@ -1,10 +1,34 @@
-import {List, Map} from 'immutable';
+import {combineReducers} from 'redux';
 import "isomorphic-fetch";
 
-const init = [];
+const initAuth = {
+    username: localStorage.getItem('jmlshopping.username')
+};
 
-export default function (products = init, action) {
+const authReducer = (state = initAuth, action) => {
     switch (action.type) {
+        case 'LOGIN_RESPONSE':
+            localStorage.setItem('jmlshopping.username', action.data.username);
+            localStorage.setItem('jmlshopping.token', action.data.token);
+            return Object.assign({}, state, {username: action.data.username});
+        case 'LOGOUT':
+            localStorage.removeItem('jmlshopping.username');
+            localStorage.removeItem('jmlshopping.token');
+            return Object.assign({}, state, {username: null});
+        default:
+            return state;
+    }
+};
+
+const initProducts = {
+    product: {},
+    products: []
+};
+
+const productsReducer = (state = initProducts, action) => {
+    switch (action.type) {
+        case 'PRODUCT_LIST_RESPONSE':
+            return Object.assign({}, state, {products: action.data.products});
         case 'PRODUCT_ADD':
             fetch("api_dev.php/product",
                 {
@@ -15,11 +39,19 @@ export default function (products = init, action) {
                     method: "POST",
                     body: JSON.stringify(action.data)
                 });
-            return [...products, action.data];
+            return state;
         case 'PRODUCT_DELETE':
-            fetch("api_dev.php/product/" + action.id, {method: "DELETE"});
-            return products.filter(item => item.id !== action.id);
+            if (confirm('Delete product?')) {
+                fetch("api_dev.php/product/" + action.id, {method: "DELETE"});
+                return Object.assign({}, state, {products: state.products.filter(item => item.id !== action.id)});
+            }
+            return state;
         default:
-            return products;
+            return state;
     }
-}
+};
+
+export default combineReducers({
+    auth: authReducer,
+    products: productsReducer
+})
