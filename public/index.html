@@ -1,60 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>JML Shoping List</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link href="img/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
     <link href="css/style.css" media="screen" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
         <div class="navbar-header">
-            <button class="navbar-toggle" type="button">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#login-container" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="">JML Shopping List</a>
         </div>
-
-        <div id="login-container" class="navbar-collapse bs-js-navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li ng-class="{active: navbar.active == 'product-list'}"><a href="#/product-list">Products</a></li>
-                <li ng-class="{active: navbar.active == 'category-list'}"><a href="#/category-list">Categories</a></li>
-            </ul>
-            <div>
-                <form novalidate class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input type="text" id="username" class="form-control input-sm"
-                               placeholder="login"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" class="form-control input-sm"
-                               placeholder="password"/>
-                    </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-ok-circle"></span>
-                        </button>
-                    </div>
-                </form>
-                <div class="navbar-collapse navbar-right">
-                    <ul class="nav navbar-nav">
-                        <li><a>{{user.username}}</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <div id="login-container" class="collapse navbar-collapse"></div>
     </div>
-</div>
+</nav>
 
-<div id="product-list"></div>
-
+<div id="product-list" class="container-fluid"></div>
 <script src="./node_modules/react/dist/react.js"></script>
 <script src="./node_modules/react-dom/dist/react-dom.js"></script>
-<script src="./js/dist/bundle.js"></script></body>
+<script src="./js/dist/bundle.js"></script>
+<script
+        src="https://code.jquery.com/jquery-1.12.4.js"
+        integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
 </html>

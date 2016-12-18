@@ -38,7 +38,7 @@ class ProductHydrator implements HydratorInterface
      * @param array   $data
      * @param Product $product
      *
-     * @return object
+     * @return Product
      */
     public function hydrate(array $data, $product)
     {
@@ -48,10 +48,14 @@ class ProductHydrator implements HydratorInterface
         if (isset($data['name'])) {
             $product->setName($data['name']);
         }
-//        if (isset($data['category'])) {
-//            $category = $this->categoryService->getHydrator()->hydrate($data['category'], new Category());
-//            $product->setCategory($category);
-//        }
+        if (isset($data['category'])) {
+            $category = $this->categoryService->getHydrator()->hydrate($data['category'], new Category());
+            $product->setCategory($category);
+        }
+        if (isset($data['category_id'])) {
+            $category = $this->categoryService->findById($data['category_id']);
+            $product->setCategory($category);
+        }
         if (isset($data['quantity'])) {
             $product->setQuantity($data['quantity']);
         }

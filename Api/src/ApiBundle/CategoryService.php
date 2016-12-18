@@ -43,7 +43,7 @@ class CategoryService
         return $rows;
     }
 
-    public function getCategory($categoryId)
+    public function findById($categoryId)
     {
         $sql = 'SELECT c.id, c.label
         FROM categories c

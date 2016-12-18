@@ -22,7 +22,7 @@ class CategoryHydrator implements HydratorInterface
     /**
      * @param array    $data
      * @param Category $category
-     * @return object
+     * @return Category
      */
     public function hydrate(array $data, $category)
     {

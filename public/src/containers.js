@@ -4,7 +4,12 @@ import ProductTableComponent from './components/ProductTable';
 import {login, logout, listProducts, addProduct, deleteProduct} from './actions';
 
 export const ProductTable = connect(
-    (state) => ({username: state.auth.username, product: state.products.product, products: state.products.products}),
+    (state) => ({
+        username: state.auth.username,
+        product: state.products.product,
+        products: state.products.products,
+        categories: state.categories.categories
+    }),
     (dispatch) => ({
         listProducts: () => dispatch(listProducts()),
         addProduct: (text, category, quantity) => dispatch(addProduct(text, category, quantity)),

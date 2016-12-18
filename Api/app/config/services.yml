@@ -20,6 +20,7 @@ services:
         class: Jmleroux\JmlShopping\Api\ApiBundle\Security\UserProvider
         arguments:
             - '@database_connection'
+            - '@jmlshopping.user'
 
     jmlshopping.security.token_authenticator:
         class: Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenAuthenticator

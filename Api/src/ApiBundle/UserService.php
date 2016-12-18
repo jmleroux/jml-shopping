@@ -54,11 +54,42 @@ class UserService
         return $authenticationResult;
     }
 
+    /**
+     * @param string $username
+     *
+     * @return array
+     */
+    public function loadUserByUsername($username)
+    {
+        $sql = 'SELECT login, password
+        FROM users u
+        WHERE u.login = ?';
+
+        $values = [$username];
+        $row = $this->db->fetchAssoc($sql, $values);
+
+        if (empty($row)) {
+            return null;
+        }
+
+        return $row;
+    }
+
     private function encryptToken($username)
     {
         $token = Crypto::Encrypt($username . '-+-' . time(), $this->encryptionKey);
 
         return $username . '-+-' . base64_encode($token);
+    }
+
+    public function decryptToken($token)
+    {
+        $decrypted = Crypto::Decrypt($token, $this->encryptionKey);
+        if ($decrypted) {
+            list($userToken, $time) = explode('-+-', $decrypted);
+        }
+
+        return $decrypted;
     }
 
     public function tokenIsValid($payload)
@@ -67,8 +98,8 @@ class UserService
         $token = base64_decode($base64Token);
         $decrypted = Crypto::Decrypt($token, $this->encryptionKey);
         if ($decrypted) {
-            list($tokenUsername, $time) = explode('-+-', $decrypted);
-            if ($tokenUsername != $username) {
+            list($secretUsername, $time) = explode('-+-', $decrypted);
+            if ($secretUsername != $username) {
                 return false;
             }
             if (time() - (int)$time > $this->tokenLifetime) {

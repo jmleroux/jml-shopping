@@ -1,19 +1,29 @@
 import {combineReducers} from 'redux';
 import "isomorphic-fetch";
 
+export const apiBase = "api_dev.php";
+
 const initAuth = {
     username: localStorage.getItem('jmlshopping.username')
+};
+
+const clearStorage = () => {
+    localStorage.removeItem('jmlshopping.username');
+    localStorage.removeItem('jmlshopping.token');
 };
 
 const authReducer = (state = initAuth, action) => {
     switch (action.type) {
         case 'LOGIN_RESPONSE':
-            localStorage.setItem('jmlshopping.username', action.data.username);
-            localStorage.setItem('jmlshopping.token', action.data.token);
-            return Object.assign({}, state, {username: action.data.username});
+            if (action.status < 300) {
+                localStorage.setItem('jmlshopping.username', action.data.username);
+                localStorage.setItem('jmlshopping.token', action.data.token);
+                return Object.assign({}, state, {username: action.data.username});
+            }
+            clearStorage();
+            return state;
         case 'LOGOUT':
-            localStorage.removeItem('jmlshopping.username');
-            localStorage.removeItem('jmlshopping.token');
+            clearStorage();
             return Object.assign({}, state, {username: null});
         default:
             return state;
@@ -30,20 +40,28 @@ const productsReducer = (state = initProducts, action) => {
         case 'PRODUCT_LIST_RESPONSE':
             return Object.assign({}, state, {products: action.data.products});
         case 'PRODUCT_ADD':
-            fetch("api_dev.php/product",
+            fetch(apiBase + "/product",
                 {
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': localStorage.getItem('jmlshopping.token')
                     },
                     method: "POST",
                     body: JSON.stringify(action.data)
                 });
             return state;
         case 'PRODUCT_DELETE':
-            if (confirm('Delete product?')) {
-                fetch("api_dev.php/product/" + action.id, {method: "DELETE"});
-                return Object.assign({}, state, {products: state.products.filter(item => item.id !== action.id)});
+            if (confirm('Delete product ' + action.data.name + '?')) {
+                fetch(apiBase + "/product/" + action.data.id, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': localStorage.getItem('jmlshopping.token')
+                    },
+                    method: "DELETE"
+                });
+                return Object.assign({}, state, {products: state.products.filter(item => item.id !== action.data.id)});
             }
             return state;
         default:
@@ -51,7 +69,21 @@ const productsReducer = (state = initProducts, action) => {
     }
 };
 
+const initCategories = {
+    categories: []
+};
+
+const categoryReducer = (state = initCategories, action) => {
+    switch (action.type) {
+        case 'CATEGORY_LIST_RESPONSE':
+            return Object.assign({}, state, {categories: action.data.categories});
+        default:
+            return state;
+    }
+};
+
 export default combineReducers({
     auth: authReducer,
-    products: productsReducer
+    products: productsReducer,
+    categories: categoryReducer
 })

@@ -28,7 +28,7 @@ class ProductService
         $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label AS category')
             ->from(self::TABLENAME, 'p')
             ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')
-            ->orderBy('c.label');
+            ->orderBy('c.label, p.name');
 
         $stmt = $qb->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);

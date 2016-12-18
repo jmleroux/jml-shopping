@@ -10,15 +10,22 @@ doctrine:
         driver: 'pdo_sqlite'
         path:   '%kernel.root_dir%/var/data/shopping.sqlite3'
 
-#security:
-#    providers:
-#        jmlshopping:
-#            id: 'jmlshopping.security.user_provider'
-#
-#    firewalls:
-#        main:
-#            anonymous: ~
-#            logout: ~
-#            guard:
-#                authenticators:
-#                    - 'jmlshopping.security.token_authenticator'
+security:
+    providers:
+        jmlshopping:
+            id: 'jmlshopping.security.user_provider'
+
+    firewalls:
+        login:
+            pattern:                        ^/login$
+            anonymous:                      true
+        main:
+            anonymous: ~
+            logout: ~
+            guard:
+                authenticators:
+                    - 'jmlshopping.security.token_authenticator'
+
+#    access_control:
+#        # require ROLE_ADMIN for /admin*
+#        - { path: ^/admin, roles: ROLE_ADMIN }
