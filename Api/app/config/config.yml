@@ -8,7 +8,7 @@ framework:
 doctrine:
     dbal:
         driver: 'pdo_sqlite'
-        path:   '%kernel.root_dir%/var/data/shopping.sqlite3'
+        path:   '%db_path%'
 
 security:
     providers:
@@ -25,7 +25,3 @@ security:
             guard:
                 authenticators:
                     - 'jmlshopping.security.token_authenticator'
-
-#    access_control:
-#        # require ROLE_ADMIN for /admin*
-#        - { path: ^/admin, roles: ROLE_ADMIN }
