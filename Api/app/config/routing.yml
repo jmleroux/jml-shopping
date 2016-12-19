@@ -1,0 +1,36 @@
+user_login:
+    path: /login
+    defaults: { _controller: ApiBundle:Token:login }
+    methods: [POST]
+
+product_list:
+    path: /products
+    defaults: { _controller: ApiBundle:Product:list }
+    methods: [GET]
+
+product_view:
+    path: /product/{id}
+    defaults: { _controller: ApiBundle:Product:view }
+    methods: [GET]
+    requirements:
+        id: \d+
+
+product_create:
+    path: /product
+    defaults: { _controller: ApiBundle:Product:create }
+    methods: [POST]
+
+product_update:
+    path: /product/{id}
+    defaults: { _controller: ApiBundle:Product:update }
+    methods: [PUT]
+
+product_delete:
+    path: /product/{id}
+    defaults: { _controller: ApiBundle:Product:delete }
+    methods: [DELETE]
+
+category_list:
+    path: /categories
+    defaults: { _controller: ApiBundle:Category:list }
+    methods: [GET]

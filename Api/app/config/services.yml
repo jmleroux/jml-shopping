@@ -1,0 +1,26 @@
+services:
+    jmlshopping.category:
+        class: Jmleroux\JmlShopping\Api\ApiBundle\CategoryService
+        arguments:
+            - '@database_connection'
+
+    jmlshopping.product:
+        class: Jmleroux\JmlShopping\Api\ApiBundle\ProductService
+        arguments:
+            - '@database_connection'
+            - '@jmlshopping.category'
+
+    jmlshopping.user:
+        class: Jmleroux\JmlShopping\Api\ApiBundle\UserService
+        arguments:
+            - '@database_connection'
+            - '%encoder.seed%'
+
+    jmlshopping.security.user_provider:
+        class: Jmleroux\JmlShopping\Api\ApiBundle\Security\UserProvider
+        arguments:
+            - '@database_connection'
+            - '@jmlshopping.user'
+
+    jmlshopping.security.token_authenticator:
+        class: Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenAuthenticator
