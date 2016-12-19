@@ -1,6 +1,6 @@
 filter:
     paths:
-        - src/*
+        - Api/src/*
 
 build:
     tests:

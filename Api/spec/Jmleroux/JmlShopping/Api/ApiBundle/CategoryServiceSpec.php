@@ -1,9 +1,10 @@
 <?php
 
-namespace spec\Jmleroux\Core;
+namespace spec\Jmleroux\JmlShopping\Api\ApiBundle;
 
 use Doctrine\DBAL\Connection;
-use Jmleroux\Core\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\CategoryService;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -16,12 +17,7 @@ class CategoryServiceSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Core\CategoryService');
-    }
-
-    function it_can_get_hydrator()
-    {
-        $this->getHydrator()->shouldHaveType('Jmleroux\Core\Entity\CategoryHydrator');
+        $this->shouldHaveType(CategoryService::class);
     }
 
     function it_fetches_all_categories($connection)
@@ -46,7 +42,7 @@ class CategoryServiceSpec extends ObjectBehavior
         $connection->fetchAssoc(Argument::type('string'), Argument::type('array'))
             ->willReturn($row);
 
-        $this->getCategory(1)->shouldHaveType('Jmleroux\Core\Entity\Category');
+        $this->findById(1)->shouldHaveType(Category::class);
     }
 
     function it_removes_one_category($connection)
