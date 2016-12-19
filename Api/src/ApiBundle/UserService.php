@@ -2,7 +2,8 @@
 
 namespace Jmleroux\JmlShopping\Api\ApiBundle;
 
-use Crypto;
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
 use Doctrine\DBAL\Connection;
 
 class UserService
@@ -77,17 +78,16 @@ class UserService
 
     private function encryptToken($username)
     {
-        $token = Crypto::Encrypt($username . '-+-' . time(), $this->encryptionKey);
+        $key = Key::loadFromAsciiSafeString($this->encryptionKey);
+        $token = Crypto::Encrypt($username . '-+-' . time(), $key);
 
         return $username . '-+-' . base64_encode($token);
     }
 
     public function decryptToken($token)
     {
-        $decrypted = Crypto::Decrypt($token, $this->encryptionKey);
-        if ($decrypted) {
-            list($userToken, $time) = explode('-+-', $decrypted);
-        }
+        $key = Key::loadFromAsciiSafeString($this->encryptionKey);
+        $decrypted = Crypto::Decrypt($token, $key);
 
         return $decrypted;
     }
@@ -96,7 +96,8 @@ class UserService
     {
         list($username, $base64Token) = explode('-+-', $payload);
         $token = base64_decode($base64Token);
-        $decrypted = Crypto::Decrypt($token, $this->encryptionKey);
+        $key = Key::loadFromAsciiSafeString($this->encryptionKey);
+        $decrypted = Crypto::Decrypt($token, $key);
         if ($decrypted) {
             list($secretUsername, $time) = explode('-+-', $decrypted);
             if ($secretUsername != $username) {

@@ -4,32 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c64cb8374c74ae7edd4bdaa4f1002d64",
-    "content-hash": "b53e22910dc6864e6511dbedfb70c207",
+    "hash": "bda668a5645cf28e8338a605c097e1a4",
+    "content-hash": "420d3d5ef52c11bf37efc21c538f5ee6",
     "packages": [
         {
             "name": "defuse/php-encryption",
-            "version": "v1.2.1",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/defuse/php-encryption.git",
-                "reference": "b87737b2eec06b13f025cabea847338fa203d1b4"
+                "reference": "2c6fea3d9a4eaaa8cef86b2a89f3660818117b33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/defuse/php-encryption/zipball/b87737b2eec06b13f025cabea847338fa203d1b4",
-                "reference": "b87737b2eec06b13f025cabea847338fa203d1b4",
+                "url": "https://api.github.com/repos/defuse/php-encryption/zipball/2c6fea3d9a4eaaa8cef86b2a89f3660818117b33",
+                "reference": "2c6fea3d9a4eaaa8cef86b2a89f3660818117b33",
                 "shasum": ""
             },
             "require": {
-                "ext-mcrypt": "*",
                 "ext-openssl": "*",
+                "paragonie/random_compat": "~2.0",
                 "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "nikic/php-parser": "^2.0"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "Crypto.php"
+                "classmap": [
+                    "src"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -39,18 +42,29 @@
             "authors": [
                 {
                     "name": "Taylor Hornby",
-                    "email": "havoc@defuse.ca"
+                    "email": "taylor@defuse.ca",
+                    "homepage": "https://defuse.ca/"
+                },
+                {
+                    "name": "Scott Arciszewski",
+                    "email": "info@paragonie.com",
+                    "homepage": "https://paragonie.com"
                 }
             ],
             "description": "Secure PHP Encryption Library",
             "keywords": [
                 "aes",
+                "authenticated encryption",
                 "cipher",
+                "crypto",
+                "cryptography",
+                "encrypt",
                 "encryption",
-                "mcrypt",
-                "security"
+                "openssl",
+                "security",
+                "symmetric key cryptography"
             ],
-            "time": "2015-03-14 20:27:45"
+            "time": "2016-10-10 15:20:26"
         },
         {
             "name": "doctrine/annotations",
@@ -1297,16 +1311,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "b96a144bc875684f3338f697687147a2696d73eb"
+                "reference": "5824d423678a0cc44f3eb46efc246aecd1836dd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/b96a144bc875684f3338f697687147a2696d73eb",
-                "reference": "b96a144bc875684f3338f697687147a2696d73eb",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/5824d423678a0cc44f3eb46efc246aecd1836dd7",
+                "reference": "5824d423678a0cc44f3eb46efc246aecd1836dd7",
                 "shasum": ""
             },
             "require": {
@@ -1435,20 +1449,20 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-11-30 08:46:24"
+            "time": "2016-12-13 13:20:15"
         },
         {
             "name": "twig/twig",
-            "version": "v1.28.2",
+            "version": "v1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "b22ce0eb070e41f7cba65d78fe216de29726459c"
+                "reference": "74f723e542368ca2080b252740be5f1113ebb898"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b22ce0eb070e41f7cba65d78fe216de29726459c",
-                "reference": "b22ce0eb070e41f7cba65d78fe216de29726459c",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/74f723e542368ca2080b252740be5f1113ebb898",
+                "reference": "74f723e542368ca2080b252740be5f1113ebb898",
                 "shasum": ""
             },
             "require": {
@@ -1461,7 +1475,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.28-dev"
+                    "dev-master": "1.29-dev"
                 }
             },
             "autoload": {
@@ -1496,7 +1510,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-11-23 18:41:40"
+            "time": "2016-12-13 17:28:18"
         },
         {
             "name": "zendframework/zend-hydrator",
@@ -2661,6 +2675,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "defuse/php-encryption": 0,
         "doctrine/doctrine-bundle": 0,
         "symfony/monolog-bundle": 0,
         "zendframework/zend-hydrator": 0,

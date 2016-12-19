@@ -1,4 +1,4 @@
 parameters:
     secret: JmlSecret
-    encoder.seed: '1234567890123456'
+    encoder.seed: 'def000004df82059ef280997071b2a3b0501164cc8e4bc25d930a4fa7f79f21efabab7a9cd1ba900bedd6020ef916182c5fb463cf123f6d5a14b231318f5dcfc49a99a2a'
     db_path: '%kernel.root_dir%/var/data/shopping.sqlite3'
