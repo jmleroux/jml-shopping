@@ -3,6 +3,9 @@ filter:
         - Api/src/*
 
 build:
+    environment:
+        php: 5.6.16
+        
     project_setup:
         before:
             - 'cd Api'
