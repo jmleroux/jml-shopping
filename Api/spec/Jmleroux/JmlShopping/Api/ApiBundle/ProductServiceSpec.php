@@ -33,9 +33,7 @@ class ProductServiceSpec extends ObjectBehavior
     ) {
         $connection->createQueryBuilder()->willReturn($qb);
 
-        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label AS category')->willReturn($qb);
-        $qb->from(ProductService::TABLENAME, 'p')->willReturn($qb);
-        $qb->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')->willReturn($qb);
+        $this->prepare_find_query_builder($qb);
         $qb->orderBy('c.label, p.name')->willReturn($qb);
         $qb->execute()->willReturn($statement);
         $statement->fetchAll(PDO::FETCH_ASSOC)->willReturn(['foo']);
@@ -64,9 +62,7 @@ class ProductServiceSpec extends ObjectBehavior
 
         $connection->createQueryBuilder()->willReturn($qb);
 
-        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label')->willReturn($qb);
-        $qb->from(ProductService::TABLENAME, 'p')->willReturn($qb);
-        $qb->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')->willReturn($qb);
+        $this->prepare_find_query_builder($qb);
         $qb->where('p.id = :productId')->willReturn($qb);
         $qb->setParameter('productId', $id, PDO::PARAM_INT)->willReturn($qb);
         $qb->execute()->willReturn($statement);
@@ -96,9 +92,7 @@ class ProductServiceSpec extends ObjectBehavior
 
         $connection->createQueryBuilder()->willReturn($qb);
 
-        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label')->willReturn($qb);
-        $qb->from(ProductService::TABLENAME, 'p')->willReturn($qb);
-        $qb->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')->willReturn($qb);
+        $this->prepare_find_query_builder($qb);
         $qb->where('p.name = :name')->willReturn($qb);
         $qb->setParameter('name', $name, PDO::PARAM_STR)->willReturn($qb);
         $qb->execute()->willReturn($statement);
@@ -187,4 +181,14 @@ class ProductServiceSpec extends ObjectBehavior
         $connection->executeUpdate($sql, $values)->shouldBeCalled();
         $this->create($product)->shouldReturn(null);
     }
+
+    function prepare_find_query_builder(QueryBuilder $qb)
+    {
+        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label AS category')->willReturn($qb);
+        $qb->from(ProductService::TABLENAME, 'p')->willReturn($qb);
+        $qb->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')->willReturn($qb);
+
+        return $qb;
+    }
+
 }

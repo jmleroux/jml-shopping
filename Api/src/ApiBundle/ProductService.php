@@ -22,13 +22,20 @@ class ProductService
         $this->categoryService = $categoryService;
     }
 
-    public function getAll()
+    protected function getFindQueryBuilder()
     {
         $qb = $this->db->createQueryBuilder();
         $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label AS category')
             ->from(self::TABLENAME, 'p')
-            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')
-            ->orderBy('c.label, p.name');
+            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id');
+
+        return $qb;
+    }
+
+    public function getAll()
+    {
+        $qb = $this->getFindQueryBuilder();
+        $qb->orderBy('c.label, p.name');
 
         $stmt = $qb->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,12 +45,8 @@ class ProductService
 
     public function getProduct($id)
     {
-        $qb = $this->db->createQueryBuilder();
-        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label')
-            ->from(self::TABLENAME, 'p')
-            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')
-            ->where('p.id = :productId')
-            ->setParameter('productId', $id, PDO::PARAM_INT);
+        $qb = $this->getFindQueryBuilder();
+        $qb->where('p.id = :productId')->setParameter('productId', $id, PDO::PARAM_INT);
 
         $stmt = $qb->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -67,12 +70,8 @@ class ProductService
      */
     public function findByName($name)
     {
-        $qb = $this->db->createQueryBuilder();
-        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label')
-            ->from(self::TABLENAME, 'p')
-            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')
-            ->where('p.name = :name')
-            ->setParameter('name', $name, PDO::PARAM_STR);
+        $qb = $this->getFindQueryBuilder();
+        $qb->where('p.name = :name')->setParameter('name', $name, PDO::PARAM_STR);
 
         $stmt = $qb->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
