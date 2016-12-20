@@ -1,15 +1,15 @@
 <?php
 
-namespace spec\Jmleroux\Core\Entity;
+namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CategorySpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Core\Entity\Category');
+        $this->shouldHaveType(Category::class);
     }
 
     function it_can_set_id()

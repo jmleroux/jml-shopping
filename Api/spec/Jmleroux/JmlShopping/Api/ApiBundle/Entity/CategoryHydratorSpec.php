@@ -1,16 +1,16 @@
 <?php
 
-namespace spec\Jmleroux\Core\Entity;
+namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
-use Jmleroux\Core\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\CategoryHydrator;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CategoryHydratorSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Core\Entity\CategoryHydrator');
+        $this->shouldHaveType(CategoryHydrator::class);
         $this->shouldImplement('Zend\Hydrator\HydratorInterface');
     }
 

@@ -1,16 +1,16 @@
 <?php
 
-namespace spec\Jmleroux\Core\Entity;
+namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
-use Jmleroux\Core\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ProductSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Core\Entity\Product');
+        $this->shouldHaveType(Product::class);
     }
 
     function it_can_set_id()
@@ -19,7 +19,7 @@ class ProductSpec extends ObjectBehavior
         $this->getId()->shouldReturn(666);
 
         $this->setId('foo');
-        $this->getId()->shouldReturn(0);
+        $this->getId()->shouldReturn('foo');
     }
 
     function it_can_set_category(Category $category)
@@ -28,13 +28,13 @@ class ProductSpec extends ObjectBehavior
         $this->getCategory()->shouldReturn($category);
     }
 
-    function it_can_set_product()
+    function it_can_set_name()
     {
-        $this->setProduct('foo');
-        $this->getProduct()->shouldReturn('foo');
+        $this->setName('foo');
+        $this->getName()->shouldReturn('foo');
 
-        $this->setProduct('   foo  ');
-        $this->getProduct()->shouldReturn('foo');
+        $this->setName('   foo  ');
+        $this->getName()->shouldReturn('foo');
     }
 
     function it_can_set_quantity()

@@ -1,17 +1,18 @@
 <?php
 
-namespace spec\Jmleroux\Core\Entity;
+namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
-use Jmleroux\Core\CategoryService;
-use Jmleroux\Core\Entity\Category;
-use Jmleroux\Core\Entity\Product;
+use Jmleroux\JmlShopping\Api\ApiBundle\CategoryService;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\ProductHydrator;
 use PhpSpec\ObjectBehavior;
 
 class ProductHydratorSpec extends ObjectBehavior
 {
     protected $arrayData = [
         'id'       => 1,
-        'product'  => 'foo',
+        'name'     => 'foo',
         'quantity' => 666,
         'category' => [
             'id'    => 2,
@@ -26,7 +27,7 @@ class ProductHydratorSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Jmleroux\Core\Entity\ProductHydrator');
+        $this->shouldHaveType(ProductHydrator::class);
         $this->shouldImplement('Zend\Hydrator\HydratorInterface');
     }
 
@@ -35,7 +36,7 @@ class ProductHydratorSpec extends ObjectBehavior
         $product->getId()
             ->shouldBeCalled()
             ->willReturn(1);
-        $product->getProduct()
+        $product->getName()
             ->shouldBeCalled()
             ->willReturn('foo');
         $product->getQuantity()
