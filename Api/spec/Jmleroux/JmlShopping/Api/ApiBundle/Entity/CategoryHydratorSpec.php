@@ -19,13 +19,13 @@ class CategoryHydratorSpec extends ObjectBehavior
         $category->getId()
             ->shouldBeCalled()
             ->willReturn(666);
-        $category->getLabel()
+        $category->getName()
             ->shouldBeCalled()
             ->willReturn('foo');
 
         $output = [
             'id' => 666,
-            'label' => 'foo',
+            'name' => 'foo',
         ];
 
         $this->extract($category)->shouldReturn($output);
@@ -35,12 +35,12 @@ class CategoryHydratorSpec extends ObjectBehavior
     {
         $input = [
             'id' => 666,
-            'label' => 'foo',
+            'name' => 'foo',
         ];
 
         $category->setId(666)
             ->shouldBeCalled();
-        $category->setLabel('foo')
+        $category->setName('foo')
             ->shouldBeCalled();
 
         $this->hydrate($input, $category)->shouldReturn($category);

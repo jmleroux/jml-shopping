@@ -2,17 +2,17 @@
 
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
-use Jmleroux\JmlShopping\Api\ApiBundle\CategoryService;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
 use Zend\Hydrator\HydratorInterface;
 
 class ProductHydrator implements HydratorInterface
 {
     /**
-     * @var CategoryService
+     * @var CategoryRepository
      */
     protected $categoryService;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryRepository $categoryService)
     {
         $this->categoryService = $categoryService;
     }
@@ -48,16 +48,15 @@ class ProductHydrator implements HydratorInterface
         if (isset($data['name'])) {
             $product->setName($data['name']);
         }
+        if (isset($data['quantity'])) {
+            $product->setQuantity($data['quantity']);
+        }
         if (isset($data['category'])) {
             $category = $this->categoryService->getHydrator()->hydrate($data['category'], new Category());
             $product->setCategory($category);
-        }
-        if (isset($data['category_id'])) {
+        } elseif (isset($data['category_id'])) {
             $category = $this->categoryService->findById($data['category_id']);
             $product->setCategory($category);
-        }
-        if (isset($data['quantity'])) {
-            $product->setQuantity($data['quantity']);
         }
 
         return $product;

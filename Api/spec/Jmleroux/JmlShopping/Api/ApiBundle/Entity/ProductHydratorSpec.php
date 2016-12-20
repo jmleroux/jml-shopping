@@ -2,10 +2,10 @@
 
 namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
-use Jmleroux\JmlShopping\Api\ApiBundle\CategoryService;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\ProductHydrator;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
 use PhpSpec\ObjectBehavior;
 
 class ProductHydratorSpec extends ObjectBehavior
@@ -15,12 +15,12 @@ class ProductHydratorSpec extends ObjectBehavior
         'name'     => 'foo',
         'quantity' => 666,
         'category' => [
-            'id'    => 2,
-            'label' => 'category',
+            'id'   => 2,
+            'name' => 'category',
         ],
     ];
 
-    function let(CategoryService $categoryService)
+    function let(CategoryRepository $categoryService)
     {
         $this->beConstructedWith($categoryService);
     }
@@ -48,7 +48,7 @@ class ProductHydratorSpec extends ObjectBehavior
         $category->getId()
             ->shouldBeCalled()
             ->willReturn(2);
-        $category->getLabel()
+        $category->getName()
             ->shouldBeCalled()
             ->willReturn('category');
 

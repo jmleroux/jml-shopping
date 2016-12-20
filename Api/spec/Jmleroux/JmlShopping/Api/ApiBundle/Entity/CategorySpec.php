@@ -23,10 +23,10 @@ class CategorySpec extends ObjectBehavior
 
     function it_can_set_label()
     {
-        $this->setLabel('foo');
-        $this->getLabel()->shouldReturn('foo');
+        $this->setName('foo');
+        $this->getName()->shouldReturn('foo');
 
-        $this->setLabel('  foo   ');
-        $this->getLabel()->shouldReturn('foo');
+        $this->setName('  foo   ');
+        $this->getName()->shouldReturn('foo');
     }
 }

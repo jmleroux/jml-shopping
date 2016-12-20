@@ -29,7 +29,7 @@ class ProductRow extends React.Component {
 class CategoryOption extends React.Component {
     render() {
         const {category} = this.props;
-        return (<option key={category.id} value={category.id}>{category.label}</option>);
+        return (<option key={category.id} value={category.id}>{category.name}</option>);
     }
 }
 

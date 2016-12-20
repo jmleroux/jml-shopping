@@ -1,11 +1,11 @@
 services:
     jmlshopping.category:
-        class: Jmleroux\JmlShopping\Api\ApiBundle\CategoryService
+        class: Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository
         arguments:
             - '@database_connection'
 
     jmlshopping.product:
-        class: Jmleroux\JmlShopping\Api\ApiBundle\ProductService
+        class: Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository
         arguments:
             - '@database_connection'
             - '@jmlshopping.category'

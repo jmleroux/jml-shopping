@@ -52,6 +52,9 @@ class Product
         return $this->name;
     }
 
+    /**
+     * @param int $quantity
+     */
     public function setQuantity($quantity)
     {
         $this->quantity = (int) $quantity;

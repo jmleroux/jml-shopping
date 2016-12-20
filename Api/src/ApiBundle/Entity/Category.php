@@ -8,19 +8,19 @@ class Category
     protected $id = null;
 
     /** @var string */
-    protected $label = '';
+    protected $name = '';
 
-    public function getLabel()
+    public function getName()
     {
-        return $this->label;
+        return $this->name;
     }
 
     /**
-     * @param string $label
+     * @param string $name
      */
-    public function setLabel($label)
+    public function setName($name)
     {
-        $this->label = trim($label);
+        $this->name = trim($name);
     }
 
     public function getId()

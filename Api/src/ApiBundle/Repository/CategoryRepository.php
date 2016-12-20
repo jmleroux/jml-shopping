@@ -1,12 +1,12 @@
 <?php
 
-namespace Jmleroux\JmlShopping\Api\ApiBundle;
+namespace Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\CategoryHydrator;
 
-class CategoryService
+class CategoryRepository
 {
     const TABLENAME = 'categories';
 
@@ -29,11 +29,11 @@ class CategoryService
     {
         $sql = 'SELECT *
         FROM categories c
-        ORDER BY c.label';
+        ORDER BY c.name';
         $rows = $this->db->fetchAll($sql);
 
         $cleaner = function ($row) {
-            $row['id'] = (int) $row['id'];
+            $row['id'] = (int)$row['id'];
 
             return $row;
         };
@@ -45,7 +45,7 @@ class CategoryService
 
     public function findById($categoryId)
     {
-        $sql = 'SELECT c.id, c.label
+        $sql = 'SELECT c.id, c.name
         FROM categories c
         WHERE c.id = ?';
 
@@ -53,18 +53,18 @@ class CategoryService
         $row = $this->db->fetchAssoc($sql, $values);
 
         $category = new Category();
-        $category->setId((int) $row['id']);
-        $category->setLabel($row['label']);
+        $category->setId((int)$row['id']);
+        $category->setName($row['name']);
 
         return $category;
     }
 
     public function create(Category $category)
     {
-        $sql = 'INSERT INTO categories (id, label)
+        $sql = 'INSERT INTO categories (id, name)
         VALUES (null, ?)';
         $values = [
-            $category->getLabel(),
+            $category->getName(),
         ];
         $rows = $this->db->executeUpdate($sql, $values);
 
@@ -74,10 +74,10 @@ class CategoryService
     public function update(Category $product)
     {
         $sql = 'UPDATE categories
-        SET label = ?
+        SET name = ?
         WHERE id = ?';
         $values = [
-            $product->getLabel(),
+            $product->getName(),
             $product->getId(),
         ];
         $rows = $this->db->executeUpdate($sql, $values);
@@ -87,6 +87,7 @@ class CategoryService
 
     /**
      * @param int $categoryId
+     *
      * @return null
      */
     public function remove($categoryId)

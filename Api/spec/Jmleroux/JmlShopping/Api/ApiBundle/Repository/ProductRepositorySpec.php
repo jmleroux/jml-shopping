@@ -1,29 +1,29 @@
 <?php
 
-namespace spec\Jmleroux\JmlShopping\Api\ApiBundle;
+namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Statement;
-use Jmleroux\JmlShopping\Api\ApiBundle\CategoryService;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
-use Jmleroux\JmlShopping\Api\ApiBundle\ProductService;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository;
 use PDO;
 use PhpSpec\ObjectBehavior;
 
-class ProductServiceSpec extends ObjectBehavior
+class ProductRepositorySpec extends ObjectBehavior
 {
     function let(
         Connection $connection,
-        CategoryService $categoryService
+        CategoryRepository $categoryService
     ) {
         $this->beConstructedWith($connection, $categoryService);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ProductService::class);
+        $this->shouldHaveType(ProductRepository::class);
     }
 
     function it_fetches_all_products(
@@ -34,7 +34,7 @@ class ProductServiceSpec extends ObjectBehavior
         $connection->createQueryBuilder()->willReturn($qb);
 
         $this->prepare_find_query_builder($qb);
-        $qb->orderBy('c.label, p.name')->willReturn($qb);
+        $qb->orderBy('c.name, p.name')->willReturn($qb);
         $qb->execute()->willReturn($statement);
         $statement->fetchAll(PDO::FETCH_ASSOC)->willReturn(['foo']);
 
@@ -46,18 +46,8 @@ class ProductServiceSpec extends ObjectBehavior
         QueryBuilder $qb,
         Statement $statement
     ) {
-        $row = [
-            'id'         => 1,
-            'product'    => 'product-label',
-            'quantity'   => 666,
-            'categoryId' => 10,
-            'label'      => 'category-label',
-            'category'   => [
-                'id'    => 10,
-                'label' => 'category-label',
-            ],
-        ];
-
+        $row = $this->get_row_fixture();
+        $product = $this->get_product_fixture();
         $id = $row['id'];
 
         $connection->createQueryBuilder()->willReturn($qb);
@@ -68,7 +58,7 @@ class ProductServiceSpec extends ObjectBehavior
         $qb->execute()->willReturn($statement);
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
 
-        $this->getProduct($id)->shouldReturn($row);
+        $this->getProduct($id)->shouldReturn($product);
     }
 
     function it_fetch_one_product_by_name(
@@ -76,18 +66,8 @@ class ProductServiceSpec extends ObjectBehavior
         QueryBuilder $qb,
         Statement $statement
     ) {
-        $row = [
-            'id'         => 1,
-            'name'       => 'product-label',
-            'quantity'   => 666,
-            'categoryId' => 10,
-            'label'      => 'category-label',
-            'category'   => [
-                'id'    => 10,
-                'label' => 'category-label',
-            ],
-        ];
-
+        $row = $this->get_row_fixture();
+        $product = $this->get_product_fixture();
         $name = $row['name'];
 
         $connection->createQueryBuilder()->willReturn($qb);
@@ -98,7 +78,7 @@ class ProductServiceSpec extends ObjectBehavior
         $qb->execute()->willReturn($statement);
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
 
-        $this->findByName($name)->shouldReturn($row);
+        $this->findByName($name)->shouldReturn($product);
     }
 
     function it_removes_all_products(Connection $connection)
@@ -117,7 +97,7 @@ class ProductServiceSpec extends ObjectBehavior
     {
         $category = new Category();
         $category->setId(11);
-        $category->setLabel('fooCat');
+        $category->setName('fooCat');
 
         $product = new Product();
         $product->setId(1);
@@ -126,7 +106,7 @@ class ProductServiceSpec extends ObjectBehavior
         $product->setCategory($category);
 
         $sql = 'UPDATE products
-        SET product = ?, category = ?, quantity = ?
+        SET product = ?, category_id = ?, quantity = ?
         WHERE id = ?';
         $values = [
             $product->getName(),
@@ -142,7 +122,7 @@ class ProductServiceSpec extends ObjectBehavior
     {
         $category = new Category();
         $category->setId(11);
-        $category->setLabel('fooCat');
+        $category->setName('fooCat');
 
         $product = new Product();
         $product->setId(1);
@@ -184,11 +164,35 @@ class ProductServiceSpec extends ObjectBehavior
 
     function prepare_find_query_builder(QueryBuilder $qb)
     {
-        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label AS category')->willReturn($qb);
-        $qb->from(ProductService::TABLENAME, 'p')->willReturn($qb);
-        $qb->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')->willReturn($qb);
+        $qb->select('p.id, p.name, p.quantity, p.category_id, c.name AS category')->willReturn($qb);
+        $qb->from(ProductRepository::TABLENAME, 'p')->willReturn($qb);
+        $qb->leftJoin('p', CategoryRepository::TABLENAME, 'c', 'p.category_id = c.id')->willReturn($qb);
 
         return $qb;
     }
 
+    function get_row_fixture()
+    {
+        return [
+            'id'          => 1,
+            'name'        => 'product-name',
+            'quantity'    => 666,
+            'category_id' => 10,
+            'category'    => 'category-name',
+        ];
+    }
+
+    function get_product_fixture()
+    {
+        return [
+            'id'          => 1,
+            'name'        => 'product-name',
+            'quantity'    => 666,
+            'category_id' => 10,
+            'category'    => [
+                'id'   => 10,
+                'name' => 'category-name',
+            ],
+        ];
+    }
 }

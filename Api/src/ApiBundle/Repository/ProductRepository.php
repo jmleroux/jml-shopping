@@ -1,22 +1,22 @@
 <?php
 
-namespace Jmleroux\JmlShopping\Api\ApiBundle;
+namespace Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use PDO;
 
-class ProductService
+class ProductRepository
 {
     const TABLENAME = 'products';
 
     /** @var Connection */
     protected $db;
 
-    /** @var CategoryService */
+    /** @var CategoryRepository */
     protected $categoryService;
 
-    public function __construct(Connection $db, CategoryService $categoryService)
+    public function __construct(Connection $db, CategoryRepository $categoryService)
     {
         $this->db = $db;
         $this->categoryService = $categoryService;
@@ -25,9 +25,9 @@ class ProductService
     protected function getFindQueryBuilder()
     {
         $qb = $this->db->createQueryBuilder();
-        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label AS category')
+        $qb->select('p.id, p.name, p.quantity, p.category_id, c.name AS category')
             ->from(self::TABLENAME, 'p')
-            ->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id');
+            ->leftJoin('p', CategoryRepository::TABLENAME, 'c', 'p.category_id = c.id');
 
         return $qb;
     }
@@ -35,7 +35,7 @@ class ProductService
     public function getAll()
     {
         $qb = $this->getFindQueryBuilder();
-        $qb->orderBy('c.label, p.name');
+        $qb->orderBy('c.name, p.name');
 
         $stmt = $qb->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -53,8 +53,8 @@ class ProductService
 
         if (false !== $row) {
             $row['category'] = [
-                'id'    => $row['categoryId'],
-                'label' => $row['label'],
+                'id'   => $row['category_id'],
+                'name' => $row['category'],
             ];
 
             return $row;
@@ -78,8 +78,8 @@ class ProductService
 
         if (false !== $row) {
             $row['category'] = [
-                'id'    => $row['categoryId'],
-                'label' => $row['label'],
+                'id'   => $row['category_id'],
+                'name' => $row['category'],
             ];
 
             return $row;
@@ -128,7 +128,7 @@ class ProductService
     public function update(Product $product)
     {
         $sql = 'UPDATE products
-        SET product = ?, category = ?, quantity = ?
+        SET product = ?, category_id = ?, quantity = ?
         WHERE id = ?';
         $values = [
             $product->getName(),
