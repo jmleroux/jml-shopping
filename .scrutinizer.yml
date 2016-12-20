@@ -3,10 +3,14 @@ filter:
         - Api/src/*
 
 build:
+    environment:
+        php: 5.6.16
+        
+    project_setup:
+        before:
+            - 'cd Api'
+            - 'composer install'
     tests:
         override:
             -
-                command: './Api/bin/phpspec run -f progress -c ./Api/phpspec-ci.yml'
-                coverage:
-                    file: 'coverage.clover'
-                    format: 'php-clover'
+                command: './bin/phpspec run -f progress'

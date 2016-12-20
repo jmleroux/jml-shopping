@@ -11,8 +11,7 @@
         "zendframework/zend-hydrator": "@stable"
     },
     "require-dev": {
-        "phpspec/phpspec": "@stable",
-        "henrikbjorn/phpspec-code-coverage": "@stable"
+        "phpspec/phpspec": "@stable"
     },
     "config": {
         "bin-dir": "bin"
