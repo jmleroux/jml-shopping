@@ -1,0 +1,6 @@
+extensions:
+  PhpSpecCodeCoverage\CodeCoverageExtension:
+    format:
+      - clover
+    output:
+      clover: coverage.xml
