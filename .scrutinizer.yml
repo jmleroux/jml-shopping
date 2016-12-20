@@ -5,7 +5,8 @@ filter:
 build:
     project_setup:
         before:
-            - "cd Api"
+            - 'cd Api'
+            - 'composer install'
     tests:
         override:
             -
