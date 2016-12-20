@@ -11,7 +11,6 @@ use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use Jmleroux\JmlShopping\Api\ApiBundle\ProductService;
 use PDO;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ProductServiceSpec extends ObjectBehavior
 {
@@ -44,7 +43,7 @@ class ProductServiceSpec extends ObjectBehavior
         $this->getAll()->shouldReturn(['foo']);
     }
 
-    function it_fetch_one_products(
+    function it_fetch_one_product(
         Connection $connection,
         QueryBuilder $qb,
         Statement $statement
@@ -76,13 +75,45 @@ class ProductServiceSpec extends ObjectBehavior
         $this->getProduct($id)->shouldReturn($row);
     }
 
-    function it_removes_all_products($connection)
+    function it_fetch_one_product_by_name(
+        Connection $connection,
+        QueryBuilder $qb,
+        Statement $statement
+    ) {
+        $row = [
+            'id'         => 1,
+            'name'       => 'product-label',
+            'quantity'   => 666,
+            'categoryId' => 10,
+            'label'      => 'category-label',
+            'category'   => [
+                'id'    => 10,
+                'label' => 'category-label',
+            ],
+        ];
+
+        $name = $row['name'];
+
+        $connection->createQueryBuilder()->willReturn($qb);
+
+        $qb->select('p.id, p.name, p.quantity, c.id AS categoryId, c.label')->willReturn($qb);
+        $qb->from(ProductService::TABLENAME, 'p')->willReturn($qb);
+        $qb->leftJoin('p', CategoryService::TABLENAME, 'c', 'p.category_id = c.id')->willReturn($qb);
+        $qb->where('p.name = :name')->willReturn($qb);
+        $qb->setParameter('name', $name, PDO::PARAM_STR)->willReturn($qb);
+        $qb->execute()->willReturn($statement);
+        $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
+
+        $this->findByName($name)->shouldReturn($row);
+    }
+
+    function it_removes_all_products(Connection $connection)
     {
         $connection->executeQuery('DELETE FROM products')->shouldBeCalled();
         $this->removeAll()->shouldReturn(null);
     }
 
-    function it_removes_one_product($connection)
+    function it_removes_one_product(Connection $connection)
     {
         $connection->executeUpdate('DELETE FROM products WHERE id = ?', [1])->shouldBeCalled();
         $this->remove(1)->shouldReturn(null);

@@ -14,3 +14,6 @@ build:
         override:
             -
                 command: './bin/phpspec run -f progress'
+                coverage:
+                    file: 'Api/coverage.xml'
+                    format: 'php-clover'

@@ -5,6 +5,7 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle;
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\CategoryService;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\CategoryHydrator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -18,6 +19,11 @@ class CategoryServiceSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(CategoryService::class);
+    }
+
+    function it_get_category_hydrator()
+    {
+        $this->getHydrator()->shouldHaveType(CategoryHydrator::class);
     }
 
     function it_fetches_all_categories($connection)
