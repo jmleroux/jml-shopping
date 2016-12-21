@@ -20,9 +20,9 @@ class ProductHydratorSpec extends ObjectBehavior
         ],
     ];
 
-    function let(CategoryRepository $categoryService)
+    function let(CategoryRepository $categoryRepository)
     {
-        $this->beConstructedWith($categoryService);
+        $this->beConstructedWith($categoryRepository);
     }
 
     function it_is_initializable()
@@ -33,24 +33,12 @@ class ProductHydratorSpec extends ObjectBehavior
 
     function it_can_extract(Product $product, Category $category)
     {
-        $product->getId()
-            ->shouldBeCalled()
-            ->willReturn(1);
-        $product->getName()
-            ->shouldBeCalled()
-            ->willReturn('foo');
-        $product->getQuantity()
-            ->shouldBeCalled()
-            ->willReturn(666);
-        $product->getCategory()
-            ->shouldBeCalled()
-            ->willReturn($category);
-        $category->getId()
-            ->shouldBeCalled()
-            ->willReturn(2);
-        $category->getName()
-            ->shouldBeCalled()
-            ->willReturn('category');
+        $product->getId()->willReturn(1);
+        $product->getName()->willReturn('foo');
+        $product->getQuantity()->willReturn(666);
+        $product->getCategory()->willReturn($category);
+        $category->getId()->willReturn(2);
+        $category->getName()->willReturn('category');
 
         $this->extract($product)->shouldReturn($this->arrayData);
     }

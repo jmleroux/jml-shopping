@@ -10,11 +10,11 @@ class ProductHydrator implements HydratorInterface
     /**
      * @var CategoryRepository
      */
-    protected $categoryService;
+    protected $categoryRepository;
 
-    public function __construct(CategoryRepository $categoryService)
+    public function __construct(CategoryRepository $categoryRepository)
     {
-        $this->categoryService = $categoryService;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -52,10 +52,10 @@ class ProductHydrator implements HydratorInterface
             $product->setQuantity($data['quantity']);
         }
         if (isset($data['category'])) {
-            $category = $this->categoryService->getHydrator()->hydrate($data['category'], new Category());
+            $category = $this->categoryRepository->getHydrator()->hydrate($data['category'], new Category());
             $product->setCategory($category);
         } elseif (isset($data['category_id'])) {
-            $category = $this->categoryService->findById($data['category_id']);
+            $category = $this->categoryRepository->findById($data['category_id']);
             $product->setCategory($category);
         }
 

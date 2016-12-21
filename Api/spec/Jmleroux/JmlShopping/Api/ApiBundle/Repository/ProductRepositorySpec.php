@@ -16,9 +16,9 @@ class ProductRepositorySpec extends ObjectBehavior
 {
     function let(
         Connection $connection,
-        CategoryRepository $categoryService
+        CategoryRepository $categoryRepository
     ) {
-        $this->beConstructedWith($connection, $categoryService);
+        $this->beConstructedWith($connection, $categoryRepository);
     }
 
     function it_is_initializable()
@@ -61,6 +61,24 @@ class ProductRepositorySpec extends ObjectBehavior
         $this->getProduct($id)->shouldReturn($product);
     }
 
+    function it_returns_null_for_unknown_product(
+        Connection $connection,
+        QueryBuilder $qb,
+        Statement $statement
+    ) {
+        $id = 99;
+
+        $connection->createQueryBuilder()->willReturn($qb);
+
+        $this->prepare_find_query_builder($qb);
+        $qb->where('p.id = :productId')->willReturn($qb);
+        $qb->setParameter('productId', $id, PDO::PARAM_INT)->willReturn($qb);
+        $qb->execute()->willReturn($statement);
+        $statement->fetch(PDO::FETCH_ASSOC)->willReturn(false);
+
+        $this->getProduct($id)->shouldReturn(null);
+    }
+
     function it_fetch_one_product_by_name(
         Connection $connection,
         QueryBuilder $qb,
@@ -79,6 +97,24 @@ class ProductRepositorySpec extends ObjectBehavior
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
 
         $this->findByName($name)->shouldReturn($product);
+    }
+
+    function it_returns_nul_for_unknown_name(
+        Connection $connection,
+        QueryBuilder $qb,
+        Statement $statement
+    ) {
+        $name = 'unknown';
+
+        $connection->createQueryBuilder()->willReturn($qb);
+
+        $this->prepare_find_query_builder($qb);
+        $qb->where('p.name = :name')->willReturn($qb);
+        $qb->setParameter('name', $name, PDO::PARAM_STR)->willReturn($qb);
+        $qb->execute()->willReturn($statement);
+        $statement->fetch(PDO::FETCH_ASSOC)->willReturn(false);
+
+        $this->findByName($name)->shouldReturn(null);
     }
 
     function it_removes_all_products(Connection $connection)
