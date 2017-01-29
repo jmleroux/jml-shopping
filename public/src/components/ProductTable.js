@@ -2,7 +2,11 @@ import * as React from "react";
 
 class ProductRow extends React.Component {
 
-    handleClick(product) {
+    onEdit(product) {
+        this.props.editAction(product);
+    }
+
+    onDelete(product) {
         this.props.deleteAction(product);
     }
 
@@ -14,10 +18,10 @@ class ProductRow extends React.Component {
                 <td className="product-category">{product.category}</td>
                 <td className="product-quantity">{product.quantity}</td>
                 <td className="product-operations">
-                    <button type="button" className="btn btn-default btn-xs">
+                    <button type="button" className="btn btn-default btn-xs" onClick={() => this.onEdit(product)}>
                         <span className="glyphicon glyphicon-edit"/>
                     </button>
-                    <button type="button" className="btn btn-default btn-xs" onClick={() => this.handleClick(product)}>
+                    <button type="button" className="btn btn-default btn-xs" onClick={() => this.onDelete(product)}>
                         <span className="glyphicon glyphicon-trash"/>
                     </button>
                 </td>
@@ -34,6 +38,11 @@ class CategoryOption extends React.Component {
 }
 
 export default class ProductTable extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {product: props.product};
+    }
+
     componentDidMount() {
         const {username} = this.props;
         if (username) {
@@ -42,18 +51,14 @@ export default class ProductTable extends React.Component {
     }
 
     handleClick() {
-        this.props.addProduct(this.props.product);
+        this.props.addProduct(this.state.product);
         this.props.listProducts();
-        const htmlElements = document.getElementsByTagName("input");
-        const elements = Array.prototype.slice.call(htmlElements);
-        elements.forEach(element => {
-            element.value = ''
-        });
+        this.props.product.name = '';
     }
 
     handleChange(event) {
         const inputName = event.target.name;
-        this.props.product[inputName] = event.target.value;
+        this.state.product[inputName] = event.target.value;
     }
 
     render() {
@@ -76,11 +81,13 @@ export default class ProductTable extends React.Component {
                         <td><input type='text'
                                    className='form-control todo__entry'
                                    name='name'
+                                   value={this.state.product.name}
                                    onChange={(event) => this.handleChange(event)}
                         /></td>
                         <td>
                             <select className="form-control"
                                     name="category_id"
+                                    value={this.state.product.category_id}
                                     onChange={(event) => this.handleChange(event)}>
                                 {categories.push(<CategoryOption key="0" category={[]}/>)}
                                 {this.props.categories.forEach((category) => {
@@ -92,6 +99,7 @@ export default class ProductTable extends React.Component {
                         <td><input type="number"
                                    className='form-control todo__quantity'
                                    name='quantity'
+                                   value={this.state.product.quantity}
                                    onChange={(event) => this.handleChange(event)}/></td>
                         <td>
                             <button type="submit" className="btn btn-default btn-sm" onClick={() => this.handleClick()}>
@@ -105,6 +113,7 @@ export default class ProductTable extends React.Component {
                             rows.push(<ProductRow key={product.id}
                                                   product={product}
                                                   categories={this.props.categories}
+                                                  editAction={this.props.editProduct}
                                                   deleteAction={this.props.deleteProduct}/>);
                         }
                     )}

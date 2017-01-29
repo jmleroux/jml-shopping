@@ -39,6 +39,8 @@ const productsReducer = (state = initProducts, action) => {
     switch (action.type) {
         case 'PRODUCT_LIST_RESPONSE':
             return Object.assign({}, state, {products: action.data.products});
+        case 'PRODUCT_EDIT':
+            return Object.assign({}, state, {product: action.data.product});
         case 'PRODUCT_ADD':
             fetch(apiBase + "/product",
                 {

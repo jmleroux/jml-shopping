@@ -13,14 +13,8 @@ export const login = (username, password) => {
         })
             .then(response => {
                 response.json()
-                    .then(result => {
-                        dispatch(loginResponse(response.status, result))
-                    })
-                    .then(() => {
-                        if (response.ok) {
-                            dispatch(listProducts());
-                        }
-                    })
+                    .then(result => dispatch(loginResponse(response.status, result)))
+                    .then(() => dispatch(listProducts()))
             });
     }
 };
@@ -45,7 +39,7 @@ export const listProducts = () => {
     return dispatch => {
         dispatch(listProductsRequest());
 
-        fetch(apiBase + "/products", {
+        return fetch(apiBase + "/products", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -54,13 +48,13 @@ export const listProducts = () => {
             method: "GET"
         })
             .then(response => {
-                return response.json();
-            })
-            .then(json => {
-                dispatch(listProductsResponse(json));
-            })
-            .then(() => {
-                dispatch(listCategories());
+                if (response.ok) {
+                    return response.json()
+                        .then(json => dispatch(listProductsResponse(json)))
+                        .then(() => dispatch(listCategories()))
+                } else {
+                    return dispatch(logout());
+                }
             });
     }
 };
@@ -87,6 +81,13 @@ export const addProduct = (product) => ({
     }
 });
 
+export const editProduct = (product) => ({
+    type: 'PRODUCT_EDIT',
+    data: {
+        product: product,
+    }
+});
+
 export const deleteProduct = (product) => ({
     type: 'PRODUCT_DELETE',
     data: product
@@ -97,7 +98,7 @@ export const listCategories = () => {
     return function (dispatch) {
         dispatch(listCategoriesRequest());
 
-        fetch(apiBase + "/categories", {
+        return fetch(apiBase + "/categories", {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -105,12 +106,8 @@ export const listCategories = () => {
             },
             method: "GET"
         })
-            .then(response => {
-                return response.json();
-            })
-            .then(json => {
-                dispatch(listCategoriesResponse(json));
-            });
+            .then(response => response.json())
+            .then(json => dispatch(listCategoriesResponse(json)))
     }
 };
 

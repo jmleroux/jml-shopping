@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import NavbarComponent from './components/Navbar';
 import ProductTableComponent from './components/ProductTable';
-import {login, logout, listProducts, addProduct, deleteProduct} from './actions';
+import {login, logout, listProducts, addProduct, editProduct, deleteProduct} from './actions';
 
 export const ProductTable = connect(
     (state) => ({
@@ -12,6 +12,7 @@ export const ProductTable = connect(
     }),
     (dispatch) => ({
         listProducts: () => dispatch(listProducts()),
+        editProduct: (product) => dispatch(editProduct(product)),
         addProduct: (text, category, quantity) => dispatch(addProduct(text, category, quantity)),
         deleteProduct: id => dispatch(deleteProduct(id))
     })
