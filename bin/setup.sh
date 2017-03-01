@@ -10,3 +10,4 @@ cd $dataDirectory;
 echo `pwd`;
 
 sqlite3 $dataDirectory/$dbName < setup-db.sql;
+sqlite3 $dataDirectory/$dbName < fixtures-fr.sql;

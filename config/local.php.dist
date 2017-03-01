@@ -2,6 +2,7 @@
 return array(
     'app' => array(
         'debug' => true,
+        // seed must be 16 characters long
         'seed' => 'override the application token seed',
     ),
 );

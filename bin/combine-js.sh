@@ -10,7 +10,7 @@ inlineJs=$publicDirectory/jmlshopping.js;
 cd $srcDirectory;
 
 cat angular.min.js              \
-    angular-route.min.js        \
+    angular-route.js        \
     ui-bootstrap-tpls.min.js    \
 > $headerJs;
 
