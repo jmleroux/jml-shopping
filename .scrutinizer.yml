@@ -3,6 +3,9 @@ filter:
         - src/*
 
 build:
+    environment:
+        php:
+            version: 5.6, 7.1
     tests:
         override:
             -
