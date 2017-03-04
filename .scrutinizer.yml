@@ -5,7 +5,7 @@ filter:
 build:
     environment:
         php:
-            version: 5.6, 7.1
+            version: 7.1
     tests:
         override:
             -
@@ -13,3 +13,7 @@ build:
                 coverage:
                     file: 'coverage.clover'
                     format: 'php-clover'
+
+tools:
+    php_cs_fixer:
+        config: { level: psr2 }
