@@ -1,0 +1,19 @@
+{
+  "name": "jmleroux/jmlshopping",
+  "version": "1.0.0",
+  "description": "A simple shopping list to play with JS frameworks",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmleroux/jml-shopping.git"
+  },
+  "author": "JM Leroux <jmleroux.pro@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmleroux/jml-shopping/issues"
+  },
+  "homepage": "https://github.com/jmleroux/jml-shopping#readme",
+  "devDependencies": {
+    "webpack": "^2.2.1"
+  }
+}

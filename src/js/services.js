@@ -1,4 +1,6 @@
-var services = angular.module('shoppingServices', []);
+require('./angular');
+
+const services = angular.module('shoppingServices', []);
 
 services.factory('userService', function () {
     var userService = {
@@ -11,3 +13,5 @@ services.factory('userService', function () {
     };
     return userService;
 });
+
+module.exports = services;

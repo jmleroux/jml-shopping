@@ -1,3 +1,6 @@
+require('./angular');
+require('./services');
+
 var shoppingList = angular.module('shoppingListControllers', ['shoppingServices']);
 
 shoppingList.controller('ProductListCtrl', ['$scope', '$http', 'userService', '$filter',
@@ -141,3 +144,5 @@ shoppingList.controller('FooterCtrl', ['$scope',
         $scope.getDatetime = new Date;
     }
 ]);
+
+module.exports = shoppingList;

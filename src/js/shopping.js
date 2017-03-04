@@ -1,4 +1,9 @@
-var shoppingApp = angular.module('shoppingApp', [
+require('./angular');
+require('./angular-route');
+require('./ui-bootstrap-tpls.min');
+require('./controllers');
+
+const shoppingApp = angular.module('shoppingApp', [
     'ngRoute',
     'ui.bootstrap',
     'shoppingListControllers'
@@ -51,3 +56,5 @@ shoppingApp.directive('focusMe', function ($timeout) {
         }
     };
 });
+
+module.exports = shoppingApp;
