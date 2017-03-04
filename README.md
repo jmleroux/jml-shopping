@@ -1,5 +1,5 @@
 # jml-shopping
-A simple shopping list to play with JS frameworks
+A simple shopping list to play with JS frameworks - Angular1 branch
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jmleroux/jml-shopping/badges/quality-score.png?b=1.0)]
 (https://scrutinizer-ci.com/g/jmleroux/jml-shopping/?branch=1.0)
