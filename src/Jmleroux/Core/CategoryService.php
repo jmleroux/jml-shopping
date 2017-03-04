@@ -31,7 +31,7 @@ class CategoryService
         $rows = $this->db->fetchAll($sql);
 
         $cleaner = function ($row) {
-            $row['id'] = (int) $row['id'];
+            $row['id'] = (int)$row['id'];
 
             return $row;
         };
@@ -51,7 +51,7 @@ class CategoryService
         $row = $this->db->fetchAssoc($sql, $values);
 
         $category = new Category();
-        $category->setId((int) $row['id']);
+        $category->setId((int)$row['id']);
         $category->setLabel($row['label']);
 
         return $category;
@@ -85,6 +85,7 @@ class CategoryService
 
     /**
      * @param int $categoryId
+     *
      * @return null
      */
     public function remove($categoryId)

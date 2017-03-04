@@ -18,6 +18,7 @@ class ProductHydrator implements HydratorInterface
 
     /**
      * @param Product $product
+     *
      * @return array
      */
     public function extract($product)
@@ -25,16 +26,17 @@ class ProductHydrator implements HydratorInterface
         $categoryHydrator = new CategoryHydrator();
 
         return [
-            'id' => $product->getId(),
-            'product' => $product->getProduct(),
+            'id'       => $product->getId(),
+            'product'  => $product->getProduct(),
             'quantity' => $product->getQuantity(),
             'category' => $categoryHydrator->extract($product->getCategory()),
         ];
     }
 
     /**
-     * @param array $data
+     * @param array   $data
      * @param Product $product
+     *
      * @return object
      */
     public function hydrate(array $data, $product)

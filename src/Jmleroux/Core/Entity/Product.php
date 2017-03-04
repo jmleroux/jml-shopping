@@ -30,7 +30,7 @@ class Product
      */
     public function setId($id)
     {
-        $this->id = (int) $id;
+        $this->id = (int)$id;
     }
 
     public function getId()
@@ -53,7 +53,7 @@ class Product
 
     public function setQuantity($quantity)
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = (int)$quantity;
     }
 
     public function getQuantity()

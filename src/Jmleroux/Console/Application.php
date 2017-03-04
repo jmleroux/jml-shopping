@@ -19,7 +19,7 @@ class Application extends Api\Application
         parent::registerProviders();
 
         $this->register(new ConsoleServiceProvider(), [
-            'console.name' => 'MyConsole',
+            'console.name'    => 'MyConsole',
             'console.version' => '2.1'
         ]);
     }

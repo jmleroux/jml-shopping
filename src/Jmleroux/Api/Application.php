@@ -77,8 +77,8 @@ class Application extends Silex\Application
     {
         /** @var RequestStack $requestStack */
         $requestStack = $this['request_stack'];
-        $request      = $requestStack->getCurrentRequest();
-        $token        = $request->headers->get('x-token');
+        $request = $requestStack->getCurrentRequest();
+        $token = $request->headers->get('x-token');
         if (!$token) {
             return false;
         };

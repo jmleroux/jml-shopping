@@ -54,7 +54,7 @@ class ProductService
         $row = $this->db->fetchAssoc($sql, $values);
 
         $row['category'] = [
-            'id' => $row['categoryId'],
+            'id'    => $row['categoryId'],
             'label' => $row['label']
         ];
 
@@ -66,6 +66,7 @@ class ProductService
 
     /**
      * @param int $productId
+     *
      * @return null
      */
     public function remove($productId)

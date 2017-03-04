@@ -36,11 +36,10 @@ class UserDelete extends Command
             $message = sprintf('User "%s" deleted', $login);
             $app->getService('monolog')->addDebug($message);
             $output->writeln($message);
-        }
-        catch (UniqueConstraintViolationException $e) {
+        } catch (UniqueConstraintViolationException $e) {
             $message = 'User not found in database.';
             $app->getService('monolog')->addDebug($message);
-            $output->writeln('<error>'.$message.'</error>');
+            $output->writeln('<error>' . $message . '</error>');
         }
     }
 }

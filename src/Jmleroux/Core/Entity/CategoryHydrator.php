@@ -7,21 +7,23 @@ class CategoryHydrator implements HydratorInterface
 {
     /**
      * @param Category $category
+     *
      * @return array
      */
     public function extract($category)
     {
         /** @var Category $category */
-        return array(
+        return [
             'id'    => $category->getId(),
             'label' => $category->getLabel(),
-        );
+        ];
     }
 
     /**
      * @param array    $data
      * @param Category $category
-     * @return object
+     *
+     * @return Category
      */
     public function hydrate(array $data, $category)
     {
