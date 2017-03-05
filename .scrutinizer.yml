@@ -4,7 +4,7 @@ filter:
 
 build:
     environment:
-        php: 5.6.16
+        php: 7.1
 
     project_setup:
         before:

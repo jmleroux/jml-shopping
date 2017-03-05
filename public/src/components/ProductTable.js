@@ -38,9 +38,19 @@ class CategoryOption extends React.Component {
 }
 
 export default class ProductTable extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = {product: props.product};
+
+        this.emptyProduct = {
+            id: null,
+            name: '',
+            quantity: 0,
+        };
+
+        this.state = {product: Object.assign({}, this.emptyProduct)};
+        this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
@@ -53,12 +63,14 @@ export default class ProductTable extends React.Component {
     handleClick() {
         this.props.addProduct(this.state.product);
         this.props.listProducts();
-        this.props.product.name = '';
+        this.setState({product: Object.assign({}, this.emptyProduct)});
     }
 
     handleChange(event) {
+        const product = this.state.product;
         const inputName = event.target.name;
-        this.state.product[inputName] = event.target.value;
+        product[inputName] = event.target.value;
+        this.setState({product: product});
     }
 
     render() {
@@ -82,13 +94,13 @@ export default class ProductTable extends React.Component {
                                    className='form-control todo__entry'
                                    name='name'
                                    value={this.state.product.name}
-                                   onChange={(event) => this.handleChange(event)}
+                                   onChange={this.handleChange}
                         /></td>
                         <td>
                             <select className="form-control"
                                     name="category_id"
                                     value={this.state.product.category_id}
-                                    onChange={(event) => this.handleChange(event)}>
+                                    onChange={this.handleChange}>
                                 {categories.push(<CategoryOption key="0" category={[]}/>)}
                                 {this.props.categories.forEach((category) => {
                                     categories.push(<CategoryOption key={category.id} category={category}/>)
@@ -100,7 +112,8 @@ export default class ProductTable extends React.Component {
                                    className='form-control todo__quantity'
                                    name='quantity'
                                    value={this.state.product.quantity}
-                                   onChange={(event) => this.handleChange(event)}/></td>
+                                   onChange={this.handleChange}/>
+                        </td>
                         <td>
                             <button type="submit" className="btn btn-default btn-sm" onClick={() => this.handleClick()}>
                                 <span className="glyphicon glyphicon-ok-circle"/>

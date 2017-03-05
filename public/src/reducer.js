@@ -31,7 +31,11 @@ const authReducer = (state = initAuth, action) => {
 };
 
 const initProducts = {
-    product: {},
+    product: {
+        id: null,
+        name: '',
+        quantity: 0
+    },
     products: []
 };
 

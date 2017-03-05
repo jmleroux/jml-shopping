@@ -122,4 +122,3 @@ export const listCategoriesResponse = (json) => ({
         categories: json
     }
 });
-

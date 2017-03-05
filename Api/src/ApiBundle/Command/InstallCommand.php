@@ -21,5 +21,10 @@ class InstallCommand extends ContainerAwareCommand
         $cmd = sprintf('sqlite3 %s < %s', $dbPath, $fixtures);
         $output->writeln(sprintf('Execute command <info>"%s"</info>', $cmd));
         exec($cmd);
+
+        $fixtures = $this->getContainer()->getParameter('kernel.root_dir') . '/app/Resources/fixtures-fr.sql';
+        $cmd = sprintf('sqlite3 %s < %s', $dbPath, $fixtures);
+        $output->writeln(sprintf('Execute command <info>"%s"</info>', $cmd));
+        exec($cmd);
     }
 }
