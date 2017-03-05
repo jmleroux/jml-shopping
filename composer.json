@@ -5,7 +5,7 @@
     "require": {
         "php": ">=5.6",
         "doctrine/dbal": "@stable",
-        "silex/silex": "~2.0@dev",
+        "silex/silex": "~2.0",
         "defuse/php-encryption": "~1.2",
         "zendframework/zend-hydrator": "@stable",
         "cilex/console-service-provider": "~2.0@dev",
