@@ -13,7 +13,7 @@
     },
     "require-dev": {
         "phpspec/phpspec": "@stable",
-        "henrikbjorn/phpspec-code-coverage": "^2.0"
+        "leanphp/phpspec-code-coverage": "@stable"
     },
     "config": {
         "bin-dir": "bin"
