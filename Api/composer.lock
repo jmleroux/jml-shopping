@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "420d3d5ef52c11bf37efc21c538f5ee6",
+    "content-hash": "6d670b6a76a8c0d6eb32bacdc9508cf4",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1687,47 +1687,68 @@
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
-            "name": "henrikbjorn/phpspec-code-coverage",
-            "version": "3.0.1",
+            "name": "leanphp/phpspec-code-coverage",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/henrikbjorn/PhpSpecCodeCoverageExtension.git",
-                "reference": "4e878b81c0d28494882ecb7e9403ac5cbaa6cc1b"
+                "url": "https://github.com/leanphp/phpspec-code-coverage.git",
+                "reference": "2f66eb6fbca15761e6029ded9dbe3e277c7093d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/henrikbjorn/PhpSpecCodeCoverageExtension/zipball/4e878b81c0d28494882ecb7e9403ac5cbaa6cc1b",
-                "reference": "4e878b81c0d28494882ecb7e9403ac5cbaa6cc1b",
+                "url": "https://api.github.com/repos/leanphp/phpspec-code-coverage/zipball/2f66eb6fbca15761e6029ded9dbe3e277c7093d6",
+                "reference": "2f66eb6fbca15761e6029ded9dbe3e277c7093d6",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5|^5.6|^7.0",
-                "phpspec/phpspec": "^3.0",
-                "phpunit/php-code-coverage": "^4.0"
+                "php": "~5.6||~7.0",
+                "phpspec/phpspec": "~3.0",
+                "phpunit/php-code-coverage": "~4.0||~5.0"
             },
             "require-dev": {
-                "bossa/phpspec2-expect": "dev-master"
+                "bossa/phpspec2-expect": "~2.0"
             },
             "suggest": {
-                "ext-xdebug": "To allow coverage generation when not using a recent version of phpdbg"
+                "ext-xdebug": "Install Xdebug to generate phpspec code coverage if you are not using phpdbg"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
-                    "PhpSpecCodeCoverage\\": "src/"
+                    "LeanPHP\\PhpSpec\\CodeCoverage\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "description": "Integrates CodeCoverage with PhpSpec",
-            "time": "2016-08-02T06:07:43+00:00"
+            "authors": [
+                {
+                    "name": "ek9",
+                    "email": "dev@ek9.co",
+                    "homepage": "https://ek9.co"
+                },
+                {
+                    "name": "Henrik Bjornskov"
+                }
+            ],
+            "description": "Generate Code Coverage reports for PhpSpec tests",
+            "homepage": "https://github.com/leanphp/phpspec-code-coverage",
+            "keywords": [
+                "build",
+                "clover",
+                "code",
+                "code-coverage",
+                "coverage",
+                "generate",
+                "generation",
+                "phpspec",
+                "report",
+                "reports",
+                "spec",
+                "test",
+                "tests"
+            ],
+            "time": "2017-02-21T02:54:14+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2060,32 +2081,32 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "4.0.7",
+            "version": "5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "09e2277d14ea467e5a984010f501343ef29ffc69"
+                "reference": "531553c4795a1df54114342d68ca337d5d81c8a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/09e2277d14ea467e5a984010f501343ef29ffc69",
-                "reference": "09e2277d14ea467e5a984010f501343ef29ffc69",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/531553c4795a1df54114342d68ca337d5d81c8a0",
+                "reference": "531553c4795a1df54114342d68ca337d5d81c8a0",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-xmlwriter": "*",
-                "php": "^5.6 || ^7.0",
+                "php": "^7.0",
                 "phpunit/php-file-iterator": "^1.3",
                 "phpunit/php-text-template": "^1.2",
-                "phpunit/php-token-stream": "^1.4.2 || ^2.0",
+                "phpunit/php-token-stream": "^1.4.11 || ^2.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0",
-                "sebastian/environment": "^1.3.2 || ^2.0",
-                "sebastian/version": "^1.0 || ^2.0"
+                "sebastian/environment": "^2.0",
+                "sebastian/version": "^2.0"
             },
             "require-dev": {
-                "ext-xdebug": "^2.1.4",
-                "phpunit/phpunit": "^5.7"
+                "ext-xdebug": "^2.5",
+                "phpunit/phpunit": "^6.0"
             },
             "suggest": {
                 "ext-xdebug": "^2.5.1"
@@ -2093,7 +2114,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "5.0.x-dev"
                 }
             },
             "autoload": {
@@ -2119,7 +2140,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-03-01T09:12:17+00:00"
+            "time": "2017-03-01T09:14:18+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2691,12 +2712,12 @@
         "symfony/monolog-bundle": 0,
         "zendframework/zend-hydrator": 0,
         "phpspec/phpspec": 0,
-        "henrikbjorn/phpspec-code-coverage": 0
+        "leanphp/phpspec-code-coverage": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6"
+        "php": ">=7.0"
     },
     "platform-dev": []
 }

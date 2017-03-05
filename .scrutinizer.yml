@@ -4,7 +4,7 @@ filter:
 
 build:
     environment:
-        php: 7.1
+        php: 7.1.0
 
     project_setup:
         before:
@@ -17,3 +17,7 @@ build:
                 coverage:
                     file: 'Api/coverage.xml'
                     format: 'php-clover'
+
+tools:
+    php_cs_fixer:
+        config: { level: psr2 }
