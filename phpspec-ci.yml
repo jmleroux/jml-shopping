@@ -1,9 +1,6 @@
 extensions:
-  - PhpSpec\Extension\CodeCoverageExtension
-code_coverage:
-  blacklist: []
-  whitelist: []
-  format:
-    - clover
-  output:
-    clover: coverage.clover
+    LeanPHP\PhpSpec\CodeCoverage\CodeCoverageExtension:
+        format:
+            - clover
+        output:
+            clover: coverage.xml

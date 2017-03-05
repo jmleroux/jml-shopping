@@ -3,9 +3,9 @@
     "description": "My shopping list",
     "homepage": "https://github.com/jmleroux/jml-shopping",
     "require": {
-        "php": ">=5.6",
+        "php": ">=7.0",
         "doctrine/dbal": "@stable",
-        "silex/silex": "~2.0@dev",
+        "silex/silex": "~2.0",
         "defuse/php-encryption": "~1.2",
         "zendframework/zend-hydrator": "@stable",
         "cilex/console-service-provider": "~2.0@dev",
@@ -13,7 +13,7 @@
     },
     "require-dev": {
         "phpspec/phpspec": "@stable",
-        "henrikbjorn/phpspec-code-coverage": "^2.0"
+        "leanphp/phpspec-code-coverage": "@stable"
     },
     "config": {
         "bin-dir": "bin"
