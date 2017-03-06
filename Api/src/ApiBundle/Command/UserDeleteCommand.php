@@ -31,10 +31,9 @@ class UserDeleteCommand extends ContainerAwareCommand
             $userService->deleteUser($login);
             $message = sprintf('User "%s" deleted', $login);
             $output->writeln($message);
-        }
-        catch (DBALException $e) {
+        } catch (DBALException $e) {
             $message = 'User not found in database.';
-            $output->writeln('<error>'.$message.'</error>');
+            $output->writeln('<error>' . $message . '</error>');
         }
     }
 }

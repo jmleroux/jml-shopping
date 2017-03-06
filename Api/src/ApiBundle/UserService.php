@@ -43,7 +43,7 @@ class UserService
 
         $authenticationResult = [
             'username' => $username,
-            'token' => '',
+            'token'    => '',
         ];
         if (!empty($row)) {
             $verified = password_verify($password, $row['password']);

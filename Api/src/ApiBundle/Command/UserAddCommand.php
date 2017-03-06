@@ -37,10 +37,9 @@ class UserAddCommand extends ContainerAwareCommand
             $userService->createUser($login, $password);
             $message = sprintf('User "%s" created with password "%s"', $login, $password);
             $output->writeln($message);
-        }
-        catch (DBALException $e) {
+        } catch (DBALException $e) {
             $message = 'User already in database.';
-            $output->writeln('<error>'.$message.'</error>');
+            $output->writeln('<error>' . $message . '</error>');
         }
     }
 }

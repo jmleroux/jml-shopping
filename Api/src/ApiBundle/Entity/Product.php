@@ -57,7 +57,7 @@ class Product
      */
     public function setQuantity($quantity)
     {
-        $this->quantity = (int) $quantity;
+        $this->quantity = (int)$quantity;
     }
 
     public function getQuantity()
