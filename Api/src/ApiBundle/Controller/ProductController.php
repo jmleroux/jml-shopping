@@ -79,6 +79,15 @@ class ProductController extends Controller
         return $response;
     }
 
+    public function truncateAction()
+    {
+        $repo = $this->get('jmlshopping.product');
+        $result = $repo->removeAll();
+        $response = new JsonResponse($result);
+
+        return $response;
+    }
+
     private function validateProductData($data)
     {
         if (!isset($data['name']) || empty($data['name'])) {

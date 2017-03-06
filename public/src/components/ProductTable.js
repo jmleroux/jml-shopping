@@ -49,7 +49,6 @@ export default class ProductTable extends React.Component {
         };
 
         this.state = {product: Object.assign({}, this.emptyProduct)};
-        this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -62,7 +61,6 @@ export default class ProductTable extends React.Component {
 
     handleClick() {
         this.props.addProduct(this.state.product);
-        this.props.listProducts();
         this.setState({product: Object.assign({}, this.emptyProduct)});
     }
 

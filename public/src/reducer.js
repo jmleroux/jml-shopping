@@ -45,18 +45,6 @@ const productsReducer = (state = initProducts, action) => {
             return Object.assign({}, state, {products: action.data.products});
         case 'PRODUCT_EDIT':
             return Object.assign({}, state, {product: action.data.product});
-        case 'PRODUCT_ADD':
-            fetch(apiBase + "/product",
-                {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': localStorage.getItem('jmlshopping.token')
-                    },
-                    method: "POST",
-                    body: JSON.stringify(action.data)
-                });
-            return state;
         case 'PRODUCT_DELETE':
             if (confirm('Delete product ' + action.data.name + '?')) {
                 fetch(apiBase + "/product/" + action.data.id, {
@@ -68,6 +56,19 @@ const productsReducer = (state = initProducts, action) => {
                     method: "DELETE"
                 });
                 return Object.assign({}, state, {products: state.products.filter(item => item.id !== action.data.id)});
+            }
+            return state;
+        case 'PRODUCT_CLEAR_ALL':
+            if (confirm('Delete all prooducts?')) {
+                fetch(apiBase + "/products", {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': localStorage.getItem('jmlshopping.token')
+                    },
+                    method: "DELETE"
+                });
+                return Object.assign({}, state, {products: []});
             }
             return state;
         default:

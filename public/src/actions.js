@@ -59,6 +59,29 @@ export const listProducts = () => {
     }
 };
 
+export const refreshProducts = () => {
+    return dispatch => {
+        dispatch(listProductsRequest());
+
+        return fetch(apiBase + "/products", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-AUTH-TOKEN': localStorage.getItem('jmlshopping.token')
+            },
+            method: "GET"
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                        .then(json => dispatch(listProductsResponse(json)))
+                } else {
+                    return dispatch(logout());
+                }
+            });
+    }
+};
+
 const listProductsRequest = () => ({
     type: 'PRODUCT_LIST_START',
     data: null
@@ -71,15 +94,22 @@ export const listProductsResponse = (json) => ({
     }
 });
 
-export const addProduct = (product) => ({
-    type: 'PRODUCT_ADD',
-    data: {
-        id: uid(),
-        name: product.name,
-        category_id: product.category_id,
-        quantity: product.quantity
+export const addProduct = (product) => {
+    return function (dispatch) {
+        product.id = uid();
+
+        return fetch(apiBase + "/product", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-AUTH-TOKEN': localStorage.getItem('jmlshopping.token')
+            },
+            method: "POST",
+            body: JSON.stringify(product)
+        })
+            .then(dispatch(refreshProducts()))
     }
-});
+};
 
 export const editProduct = (product) => ({
     type: 'PRODUCT_EDIT',
@@ -121,4 +151,9 @@ export const listCategoriesResponse = (json) => ({
     data: {
         categories: json
     }
+});
+
+export const clearAll = () => ({
+    type: 'PRODUCT_CLEAR_ALL',
+    data: null
 });

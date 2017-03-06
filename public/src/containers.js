@@ -1,7 +1,8 @@
 import {connect} from 'react-redux';
 import NavbarComponent from './components/Navbar';
 import ProductTableComponent from './components/ProductTable';
-import {login, logout, listProducts, addProduct, editProduct, deleteProduct} from './actions';
+import FooterComponent from './components/Footer';
+import {login, logout, listProducts, addProduct, editProduct, deleteProduct, clearAll} from './actions';
 
 export const ProductTable = connect(
     (state) => ({
@@ -25,3 +26,10 @@ export const Navbar = connect(
         logout: () => dispatch(logout())
     })
 )(NavbarComponent);
+
+export const Footer = connect(
+    (state) => ({username: state.auth.username}),
+    (dispatch) => ({
+        clearAll: () => dispatch(clearAll()),
+    })
+)(FooterComponent);

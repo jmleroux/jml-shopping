@@ -30,6 +30,11 @@ product_delete:
     defaults: { _controller: ApiBundle:Product:delete }
     methods: [DELETE]
 
+product_clear_all:
+    path: /products
+    defaults: { _controller: ApiBundle:Product:truncate }
+    methods: [DELETE]
+
 category_list:
     path: /categories
     defaults: { _controller: ApiBundle:Category:list }

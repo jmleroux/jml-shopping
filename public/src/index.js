@@ -7,7 +7,7 @@ import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux';
 
 import reducer from './reducer';
-import {ProductTable, Navbar} from './containers';
+import {ProductTable, Navbar, Footer} from './containers';
 
 const loggerMiddleware = createLogger();
 
@@ -31,4 +31,11 @@ render(
         <ProductTable />
     </Provider>,
     document.getElementById("product-list")
+);
+
+render(
+    <Provider store={store}>
+        <Footer />
+    </Provider>,
+    document.getElementById("footer")
 );
