@@ -7,7 +7,6 @@ use Jmleroux\JmlShopping\Api\ApiBundle\Entity\User;
 use Jmleroux\JmlShopping\Api\ApiBundle\Security\UserProvider;
 use Jmleroux\JmlShopping\Api\ApiBundle\UserService;
 use PhpSpec\ObjectBehavior;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProviderSpec extends ObjectBehavior
