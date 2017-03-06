@@ -4,3 +4,7 @@ extensions:
             - clover
         output:
             clover: coverage.xml
+        blacklist:
+            - src/ApiBundle/Controller
+        blacklist_files:
+            - src/MicroKernel.php
