@@ -1,5 +1,5 @@
 # jml-shopping
-A simple shopping list to play with JS frameworks
+A simple shopping list to play with JS frameworks - React branch
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jmleroux/jml-shopping/badges/quality-score.png?b=master)]
 (https://scrutinizer-ci.com/g/jmleroux/jml-shopping/?branch=master)
