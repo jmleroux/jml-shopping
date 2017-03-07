@@ -6,6 +6,6 @@ return array(
     ),
     'db.options' => array(
         'driver' => 'pdo_sqlite',
-        'path' => __DIR__ . '/../data/shopping.sqlite3',
+        'path' => __DIR__ . '/../var/shopping.sqlite3',
     ),
 );

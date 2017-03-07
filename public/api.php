@@ -7,9 +7,9 @@ use Jmleroux\Core\ProductService;
 use Jmleroux\Core\UserService;
 use Symfony\Component\HttpFoundation\Request;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../Api/vendor/autoload.php';
 
-$config = include __DIR__ . '/../config/global.php';
+$config = include __DIR__ . '/../Api/config/global.php';
 
 $app = new Application($config);
 

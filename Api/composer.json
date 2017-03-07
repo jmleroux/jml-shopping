@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Jmleroux\\": "src/Jmleroux"
+            "Jmleroux\\": "src/Jmleroux",
+            "spec\\": "spec"
         }
     }
 }

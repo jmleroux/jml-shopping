@@ -9,9 +9,9 @@ build:
     tests:
         override:
             -
-                command: './bin/phpspec run -f progress -c phpspec-ci.yml'
+                command: 'cd Api; ./bin/phpspec run -f progress -c ./phpspec-ci.yml'
                 coverage:
-                    file: './coverage.xml'
+                    file: './Api/coverage.xml'
                     format: 'php-clover'
 
 tools:
