@@ -6,10 +6,15 @@ build:
     environment:
         php:
             version: 7.1.0
+    dependencies:
+        # Runs before inferred commands
+        before:
+            - 'cd Api'
+
     tests:
         override:
             -
-                command: 'cd Api; ./bin/phpspec run -f progress -c ./phpspec-ci.yml'
+                command: './bin/phpspec run -f progress -c ./phpspec-ci.yml'
                 coverage:
                     file: './Api/coverage.xml'
                     format: 'php-clover'
