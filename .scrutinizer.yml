@@ -6,10 +6,11 @@ build:
     environment:
         php:
             version: 7.1.0
-    dependencies:
-        # Runs before inferred commands
+
+    project_setup:
         before:
             - 'cd Api'
+            - 'composer install --prefer-dist'
 
     tests:
         override:
