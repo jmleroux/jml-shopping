@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import "isomorphic-fetch";
 
-export const apiBase = "api_dev.php";
+export const apiBase = "api.php";
 
 const initAuth = {
     username: localStorage.getItem('jmlshopping.username')
@@ -77,6 +77,10 @@ const productsReducer = (state = initProducts, action) => {
 };
 
 const initCategories = {
+    category: {
+        id: null,
+        name: ''
+    },
     categories: []
 };
 

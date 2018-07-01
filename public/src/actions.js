@@ -1,4 +1,4 @@
-import "isomorphic-fetch";
+import 'isomorphic-fetch';
 import 'babel-polyfill';
 import {apiBase} from './reducer';
 

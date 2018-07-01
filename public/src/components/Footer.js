@@ -21,6 +21,8 @@ export default class Footer extends React.Component {
                     </button>
                 </div>
             );
+        } else {
+            return (<div></div>);
         }
     }
 }

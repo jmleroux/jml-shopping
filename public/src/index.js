@@ -1,4 +1,5 @@
 import React from 'react';
+import {Router, Route} from 'react-router';
 import {render} from 'react-dom';
 
 import thunkMiddleware from 'redux-thunk'
@@ -7,7 +8,7 @@ import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux';
 
 import reducer from './reducer';
-import {ProductTable, Navbar, Footer} from './containers';
+import {ProductTable, CategoriesTable, Navbar, Footer} from './containers';
 
 const loggerMiddleware = createLogger();
 
@@ -31,6 +32,13 @@ render(
         <ProductTable />
     </Provider>,
     document.getElementById("product-list")
+);
+
+render(
+    <Provider store={store}>
+        <CategoriesTable />
+    </Provider>,
+    document.getElementById("category-list")
 );
 
 render(
