@@ -4,7 +4,7 @@ filter:
 
 build:
     environment:
-        php: 7.1.0
+        php: 7.1
 
     project_setup:
         before:
@@ -17,6 +17,8 @@ build:
                 coverage:
                     file: 'Api/coverage.xml'
                     format: 'php-clover'
+            -
+                command: './bin/phpunit'
 
 tools:
     php_cs_fixer:
