@@ -120,7 +120,7 @@ class ProductRepository
         $values = [
             $product->getId(),
             $product->getName(),
-            $product->getCategory() ? $product->getCategory()->getId() : null,
+            $product->getCategoryId(),
             $product->getQuantity(),
         ];
         $products = $this->db->executeUpdate($sql, $values);
@@ -135,7 +135,7 @@ class ProductRepository
         WHERE id = ?';
         $values = [
             $product->getName(),
-            $product->getCategory()->getId(),
+            $product->getCategoryId(),
             $product->getQuantity(),
             $product->getId(),
         ];

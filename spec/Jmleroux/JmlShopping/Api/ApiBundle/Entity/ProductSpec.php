@@ -8,38 +8,34 @@ use PhpSpec\ObjectBehavior;
 
 class ProductSpec extends ObjectBehavior
 {
+    function let()
+    {
+        $this->beConstructedThrough('create', [
+            'pid',
+            'foo',
+            'cid',
+            666,
+        ]);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(Product::class);
     }
 
-    function it_can_set_id()
+    function it_can_get_id()
     {
-        $this->setId('uuid');
-        $this->getId()->shouldReturn('uuid');
-
-        $this->setId('foo');
-        $this->getId()->shouldReturn('foo');
-    }
-
-    function it_can_set_category(Category $category)
-    {
-        $this->setCategory($category);
-        $this->getCategory()->shouldReturn($category);
+        $this->getId()->shouldReturn('pid');
     }
 
     function it_can_set_name()
     {
-        $this->setName('foo');
         $this->getName()->shouldReturn('foo');
-
-        $this->setName('   foo  ');
         $this->getName()->shouldReturn('foo');
     }
 
     function it_can_set_quantity()
     {
-        $this->setQuantity(666);
         $this->getQuantity()->shouldReturn(666);
     }
 }

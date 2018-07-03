@@ -139,53 +139,37 @@ class ProductRepositorySpec extends ObjectBehavior
 
     function it_removes_one_product(Connection $connection)
     {
-        $connection->executeUpdate('DELETE FROM products WHERE id = ?', [1])->shouldBeCalled();
-        $this->remove(1)->shouldReturn(null);
+        $connection->executeUpdate('DELETE FROM products WHERE id = ?', ['pid'])->willReturn(1);
+        $this->remove('pid')->shouldReturn(1);
     }
 
     function it_updates_one_product(Connection $connection)
     {
-        $category = new Category();
-        $category->setId(11);
-        $category->setName('fooCat');
-
-        $product = new Product();
-        $product->setId('uuid');
-        $product->setName('fooProd');
-        $product->setQuantity(2);
-        $product->setCategory($category);
+        $product = Product::create('uuid', 'fooProd', 'cid', 2);
 
         $sql = 'UPDATE products
         SET product = ?, category_id = ?, quantity = ?
         WHERE id = ?';
         $values = [
             $product->getName(),
-            $product->getCategory()->getId(),
+            $product->getCategoryId(),
             $product->getQuantity(),
             $product->getId(),
         ];
-        $connection->executeUpdate($sql, $values)->shouldBeCalled();
-        $this->update($product)->shouldReturn(null);
+        $connection->executeUpdate($sql, $values)->willReturn(1);
+        $this->update($product)->shouldReturn(1);
     }
 
     function it_creates_one_product(Connection $connection)
     {
-        $category = new Category();
-        $category->setId('uuid_category');
-        $category->setName('fooCat');
-
-        $product = new Product();
-        $product->setId('uuid');
-        $product->setName('fooProd');
-        $product->setQuantity(2);
-        $product->setCategory($category);
+        $product = Product::create('uuid', 'fooProd', 'cid', 2);
 
         $sql = 'INSERT INTO products (id, name, category_id, quantity)
         VALUES (?, ?, ?, ?)';
         $values = [
             $product->getId(),
             $product->getName(),
-            $product->getCategory() ? $product->getCategory()->getId() : null,
+            $product->getCategoryId(),
             $product->getQuantity(),
         ];
         $connection->executeUpdate($sql, $values)->shouldBeCalled();
@@ -194,10 +178,7 @@ class ProductRepositorySpec extends ObjectBehavior
 
     function it_creates_one_product_without_category(Connection $connection)
     {
-        $product = new Product();
-        $product->setId('uuid');
-        $product->setName('fooProd');
-        $product->setQuantity(2);
+        $product = Product::create('uuid', 'fooProd', null, 2);
 
         $sql = 'INSERT INTO products (id, name, category_id, quantity)
         VALUES (?, ?, ?, ?)';

@@ -21,11 +21,6 @@ class CategoryRepositorySpec extends ObjectBehavior
         $this->shouldHaveType(CategoryRepository::class);
     }
 
-    function it_get_category_hydrator()
-    {
-        $this->getHydrator()->shouldHaveType(CategoryHydrator::class);
-    }
-
     function it_fetches_all_categories(Connection $connection)
     {
         $category = [
