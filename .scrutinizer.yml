@@ -1,6 +1,6 @@
 filter:
     paths:
-        - Api/src/*
+        - src/*
 
 build:
     environment:
@@ -8,7 +8,6 @@ build:
 
     project_setup:
         before:
-            - 'composer install'
             - 'bash ./bin/setup.bash'
     tests:
         override:
