@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\Comparator;
 
 use DateTime;
@@ -39,9 +38,9 @@ class DateTimeComparatorTest extends TestCase
         $datetime = new DateTime;
 
         return [
-          [$datetime, null],
-          [null, $datetime],
-          [null, null]
+            [$datetime, null],
+            [null, $datetime],
+            [null, null]
         ];
     }
 
@@ -92,6 +91,11 @@ class DateTimeComparatorTest extends TestCase
                 new DateTimeImmutable('2013-03-30', new DateTimeZone('America/New_York')),
                 new DateTimeImmutable('2013-03-29 23:01:30', new DateTimeZone('America/Chicago')),
                 100
+            ],
+            [
+                new DateTimeImmutable('2013-03-30 12:00:00', new DateTimeZone('UTC')),
+                new DateTimeImmutable('2013-03-30 12:00:00.5', new DateTimeZone('UTC')),
+                0.5
             ],
         ];
     }
