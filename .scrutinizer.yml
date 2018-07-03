@@ -8,6 +8,7 @@ build:
 
     project_setup:
         before:
+            - 'cp .env.dist .env'
             - 'bash ./bin/setup.bash'
     tests:
         override:
@@ -22,3 +23,8 @@ build:
 tools:
     php_cs_fixer:
         config: { level: psr2 }
+
+checks:
+    php:
+        code_rating: true
+        duplication: true
