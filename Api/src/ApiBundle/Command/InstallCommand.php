@@ -1,13 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Command;
 
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class InstallCommand extends ContainerAwareCommand
 {
+    /** @var Connection */
+    private $connection;
+
+    public function __construct(Connection $connection)
+    {
+        parent::__construct();
+        $this->connection = $connection;
+    }
+
     protected function configure()
     {
         $this->setName('jmlshopping:install')
@@ -16,21 +28,30 @@ class InstallCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dbPath = $this->getContainer()->getParameter('db_path');
+        $this->connection->exec("PRAGMA foreign_keys = ON;");
+        $this->connection->beginTransaction();
+        $this->createSchema($output);
+        $this->loadFixtures($output);
+        $this->connection->commit();
+    }
 
-        if (!file_exists(dirname($dbPath))) {
-            var_dump($dbPath);
-            mkdir(dirname($dbPath), 0775, true);
-        }
+    private function createSchema(OutputInterface $output): void
+    {
+        $file = $this->getContainer()->getParameter('kernel.root_dir') . '/config/sql/schema.sql';
+        $sql = file_get_contents($file);
+        $this->executeFixtures($output, $sql);
+    }
 
-        $fixtures = $this->getContainer()->getParameter('kernel.root_dir') . '/app/Resources/setup-db.sql';
-        $cmd = sprintf('sqlite3 %s < %s', $dbPath, $fixtures);
-        $output->writeln(sprintf('Execute command <info>"%s"</info>', $cmd));
-        exec($cmd);
+    private function loadFixtures(OutputInterface $output): void
+    {
+        $file = $this->getContainer()->getParameter('kernel.root_dir') . '/config/sql/fixtures-fr.sql';
+        $sql = file_get_contents($file);
+        $this->executeFixtures($output, $sql);
+    }
 
-        $fixtures = $this->getContainer()->getParameter('kernel.root_dir') . '/app/Resources/fixtures-fr.sql';
-        $cmd = sprintf('sqlite3 %s < %s', $dbPath, $fixtures);
-        $output->writeln(sprintf('Execute command <info>"%s"</info>', $cmd));
-        exec($cmd);
+    private function executeFixtures(OutputInterface $output, string $sql): void
+    {
+        $output->writeln(sprintf('Execute command <info>"%s"</info>', $sql));
+        $this->connection->exec($sql);
     }
 }

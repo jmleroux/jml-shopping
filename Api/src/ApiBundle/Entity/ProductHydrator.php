@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;

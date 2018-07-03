@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
 use Zend\Hydrator\HydratorInterface;
@@ -25,7 +27,7 @@ class CategoryHydrator implements HydratorInterface
      *
      * @return Category
      */
-    public function hydrate(array $data, $category)
+    public function hydrate(array $data, $category): Category
     {
         if (isset($data['id'])) {
             $category->setId($data['id']);

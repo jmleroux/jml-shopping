@@ -5,26 +5,27 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\CategoryHydrator;
 use PhpSpec\ObjectBehavior;
+use Zend\Hydrator\HydratorInterface;
 
 class CategoryHydratorSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
         $this->shouldHaveType(CategoryHydrator::class);
-        $this->shouldImplement('Zend\Hydrator\HydratorInterface');
+        $this->shouldImplement(HydratorInterface::class);
     }
 
     function it_can_extract(Category $category)
     {
         $category->getId()
             ->shouldBeCalled()
-            ->willReturn(666);
+            ->willReturn('uuid');
         $category->getName()
             ->shouldBeCalled()
             ->willReturn('foo');
 
         $output = [
-            'id' => 666,
+            'id' => 'uuid',
             'name' => 'foo',
         ];
 
@@ -34,11 +35,11 @@ class CategoryHydratorSpec extends ObjectBehavior
     function it_can_hydrate(Category $category)
     {
         $input = [
-            'id' => 666,
+            'id' => 'uuid',
             'name' => 'foo',
         ];
 
-        $category->setId(666)
+        $category->setId('uuid')
             ->shouldBeCalled();
         $category->setName('foo')
             ->shouldBeCalled();

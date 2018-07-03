@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 
 use Doctrine\DBAL\Connection;
@@ -25,25 +27,17 @@ class CategoryRepository
         $this->db = $db;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $sql = 'SELECT *
         FROM categories c
         ORDER BY c.name';
         $rows = $this->db->fetchAll($sql);
 
-        $cleaner = function ($row) {
-            $row['id'] = (int)$row['id'];
-
-            return $row;
-        };
-
-        $rows = array_map($cleaner, $rows);
-
         return $rows;
     }
 
-    public function findById($categoryId)
+    public function findById(string $categoryId): Category
     {
         $sql = 'SELECT c.id, c.name
         FROM categories c
@@ -53,17 +47,18 @@ class CategoryRepository
         $row = $this->db->fetchAssoc($sql, $values);
 
         $category = new Category();
-        $category->setId((int)$row['id']);
+        $category->setId((string)$row['id']);
         $category->setName($row['name']);
 
         return $category;
     }
 
-    public function create(Category $category)
+    public function create(Category $category): int
     {
         $sql = 'INSERT INTO categories (id, name)
-        VALUES (null, ?)';
+        VALUES (?, ?)';
         $values = [
+            $category->getId(),
             $category->getName(),
         ];
         $rows = $this->db->executeUpdate($sql, $values);
@@ -71,7 +66,7 @@ class CategoryRepository
         return $rows;
     }
 
-    public function update(Category $product)
+    public function update(Category $product): int
     {
         $sql = 'UPDATE categories
         SET name = ?
@@ -85,21 +80,14 @@ class CategoryRepository
         return $rows;
     }
 
-    /**
-     * @param int $categoryId
-     *
-     * @return null
-     */
-    public function remove($categoryId)
+    public function remove(string $categoryId): int
     {
         $sql = 'DELETE FROM categories WHERE id = ?';
         $values = [$categoryId];
-        $this->db->executeUpdate($sql, $values);
-
-        return null;
+        return $this->db->executeUpdate($sql, $values);
     }
 
-    public function getHydrator()
+    public function getHydrator(): CategoryHydrator
     {
         if (null == $this->hydrator) {
             $this->hydrator = new CategoryHydrator();

@@ -1,27 +1,21 @@
-imports:
-    - { resource: parameters.yml }
-    - { resource: services.yml }
-
-framework:
-    secret: '%secret%'
-
-doctrine:
-    dbal:
-        driver: 'pdo_sqlite'
-        path:   '%db_path%'
-
 security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         jmlshopping:
             id: 'jmlshopping.security.user_provider'
-
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         login:
             pattern:                        ^/login$
             anonymous:                      true
         main:
-            anonymous: ~
+            anonymous: true
             logout: ~
             guard:
                 authenticators:
                     - 'jmlshopping.security.token_authenticator'
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

@@ -15,8 +15,8 @@ class ProductSpec extends ObjectBehavior
 
     function it_can_set_id()
     {
-        $this->setId(666);
-        $this->getId()->shouldReturn(666);
+        $this->setId('uuid');
+        $this->getId()->shouldReturn('uuid');
 
         $this->setId('foo');
         $this->getId()->shouldReturn('foo');
@@ -41,8 +41,5 @@ class ProductSpec extends ObjectBehavior
     {
         $this->setQuantity(666);
         $this->getQuantity()->shouldReturn(666);
-
-        $this->setQuantity('foo');
-        $this->getQuantity()->shouldReturn(0);
     }
 }

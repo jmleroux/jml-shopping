@@ -54,7 +54,7 @@ class ProductRepositorySpec extends ObjectBehavior
 
         $this->prepare_find_query_builder($qb);
         $qb->where('p.id = :productId')->willReturn($qb);
-        $qb->setParameter('productId', $id, PDO::PARAM_INT)->willReturn($qb);
+        $qb->setParameter('productId', $id, PDO::PARAM_STR)->willReturn($qb);
         $qb->execute()->willReturn($statement);
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
 
@@ -66,13 +66,13 @@ class ProductRepositorySpec extends ObjectBehavior
         QueryBuilder $qb,
         Statement $statement
     ) {
-        $id = 99;
+        $id = 'unknown_uuid';
 
         $connection->createQueryBuilder()->willReturn($qb);
 
         $this->prepare_find_query_builder($qb);
         $qb->where('p.id = :productId')->willReturn($qb);
-        $qb->setParameter('productId', $id, PDO::PARAM_INT)->willReturn($qb);
+        $qb->setParameter('productId', $id, PDO::PARAM_STR)->willReturn($qb);
         $qb->execute()->willReturn($statement);
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn(false);
 
@@ -136,7 +136,7 @@ class ProductRepositorySpec extends ObjectBehavior
         $category->setName('fooCat');
 
         $product = new Product();
-        $product->setId(1);
+        $product->setId('uuid');
         $product->setName('fooProd');
         $product->setQuantity(2);
         $product->setCategory($category);
@@ -157,11 +157,11 @@ class ProductRepositorySpec extends ObjectBehavior
     function it_creates_one_product(Connection $connection)
     {
         $category = new Category();
-        $category->setId(11);
+        $category->setId('uuid_category');
         $category->setName('fooCat');
 
         $product = new Product();
-        $product->setId(1);
+        $product->setId('uuid');
         $product->setName('fooProd');
         $product->setQuantity(2);
         $product->setCategory($category);
@@ -181,7 +181,7 @@ class ProductRepositorySpec extends ObjectBehavior
     function it_creates_one_product_without_category(Connection $connection)
     {
         $product = new Product();
-        $product->setId(1);
+        $product->setId('uuid');
         $product->setName('fooProd');
         $product->setQuantity(2);
 
@@ -210,10 +210,10 @@ class ProductRepositorySpec extends ObjectBehavior
     function get_row_fixture()
     {
         return [
-            'id'          => 1,
+            'id'          => 'uuid',
             'name'        => 'product-name',
             'quantity'    => 666,
-            'category_id' => 10,
+            'category_id' => 'uuid_category',
             'category'    => 'category-name',
         ];
     }
@@ -221,12 +221,12 @@ class ProductRepositorySpec extends ObjectBehavior
     function get_product_fixture()
     {
         return [
-            'id'          => 1,
+            'id'          => 'uuid',
             'name'        => 'product-name',
             'quantity'    => 666,
-            'category_id' => 10,
+            'category_id' => 'uuid_category',
             'category'    => [
-                'id'   => 10,
+                'id'   => 'uuid_category',
                 'name' => 'category-name',
             ],
         ];

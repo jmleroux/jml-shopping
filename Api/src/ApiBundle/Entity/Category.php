@@ -1,38 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
 class Category
 {
-    /** @var int */
+    /** @var string */
     protected $id = null;
 
     /** @var string */
     protected $name = '';
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = trim($name);
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(string $id): void
     {
-        $this->id = (int)$id;
+        $this->id = $id;
     }
 }

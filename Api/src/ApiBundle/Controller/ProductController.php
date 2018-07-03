@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Controller;
 
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\ProductHydrator;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,16 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
-    public function listAction()
+    public function listAction(ProductRepository $productRepository): JsonResponse
     {
-        $repo = $this->get('jmlshopping.product');
-        $products = $repo->getAll();
+        $products = $productRepository->getAll();
         $response = new JsonResponse($products);
 
         return $response;
     }
 
-    public function viewAction($id)
+    public function viewAction($id): JsonResponse
     {
         $repo = $this->get('jmlshopping.product');
         $product = $repo->getProduct($id);
@@ -29,7 +31,7 @@ class ProductController extends Controller
         return $response;
     }
 
-    public function createAction(Request $request)
+    public function createAction(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -54,7 +56,7 @@ class ProductController extends Controller
         return $response;
     }
 
-    public function updateAction(Request $request)
+    public function updateAction(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -70,7 +72,7 @@ class ProductController extends Controller
         return $response;
     }
 
-    public function deleteAction($id)
+    public function deleteAction($id): JsonResponse
     {
         $repo = $this->get('jmlshopping.product');
         $product = $repo->remove($id);
@@ -79,7 +81,7 @@ class ProductController extends Controller
         return $response;
     }
 
-    public function truncateAction()
+    public function truncateAction(): JsonResponse
     {
         $repo = $this->get('jmlshopping.product');
         $result = $repo->removeAll();
@@ -88,7 +90,7 @@ class ProductController extends Controller
         return $response;
     }
 
-    private function validateProductData($data)
+    private function validateProductData(array $data): bool
     {
         if (!isset($data['name']) || empty($data['name'])) {
             return false;

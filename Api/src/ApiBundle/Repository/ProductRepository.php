@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use PDO;
 
@@ -22,7 +25,7 @@ class ProductRepository
         $this->categoryService = $categoryService;
     }
 
-    protected function getFindQueryBuilder()
+    protected function getFindQueryBuilder(): QueryBuilder
     {
         $qb = $this->db->createQueryBuilder();
         $qb->select('p.id, p.name, p.quantity, p.category_id, c.name AS category')
@@ -40,20 +43,26 @@ class ProductRepository
         $stmt = $qb->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $products;
+        // TODO: find a better way to have integer quantity
+        // @see http://php.net/manual/en/pdo.setattribute.php PDO::ATTR_EMULATE_PREPARES
+        return array_map(function ($row) {
+            $row['quantity'] = (int)$row['quantity'];
+
+            return $row;
+        }, $products);
     }
 
     public function getProduct($id)
     {
         $qb = $this->getFindQueryBuilder();
-        $qb->where('p.id = :productId')->setParameter('productId', $id, PDO::PARAM_INT);
+        $qb->where('p.id = :productId')->setParameter('productId', $id, PDO::PARAM_STR);
 
         $stmt = $qb->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (false !== $row) {
             $row['category'] = [
-                'id'   => $row['category_id'],
+                'id' => $row['category_id'],
                 'name' => $row['category'],
             ];
 
@@ -78,7 +87,7 @@ class ProductRepository
 
         if (false !== $row) {
             $row['category'] = [
-                'id'   => $row['category_id'],
+                'id' => $row['category_id'],
                 'name' => $row['category'],
             ];
 

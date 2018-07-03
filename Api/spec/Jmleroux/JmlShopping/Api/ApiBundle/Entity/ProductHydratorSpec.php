@@ -11,11 +11,11 @@ use PhpSpec\ObjectBehavior;
 class ProductHydratorSpec extends ObjectBehavior
 {
     protected $arrayData = [
-        'id'       => 1,
+        'id'       => 'uuid',
         'name'     => 'foo',
         'quantity' => 666,
         'category' => [
-            'id'   => 2,
+            'id'   => 'uuid_category',
             'name' => 'category',
         ],
     ];
@@ -33,11 +33,11 @@ class ProductHydratorSpec extends ObjectBehavior
 
     function it_can_extract(Product $product, Category $category)
     {
-        $product->getId()->willReturn(1);
+        $product->getId()->willReturn('uuid');
         $product->getName()->willReturn('foo');
         $product->getQuantity()->willReturn(666);
         $product->getCategory()->willReturn($category);
-        $category->getId()->willReturn(2);
+        $category->getId()->willReturn('uuid_category');
         $category->getName()->willReturn('category');
 
         $this->extract($product)->shouldReturn($this->arrayData);

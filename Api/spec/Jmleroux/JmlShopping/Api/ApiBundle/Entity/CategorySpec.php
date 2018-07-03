@@ -14,11 +14,8 @@ class CategorySpec extends ObjectBehavior
 
     function it_can_set_id()
     {
-        $this->setId(666);
-        $this->getId()->shouldReturn(666);
-
-        $this->setId('foo');
-        $this->getId()->shouldReturn(0);
+        $this->setId('uuid');
+        $this->getId()->shouldReturn('uuid');
     }
 
     function it_can_set_label()

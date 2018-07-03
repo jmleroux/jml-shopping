@@ -29,7 +29,7 @@ class CategoryRepositorySpec extends ObjectBehavior
     function it_fetches_all_categories(Connection $connection)
     {
         $category = [
-            'id'   => 1,
+            'id'   => 'uuid',
             'name' => 'foo',
         ];
         $connection->fetchAll(Argument::type('string'))
@@ -41,40 +41,41 @@ class CategoryRepositorySpec extends ObjectBehavior
     function it_fetch_one_category(Connection $connection)
     {
         $row = [
-            'id'   => 1,
+            'id'   => 'uuid',
             'name' => 'category-name',
         ];
 
         $connection->fetchAssoc(Argument::type('string'), Argument::type('array'))
             ->willReturn($row);
 
-        $this->findById(1)->shouldHaveType(Category::class);
+        $this->findById('uuid')->shouldHaveType(Category::class);
     }
 
     function it_removes_one_category(Connection $connection)
     {
-        $connection->executeUpdate('DELETE FROM categories WHERE id = ?', [1])->shouldBeCalled();
-        $this->remove(1)->shouldReturn(null);
+        $connection->executeUpdate('DELETE FROM categories WHERE id = ?', ['uuid'])->willReturn(1);
+        $this->remove('uuid')->shouldReturn(1);
     }
 
     function it_creates_one_category(Category $category, Connection $connection)
     {
+        $category->getId()->willReturn('uuid');
         $category->getName()->willReturn('foobar');
 
-        $values = ['foobar'];
-        $connection->executeUpdate(Argument::any(), $values)->shouldBeCalled();
+        $values = ['uuid', 'foobar'];
+        $connection->executeUpdate(Argument::any(), $values)->willReturn(1);
 
-        $this->create($category)->shouldReturn(null);
+        $this->create($category)->shouldReturn(1);
     }
 
     function it_updates_one_category(Category $category, Connection $connection)
     {
-        $category->getId()->willReturn(99);
+        $category->getId()->willReturn('uuid');
         $category->getName()->willReturn('foobar');
 
-        $values = ['foobar', 99];
-        $connection->executeUpdate(Argument::any(), $values)->shouldBeCalled();
+        $values = ['foobar', 'uuid'];
+        $connection->executeUpdate(Argument::any(), $values)->willReturn(1);
 
-        $this->update($category)->shouldReturn(null);
+        $this->update($category)->shouldReturn(1);
     }
 }

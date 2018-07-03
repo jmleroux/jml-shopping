@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Controller;
 
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\ProductHydrator;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
-    public function listAction()
+    public function listAction(CategoryRepository $categoryRepository): JsonResponse
     {
-        $repo = $this->get('jmlshopping.category');
-        $categories = $repo->getAll();
+        $categories = $categoryRepository->getAll();
         $response = new JsonResponse($categories);
 
         return $response;
