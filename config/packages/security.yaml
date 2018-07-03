@@ -2,7 +2,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         jmlshopping:
-            id: 'jmlshopping.security.user_provider'
+            id: Jmleroux\JmlShopping\Api\ApiBundle\Security\UserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -15,7 +15,7 @@ security:
             logout: ~
             guard:
                 authenticators:
-                    - 'jmlshopping.security.token_authenticator'
+                    - Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenAuthenticator
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

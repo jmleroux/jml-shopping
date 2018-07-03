@@ -4,7 +4,7 @@ namespace Jmleroux\JmlShopping\Api\ApiBundle\Security;
 
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\User;
-use Jmleroux\JmlShopping\Api\ApiBundle\UserService;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -14,30 +14,29 @@ class UserProvider implements UserProviderInterface
     /** @var Connection */
     private $db;
 
-    /** @var UserService */
-    private $userService;
+    /** @var UserRepository */
+    private $userRepository;
 
-    public function __construct(Connection $db, UserService $userService)
+    public function __construct(Connection $db, UserRepository $userRepository)
     {
         $this->db = $db;
-        $this->userService = $userService;
+        $this->userRepository = $userRepository;
     }
 
     public function loadUserByUsername($token)
     {
-        if (!$this->userService->tokenIsValid($token)) {
+        if (!$this->userRepository->tokenIsValid($token)) {
             return null;
         }
 
         list($username, $base64Token) = explode('-+-', $token);
 
-        $row = $this->userService->loadUserByUsername($username);
+        $user = $this->userRepository->findByUsername($username);
 
-        if (!$row) {
+        if (null === $user) {
             return null;
         }
 
-        $user = new User();
         $user->eraseCredentials();
 
         return $user;

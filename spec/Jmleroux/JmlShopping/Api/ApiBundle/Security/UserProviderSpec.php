@@ -4,6 +4,7 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Security;
 
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\User;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\Security\UserProvider;
 use Jmleroux\JmlShopping\Api\ApiBundle\UserService;
 use PhpSpec\ObjectBehavior;
@@ -17,9 +18,9 @@ class UserProviderSpec extends ObjectBehavior
         $this->shouldImplement(UserProviderInterface::class);
     }
 
-    function let(Connection $db, UserService $userService)
+    function let(Connection $db, UserRepository $repository)
     {
-        $this->beConstructedWith($db, $userService);
+        $this->beConstructedWith($db, $repository);
     }
 
     function it_supports_user_class()

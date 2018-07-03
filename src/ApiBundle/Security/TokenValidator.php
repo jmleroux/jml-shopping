@@ -1,12 +1,12 @@
 <?php
 
-namespace Jmleroux\JmlShopping\Api\ApiBundle;
+namespace Jmleroux\JmlShopping\Api\ApiBundle\Security;
 
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use Doctrine\DBAL\Connection;
 
-class UserService
+class TokenValidator
 {
     /**
      * @var Connection
@@ -24,35 +24,6 @@ class UserService
     {
         $this->db = $db;
         $this->encryptionKey = $encryptionKey;
-    }
-
-    /**
-     * @param $username
-     * @param $password
-     *
-     * @return array
-     */
-    public function authenticate($username, $password)
-    {
-        $sql = 'SELECT login, password
-        FROM users u
-        WHERE u.login = ?';
-
-        $values = [$username];
-        $row = $this->db->fetchAssoc($sql, $values);
-
-        $authenticationResult = [
-            'username' => $username,
-            'token'    => '',
-        ];
-        if (!empty($row)) {
-            $verified = password_verify($password, $row['password']);
-            if ($verified) {
-                $authenticationResult['token'] = $this->encryptToken($username);
-            }
-        }
-
-        return $authenticationResult;
     }
 
     private function encryptToken($username)

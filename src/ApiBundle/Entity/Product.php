@@ -9,6 +9,9 @@ class Product
     /** @var string */
     protected $id = null;
 
+    /** @var string */
+    protected $categoryId = null;
+
     /** @var Category */
     protected $category = null;
 
@@ -28,19 +31,9 @@ class Product
         return $this->category;
     }
 
-    public function setId(string $id)
-    {
-        $this->id = $id;
-    }
-
     public function getId(): string
     {
         return $this->id;
-    }
-
-    public function setName(string $name)
-    {
-        $this->name = trim($name);
     }
 
     public function getName(): string
@@ -56,5 +49,18 @@ class Product
     public function getQuantity(): int
     {
         return $this->quantity;
+    }
+
+    private function __construct(string $id, string $name, string $categoryId, int $quantity)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->categoryId = $categoryId;
+        $this->quantity = $quantity;
+    }
+
+    public static function create(string $id, string $name, string $categoryId, int $quantity)
+    {
+        return new self($id, $name, $categoryId, $quantity);
     }
 }

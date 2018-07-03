@@ -45,11 +45,7 @@ class ProductRepository
 
         // TODO: find a better way to have integer quantity
         // @see http://php.net/manual/en/pdo.setattribute.php PDO::ATTR_EMULATE_PREPARES
-        return array_map(function ($row) {
-            $row['quantity'] = (int)$row['quantity'];
-
-            return $row;
-        }, $products);
+        return array_map([$this, 'cleanRow'], $products);
     }
 
     public function getProduct($id)
@@ -61,6 +57,7 @@ class ProductRepository
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (false !== $row) {
+            $row = $this->cleanRow($row);
             $row['category'] = [
                 'id' => $row['category_id'],
                 'name' => $row['category'],
@@ -102,21 +99,18 @@ class ProductRepository
      *
      * @return null
      */
-    public function remove($productId)
+    public function remove($productId): int
     {
         $sql = 'DELETE FROM products WHERE id = ?';
         $values = [$productId];
-        $this->db->executeUpdate($sql, $values);
 
-        return null;
+        return $this->db->executeUpdate($sql, $values);
     }
 
-    public function removeAll()
+    public function removeAll(): void
     {
         $sql = 'DELETE FROM products';
         $this->db->executeQuery($sql);
-
-        return null;
     }
 
     public function create(Product $product)
@@ -148,5 +142,12 @@ class ProductRepository
         $products = $this->db->executeUpdate($sql, $values);
 
         return $products;
+    }
+
+    private function cleanRow(array $row): array
+    {
+        $row['quantity'] = (int)$row['quantity'];
+
+        return $row;
     }
 }

@@ -17,7 +17,7 @@ product_view:
     defaults: { _controller: ApiBundle:Product:view }
     methods: [GET]
     requirements:
-        id: \d+
+        id: \w+
 
 product_create:
     path: /product

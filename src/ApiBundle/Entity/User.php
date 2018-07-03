@@ -56,6 +56,7 @@ class User implements UserInterface
     public static function newUser(string $username, string $password): User
     {
         $uuid = Uuid::uuid4()->toString();
+
         return new self($uuid, $username, $password);
     }
 }
