@@ -1,0 +1,51 @@
+{
+    "name": "leanphp/phpspec-code-coverage",
+    "description": "Generate Code Coverage reports for PhpSpec tests",
+    "type": "library",
+    "keywords": [
+        "phpspec", "code", "coverage", "generate", "generation", "build",
+        "report", "test", "tests", "code-coverage", "reports", "clover", "spec"
+    ],
+    "homepage": "https://github.com/leanphp/phpspec-code-coverage",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ek9",
+            "email": "dev@ek9.co",
+            "homepage": "https://ek9.co"
+        },
+        {
+            "name": "Henrik Bjornskov"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/leanphp/phpspec-code-coverage/issues",
+        "source": "https://github.com/leanphp/phpspec-code-coverage",
+        "docs": "https://github.com/leanphp/phpspec-code-coverage#phpspec-code-coverage"
+    },
+    "require": {
+        "php": "^7.1",
+        "phpspec/phpspec": "^4.2",
+        "phpunit/php-code-coverage": "^5.0||^6.0"
+    },
+    "require-dev": {
+        "escapestudios/symfony2-coding-standard": "^3.1",
+        "squizlabs/php_codesniffer": "^3.2"
+    },
+    "suggest": {
+        "ext-xdebug": "Install Xdebug to generate phpspec code coverage if you are not using phpdbg"
+    },
+    "minimum-stability": "stable",
+    "autoload" : {
+        "psr-4" : { "LeanPHP\\PhpSpec\\CodeCoverage\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.x-dev",
+            "dev-v3": "3.x-dev"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

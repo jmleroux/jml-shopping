@@ -8,14 +8,14 @@ build:
 
     project_setup:
         before:
-            - 'cd Api'
             - 'composer install'
+            - 'bash ./bin/setup.bash'
     tests:
         override:
             -
                 command: './vendor/bin/phpspec run -f progress -c phpspec-ci.yml'
                 coverage:
-                    file: 'Api/coverage.xml'
+                    file: 'coverage.xml'
                     format: 'php-clover'
             -
                 command: './bin/phpunit'
