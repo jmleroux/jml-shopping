@@ -10,8 +10,7 @@
         "symfony/flex": "^1.0",
         "symfony/monolog-bundle": "^3.3",
         "symfony/security-bundle": "^4.1",
-        "symfony/validator": "^4.1",
-        "zendframework/zend-hydrator": "@stable"
+        "symfony/validator": "^4.1"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^5.0",
