@@ -13,9 +13,14 @@ use PhpSpec\ObjectBehavior;
 
 class UserRepositorySpec extends ObjectBehavior
 {
-    function let(
-        Connection $connection
-    ) {
+    function let(Connection $connection, QueryBuilder $qb, Statement $statement)
+    {
+        $connection->createQueryBuilder()->willReturn($qb);
+        $qb->select('login, password')->willReturn($qb);
+        $qb->from('users', 'u')->willReturn($qb);
+        $qb->where('login = ?')->willReturn($qb);
+        $qb->execute()->willReturn($statement);
+
         $this->beConstructedWith($connection);
     }
 
@@ -24,31 +29,25 @@ class UserRepositorySpec extends ObjectBehavior
         $this->shouldHaveType(UserRepository::class);
     }
 
-    function it_find_one_user(
-        Connection $connection,
-        QueryBuilder $qb,
-        Statement $statement
-    ) {
+    function it_find_one_user(QueryBuilder $qb, Statement $statement)
+    {
         $row = $this->get_row_fixture();
         $username = $row['login'];
 
-        $connection->createQueryBuilder()->willReturn($qb);
-
-        $this->prepare_find_query_builder($qb);
-        $qb->where('login = ?')->willReturn($qb);
         $qb->values([$username])->willReturn($qb);
-        $qb->execute()->willReturn($statement);
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
 
         $this->findByUsername('admin')->shouldHaveType(User::class);
     }
 
-    function prepare_find_query_builder(QueryBuilder $qb)
+    function it_return_null_for_unknown_user(QueryBuilder $qb, Statement $statement)
     {
-        $qb->select('login, password')->willReturn($qb);
-        $qb->from('users', 'u')->willReturn($qb);
+        $username = 'foo';
 
-        return $qb;
+        $qb->values([$username])->willReturn($qb);
+        $statement->fetch(PDO::FETCH_ASSOC)->willReturn(null);
+
+        $this->findByUsername($username)->shouldReturn(null);
     }
 
     function get_row_fixture()

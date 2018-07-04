@@ -46,10 +46,10 @@ class UserRepository
         $this->db->executeUpdate($sql, $values);
     }
 
-    public function deleteUser($login)
+    public function deleteUser($username)
     {
         $sql = 'DELETE FROM users WHERE login=?;';
-        $values = [$login];
+        $values = [$username];
         $this->db->executeUpdate($sql, $values);
     }
 }

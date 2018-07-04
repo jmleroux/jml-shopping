@@ -5,7 +5,6 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Statement;
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository;
