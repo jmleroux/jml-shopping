@@ -36,7 +36,7 @@ class UserRepository
             return null;
         }
 
-        return User::create($row['name'], $row['password']);
+        return User::create($row['login'], $row['password']);
     }
 
     public function save(User $user)

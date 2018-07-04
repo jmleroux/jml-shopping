@@ -54,6 +54,10 @@ class ProductController extends Controller
     {
         $data = json_decode($request->getContent(), true);
 
+        if (!$this->validateProductData($data)) {
+            return new JsonResponse(null, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         $product = Product::create($data['id'], $data['name'], $data['categoryId'], $data['quantity']);
         $productRepository->update($product);
 

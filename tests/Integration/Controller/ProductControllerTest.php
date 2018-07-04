@@ -70,4 +70,98 @@ class ProductControllerTest extends WebTestCase
         $json = json_decode($client->getResponse()->getContent(), true);
         Assert::assertCount(0, $json);
     }
+
+    public function testCreateProduct()
+    {
+        $invalidData = json_encode([
+            'id' => 'pid100',
+            'categoryId' => 'cid1',
+            'quantity' => 50,
+        ]);
+        $client = static::createClient();
+        $client->request('POST', '/product', [], [], [], $invalidData);
+
+        Assert::assertEquals($client->getResponse()->getStatusCode(), 422);
+
+        $invalidData = json_encode([
+            'id' => 'pid1',
+            'name' => 'product1',
+            'categoryId' => 'cid1',
+            'quantity' => 50,
+        ]);
+        $client = static::createClient();
+        $client->request('POST', '/product', [], [], [], $invalidData);
+
+        Assert::assertEquals($client->getResponse()->getStatusCode(), 226);
+
+        $postData = json_encode([
+            'id' => 'pid100',
+            'name' => 'testproduct',
+            'categoryId' => 'cid1',
+            'quantity' => 50,
+        ]);
+        $client = static::createClient();
+        $client->request('POST', '/product', [], [], [], $postData);
+
+        Assert::assertEquals($client->getResponse()->getStatusCode(), 201);
+
+        $client->request('GET', '/products');
+        $json = json_decode($client->getResponse()->getContent(), true);
+        Assert::assertCount(5, $json);
+
+        $client->request('GET', '/product/pid100');
+        $json = json_decode($client->getResponse()->getContent(), true);
+        Assert::assertSame($json,
+            [
+                'id' => 'pid100',
+                'name' => 'testproduct',
+                'quantity' => 50,
+                'category_id' => 'cid1',
+                'category' => [
+                    'id' => 'cid1',
+                    'name' => 'Frais',
+                ],
+            ]);
+    }
+
+    public function testUpdateProduct()
+    {
+        $invalidData = json_encode([
+            'categoryId' => 'cid1',
+            'quantity' => 50,
+        ]);
+        $client = static::createClient();
+        $client->request('PUT', '/product/pid1', [], [], [], $invalidData);
+
+        Assert::assertEquals($client->getResponse()->getStatusCode(), 422);
+
+        $postData = json_encode([
+            'id' => 'pid1',
+            'name' => 'testproduct',
+            'categoryId' => 'cid2',
+            'quantity' => 50,
+        ]);
+        $client = static::createClient();
+        $client->request('PUT', '/product/pid1', [], [], [], $postData);
+
+        Assert::assertEquals($client->getResponse()->getStatusCode(), 200);
+
+        $client->request('GET', '/products');
+        $json = json_decode($client->getResponse()->getContent(), true);
+        Assert::assertCount(4, $json);
+
+        $client->request('GET', '/product/pid1');
+        $json = json_decode($client->getResponse()->getContent(), true);
+        Assert::assertSame($json,
+            [
+                'id' => 'pid1',
+                'name' => 'testproduct',
+                'quantity' => 50,
+                'category_id' => 'cid2',
+                'category' => [
+                    'id' => 'cid2',
+                    'name' => 'Scolaire',
+                ],
+            ]);
+    }
 }

@@ -148,7 +148,7 @@ class ProductRepositorySpec extends ObjectBehavior
         $product = Product::create('uuid', 'fooProd', 'cid', 2);
 
         $sql = 'UPDATE products
-        SET product = ?, category_id = ?, quantity = ?
+        SET name = ?, category_id = ?, quantity = ?
         WHERE id = ?';
         $values = [
             $product->getName(),
