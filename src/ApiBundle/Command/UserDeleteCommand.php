@@ -3,6 +3,7 @@
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Command;
 
 use Doctrine\DBAL\DBALException;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,6 +11,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UserDeleteCommand extends ContainerAwareCommand
 {
+    /** @var UserRepository */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        parent::__construct();
+        $this->userRepository = $userRepository;
+    }
+
     protected function configure()
     {
         $this->setName('jmlshopping:user:del')
@@ -25,10 +35,8 @@ class UserDeleteCommand extends ContainerAwareCommand
     {
         $login = $input->getArgument('login');
 
-        $userService = $this->getContainer()->get('jmlshopping.user');
-
         try {
-            $userService->deleteUser($login);
+            $this->userRepository->deleteUser($login);
             $message = sprintf('User "%s" deleted', $login);
             $output->writeln($message);
         } catch (DBALException $e) {

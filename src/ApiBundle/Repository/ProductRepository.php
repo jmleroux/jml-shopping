@@ -35,7 +35,7 @@ class ProductRepository
         return $qb;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $qb = $this->getFindQueryBuilder();
         $qb->orderBy('c.name, p.name');
@@ -48,7 +48,7 @@ class ProductRepository
         return array_map([$this, 'cleanRow'], $products);
     }
 
-    public function getProduct($id)
+    public function getProduct($id): ?array
     {
         $qb = $this->getFindQueryBuilder();
         $qb->where('p.id = :productId')->setParameter('productId', $id, PDO::PARAM_STR);
@@ -69,12 +69,7 @@ class ProductRepository
         return null;
     }
 
-    /**
-     * @param int $name
-     *
-     * @return array|null
-     */
-    public function findByName($name)
+    public function findByName(string $name): ?array
     {
         $qb = $this->getFindQueryBuilder();
         $qb->where('p.name = :name')->setParameter('name', $name, PDO::PARAM_STR);
@@ -94,12 +89,7 @@ class ProductRepository
         return null;
     }
 
-    /**
-     * @param int $productId
-     *
-     * @return null
-     */
-    public function remove($productId): int
+    public function remove(string $productId): int
     {
         $sql = 'DELETE FROM products WHERE id = ?';
         $values = [$productId];
@@ -113,7 +103,7 @@ class ProductRepository
         $this->db->executeQuery($sql);
     }
 
-    public function create(Product $product)
+    public function create(Product $product): int
     {
         $sql = 'INSERT INTO products (id, name, category_id, quantity)
         VALUES (?, ?, ?, ?)';
@@ -128,7 +118,7 @@ class ProductRepository
         return $products;
     }
 
-    public function update(Product $product)
+    public function update(Product $product): int
     {
         $sql = 'UPDATE products
         SET product = ?, category_id = ?, quantity = ?

@@ -172,8 +172,8 @@ class ProductRepositorySpec extends ObjectBehavior
             $product->getCategoryId(),
             $product->getQuantity(),
         ];
-        $connection->executeUpdate($sql, $values)->shouldBeCalled();
-        $this->create($product)->shouldReturn(null);
+        $connection->executeUpdate($sql, $values)->willReturn(1);
+        $this->create($product)->shouldReturn(1);
     }
 
     function it_creates_one_product_without_category(Connection $connection)
@@ -189,8 +189,8 @@ class ProductRepositorySpec extends ObjectBehavior
             null,
             $product->getQuantity(),
         ];
-        $connection->executeUpdate($sql, $values)->shouldBeCalled();
-        $this->create($product)->shouldReturn(null);
+        $connection->executeUpdate($sql, $values)->willReturn(1);
+        $this->create($product)->shouldReturn(1);
     }
 
     function prepare_find_query_builder(QueryBuilder $qb)

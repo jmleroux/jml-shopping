@@ -6,7 +6,6 @@ namespace Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\CategoryHydrator;
 
 class CategoryRepository
 {
@@ -16,11 +15,6 @@ class CategoryRepository
      * @var Connection
      */
     protected $db;
-
-    /**
-     * @var CategoryHydrator
-     */
-    protected $hydrator;
 
     public function __construct(Connection $db)
     {
@@ -85,14 +79,5 @@ class CategoryRepository
         $sql = 'DELETE FROM categories WHERE id = ?';
         $values = [$categoryId];
         return $this->db->executeUpdate($sql, $values);
-    }
-
-    public function getHydrator(): CategoryHydrator
-    {
-        if (null == $this->hydrator) {
-            $this->hydrator = new CategoryHydrator();
-        }
-
-        return $this->hydrator;
     }
 }
