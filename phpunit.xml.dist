@@ -8,12 +8,12 @@
          bootstrap="vendor/autoload.php"
 >
     <php>
-        <ini name="error_reporting" value="-1" />
-        <env name="KERNEL_CLASS" value="Jmleroux\JmlShopping\Api\Kernel" />
-        <env name="APP_ENV" value="test" />
-        <env name="APP_DEBUG" value="1" />
-        <env name="APP_SECRET" value="s$cretf0rt3st" />
-        <env name="SHELL_VERBOSITY" value="-1" />
+        <ini name="error_reporting" value="-1"/>
+        <env name="KERNEL_CLASS" value="Jmleroux\JmlShopping\Api\Kernel"/>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_DEBUG" value="1"/>
+        <env name="APP_SECRET" value="s$cretf0rt3st"/>
+        <env name="SHELL_VERBOSITY" value="-1"/>
         <!-- define your env variables for the test env here -->
     </php>
 
@@ -30,7 +30,13 @@
     </filter>
 
     <listeners>
-        <listener class="\DAMA\DoctrineTestBundle\PHPUnit\PHPUnitListener" />
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+        <listener class="\DAMA\DoctrineTestBundle\PHPUnit\PHPUnitListener"/>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
     </listeners>
+    <logging>
+        <log type="coverage-clover" target="tests/_reports/logs/clover.xml"/>
+        <log type="coverage-html" target="tests/_reports/coverage" charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="testdox-text" target="tests/_reports/testdox/executed.txt"/>
+    </logging>
 </phpunit>

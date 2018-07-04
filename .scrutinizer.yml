@@ -19,7 +19,9 @@ build:
                     format: 'php-clover'
             -
                 command: './bin/phpunit'
-
+                coverage:
+                    file: 'stests/_reports/logs/clover.xml'
+                    format: 'clover'
 tools:
     php_cs_fixer:
         config: { level: psr2 }
