@@ -2,7 +2,7 @@
 
 namespace spec\Jmleroux\JmlShopping\Api\ApiBundle;
 
-use Doctrine\DBAL\Connection;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\UserService;
 use PhpSpec\ObjectBehavior;
 
@@ -12,8 +12,8 @@ class UserServiceSpec extends ObjectBehavior
     {
         $this->shouldHaveType(UserService::class);
     }
-    function let(Connection $db)
+    function let(UserRepository $userRepository)
     {
-        $this->beConstructedWith($db, 'foobar');
+        $this->beConstructedWith($userRepository, 'foobar');
     }
 }

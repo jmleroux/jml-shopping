@@ -5,13 +5,14 @@ namespace Jmleroux\JmlShopping\Api\ApiBundle;
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use Doctrine\DBAL\Connection;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 
 class UserService
 {
     /**
      * @var Connection
      */
-    protected $db;
+    protected $userRepository;
 
     /**
      * @var string encryption key should be 16, 24 or 32 characters long form 128, 192, 256 bit encryption
@@ -20,9 +21,9 @@ class UserService
 
     protected $tokenLifetime = 3600;
 
-    public function __construct(Connection $db, $encryptionKey)
+    public function __construct(UserRepository $userRepository, $encryptionKey)
     {
-        $this->db = $db;
+        $this->userRepository = $userRepository;
         $this->encryptionKey = $encryptionKey;
     }
 
@@ -34,19 +35,14 @@ class UserService
      */
     public function authenticate($username, $password)
     {
-        $sql = 'SELECT login, password
-        FROM users u
-        WHERE u.login = ?';
-
-        $values = [$username];
-        $row = $this->db->fetchAssoc($sql, $values);
+        $user = $this->userRepository->findByUsername($username);
 
         $authenticationResult = [
             'username' => $username,
             'token'    => '',
         ];
-        if (!empty($row)) {
-            $verified = password_verify($password, $row['password']);
+        if (!empty($user)) {
+            $verified = password_verify($password, $user->getPassword());
             if ($verified) {
                 $authenticationResult['token'] = $this->encryptToken($username);
             }

@@ -18,11 +18,9 @@ CREATE TABLE products (
 );
 
 CREATE TABLE users (
-  uid      VARCHAR(50) NOT NULL,
   login    VARCHAR(20) NOT NULL,
   password VARCHAR(50) NOT NULL,
-  PRIMARY KEY (uid)
+  PRIMARY KEY (login)
 );
 
 CREATE INDEX idx_category ON products (category_id);
-CREATE UNIQUE INDEX 'ux_login' ON users (login ASC);

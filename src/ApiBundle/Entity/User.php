@@ -10,9 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     /** @var string */
-    private $uid;
-    /** @var string */
-    private $login;
+    private $username;
     /** @var string */
     private $password;
 
@@ -33,7 +31,7 @@ class User implements UserInterface
 
     public function getUsername()
     {
-        return $this->login;
+        return $this->username;
     }
 
     public function eraseCredentials()
@@ -41,22 +39,14 @@ class User implements UserInterface
         $this->password = '';
     }
 
-    private function __construct(string $uuid, string $username, string $password)
+    private function __construct(string $username, string $password)
     {
-        $this->uid = $uuid;
-        $this->login = $username;
+        $this->username = $username;
         $this->password = $password;
     }
 
-    public static function create(string $uuid, string $username, string $password): User
+    public static function create(string $username, string $password): User
     {
-        return new self($uuid, $username, $password);
-    }
-
-    public static function newUser(string $username, string $password): User
-    {
-        $uuid = Uuid::uuid4()->toString();
-
-        return new self($uuid, $username, $password);
+        return new self($username, $password);
     }
 }

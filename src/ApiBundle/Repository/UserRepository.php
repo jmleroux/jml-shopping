@@ -24,7 +24,7 @@ class UserRepository
     public function findByUsername(string $username): ?User
     {
         $qb = $this->db->createQueryBuilder();
-        $qb->select('uid, login, password')
+        $qb->select('login, password')
             ->from(self::TABLENAME, 'u')
             ->where('login = ?')
             ->values([$username]);
@@ -36,14 +36,13 @@ class UserRepository
             return null;
         }
 
-        return User::create($row['id'], $row['name'], $row['password']);
+        return User::create($row['name'], $row['password']);
     }
 
-    public function createUser($login, $clearPassword)
+    public function save(User $user)
     {
-        $encryptedPassword = password_hash($clearPassword, PASSWORD_BCRYPT);
         $sql = 'INSERT INTO users (login, password) VALUES (?, ?);';
-        $values = [$login, $encryptedPassword];
+        $values = [$user->getUsername(), $user->getPassword()];
         $this->db->executeUpdate($sql, $values);
     }
 

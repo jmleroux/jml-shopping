@@ -17,25 +17,6 @@ services:
     networks:
       - jmleroux-network
 
-  fpm-test:
-    image: jmleroux/fpm:php-7.1
-    environment:
-      COMPOSER_HOME: /home/docker/.composer
-      APP_ENV: test
-      APP_SECRET: 666afba3a5059198ccd9b21e3d5b6666
-      DATABASE_URL: mysql://jmleroux:jmleroux@mysql-test/jmleroux
-      PHP_IDE_CONFIG: 'serverName=jmleroux-cli'
-      PHP_XDEBUG_ENABLED: 0
-      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1
-      XDEBUG_CONFIG: 'remote_host=172.17.0.1'
-    user: docker
-    volumes:
-      - ./:/srv/jmleroux
-      - ~/.composer:/home/docker/.composer
-    working_dir: /srv/jmleroux
-    networks:
-      - jmleroux-network
-
   httpd:
     image: httpd:2.4
     depends_on:

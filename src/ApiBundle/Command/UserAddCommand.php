@@ -3,6 +3,7 @@
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Command;
 
 use Doctrine\DBAL\DBALException;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\User;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -42,7 +43,8 @@ class UserAddCommand extends ContainerAwareCommand
         $password = $input->getArgument('password');
 
         try {
-            $this->userRepository->createUser($login, $password);
+            $user = User::create($login, $password);
+            $this->userRepository->save($user);
             $message = sprintf('User "%s" created with password "%s"', $login, $password);
             $output->writeln($message);
         } catch (DBALException $e) {
