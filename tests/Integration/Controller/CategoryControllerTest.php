@@ -21,7 +21,8 @@ class CategoryControllerTest extends WebTestCase
     public function testListCategories()
     {
         $client = static::createClient();
-        $client->request('GET', '/categories', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN]);
+        $tokenUtils = static::$kernel->getContainer()->get(Utils::class);
+        $client->request('GET', '/categories', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()]);
         Assert::assertEquals($client->getResponse()->getStatusCode(), 200);
 
         $json = json_decode($client->getResponse()->getContent(), true);

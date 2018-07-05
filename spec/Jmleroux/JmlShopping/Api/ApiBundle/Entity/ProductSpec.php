@@ -2,7 +2,6 @@
 
 namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use PhpSpec\ObjectBehavior;
 
@@ -31,11 +30,16 @@ class ProductSpec extends ObjectBehavior
     function it_can_set_name()
     {
         $this->getName()->shouldReturn('foo');
-        $this->getName()->shouldReturn('foo');
+    }
+
+    function it_can_get_quantity()
+    {
+        $this->getQuantity()->shouldReturn(666);
     }
 
     function it_can_set_quantity()
     {
-        $this->getQuantity()->shouldReturn(666);
+        $this->setQuantity(555);
+        $this->getQuantity()->shouldReturn(555);
     }
 }

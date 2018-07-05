@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class User implements UserInterface

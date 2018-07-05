@@ -17,10 +17,10 @@ class UserProvider implements UserProviderInterface
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var TokenValidator */
+    /** @var TokenEncoder */
     private $tokenValidator;
 
-    public function __construct(Connection $db, UserRepository $userRepository, TokenValidator $tokenValidator)
+    public function __construct(Connection $db, UserRepository $userRepository, TokenEncoder $tokenValidator)
     {
         $this->db = $db;
         $this->userRepository = $userRepository;

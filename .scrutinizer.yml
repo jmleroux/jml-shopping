@@ -15,12 +15,12 @@ build:
             -
                 command: './vendor/bin/phpspec run -f progress -c phpspec-ci.yml'
                 coverage:
-                    file: 'coverage.xml'
+                    file: 'var/reports/phpspec/coverage.xml'
                     format: 'php-clover'
             -
                 command: './bin/phpunit'
                 coverage:
-                    file: 'tests/_reports/logs/clover.xml'
+                    file: 'var/reports/phpunit/logs/clover.xml'
                     format: 'clover'
 tools:
     php_cs_fixer:

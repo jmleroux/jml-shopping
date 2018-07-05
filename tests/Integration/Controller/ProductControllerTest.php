@@ -21,7 +21,8 @@ class ProductControllerTest extends WebTestCase
     public function testListProducts()
     {
         $client = static::createClient();
-        $client->request('GET', '/products', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN]);
+        $tokenUtils = static::$kernel->getContainer()->get(Utils::class);
+        $client->request('GET', '/products', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()]);
         Assert::assertEquals($client->getResponse()->getStatusCode(), 200);
 
         $json = json_decode($client->getResponse()->getContent(), true);
@@ -42,7 +43,8 @@ class ProductControllerTest extends WebTestCase
     public function testViewProduct()
     {
         $client = static::createClient();
-        $client->request('GET', '/product/pid1', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN]);
+        $tokenUtils = static::$kernel->getContainer()->get(Utils::class);
+        $client->request('GET', '/product/pid1', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()]);
         Assert::assertEquals($client->getResponse()->getStatusCode(), 200);
 
         $json = json_decode($client->getResponse()->getContent(), true);
@@ -62,7 +64,8 @@ class ProductControllerTest extends WebTestCase
     public function testDeleteProduct()
     {
         $client = static::createClient();
-        $client->request('DELETE', '/product/pid2', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN]);
+        $tokenUtils = static::$kernel->getContainer()->get(Utils::class);
+        $client->request('DELETE', '/product/pid2', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()]);
 
         $json = $client->getResponse()->getContent();
         Assert::assertEquals($json, 1);
@@ -71,12 +74,13 @@ class ProductControllerTest extends WebTestCase
     public function testTruncate()
     {
         $client = static::createClient();
-        $client->request('DELETE', '/products', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN]);
+        $tokenUtils = static::$kernel->getContainer()->get(Utils::class);
+        $client->request('DELETE', '/products', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()]);
 
         Assert::assertEquals($client->getResponse()->getStatusCode(), 200);
 
         $client = static::createClient();
-        $client->request('GET', '/products', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN]);
+        $client->request('GET', '/products', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()]);
 
         $json = json_decode($client->getResponse()->getContent(), true);
         Assert::assertCount(0, $json);
@@ -90,7 +94,8 @@ class ProductControllerTest extends WebTestCase
             'quantity' => 50,
         ]);
         $client = static::createClient();
-        $client->request('POST', '/product', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN], $invalidData);
+        $tokenUtils = static::$kernel->getContainer()->get(Utils::class);
+        $client->request('POST', '/product', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()], $invalidData);
 
         Assert::assertEquals($client->getResponse()->getStatusCode(), 422);
 
@@ -101,7 +106,7 @@ class ProductControllerTest extends WebTestCase
             'quantity' => 50,
         ]);
         $client = static::createClient();
-        $client->request('POST', '/product', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN], $invalidData);
+        $client->request('POST', '/product', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()], $invalidData);
 
         Assert::assertEquals($client->getResponse()->getStatusCode(), 226);
 
@@ -112,7 +117,7 @@ class ProductControllerTest extends WebTestCase
             'quantity' => 50,
         ]);
         $client = static::createClient();
-        $client->request('POST', '/product', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN], $postData);
+        $client->request('POST', '/product', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()], $postData);
 
         Assert::assertEquals($client->getResponse()->getStatusCode(), 201);
 
@@ -142,7 +147,8 @@ class ProductControllerTest extends WebTestCase
             'quantity' => 50,
         ]);
         $client = static::createClient();
-        $client->request('PUT', '/product/pid1', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN], $invalidData);
+        $tokenUtils = static::$kernel->getContainer()->get(Utils::class);
+        $client->request('PUT', '/product/pid1', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()], $invalidData);
 
         Assert::assertEquals($client->getResponse()->getStatusCode(), 422);
 
@@ -153,7 +159,7 @@ class ProductControllerTest extends WebTestCase
             'quantity' => 50,
         ]);
         $client = static::createClient();
-        $client->request('PUT', '/product/pid1', [], [], ['HTTP_X-AUTH-TOKEN' => Utils::VALID_TOKEN], $postData);
+        $client->request('PUT', '/product/pid1', [], [], ['HTTP_X-AUTH-TOKEN' => $tokenUtils->getValidToken()], $postData);
 
         Assert::assertEquals($client->getResponse()->getStatusCode(), 200);
 

@@ -28,10 +28,10 @@ services:
         resource: '../src/ApiBundle/Controller'
         tags: ['controller.service_arguments']
 
-    Jmleroux\JmlShopping\Api\ApiBundle\UserService:
+    Jmleroux\JmlShopping\Api\ApiBundle\Security\PasswordAuthenticator:
         arguments:
             $encryptionKey: '%encoder.seed%'
 
-    Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenValidator:
+    Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenEncoder:
         arguments:
             $encryptionKey: '%encoder.seed%'

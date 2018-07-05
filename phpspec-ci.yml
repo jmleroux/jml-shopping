@@ -2,8 +2,10 @@ extensions:
     LeanPHP\PhpSpec\CodeCoverage\CodeCoverageExtension:
         format:
             - clover
+            - html
         output:
-            clover: coverage.xml
+            html: var/reports/phpspec/coverage
+            clover: var/reports/phpspec/coverage.xml
         blacklist:
             - src/ApiBundle/Controller
         blacklist_files:

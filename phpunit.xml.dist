@@ -35,9 +35,9 @@
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
     </listeners>
     <logging>
-        <log type="coverage-clover" target="tests/_reports/logs/clover.xml"/>
-        <log type="coverage-html" target="tests/_reports/coverage" charset="UTF-8" yui="true" highlight="true"
+        <log type="coverage-clover" target="var/reports/phpunit/logs/clover.xml"/>
+        <log type="coverage-html" target="var/reports/phpunit/coverage" charset="UTF-8" yui="true" highlight="true"
              lowUpperBound="35" highLowerBound="70"/>
-        <log type="testdox-text" target="tests/_reports/testdox/executed.txt"/>
+        <log type="testdox-text" target="var/reports/phpunit/testdox/executed.txt"/>
     </logging>
 </phpunit>
