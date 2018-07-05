@@ -30,5 +30,8 @@ services:
 
     Jmleroux\JmlShopping\Api\ApiBundle\UserService:
         arguments:
-            - '@database_connection'
-            - '%encoder.seed%'
+            $encryptionKey: '%encoder.seed%'
+
+    Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenValidator:
+        arguments:
+            $encryptionKey: '%encoder.seed%'

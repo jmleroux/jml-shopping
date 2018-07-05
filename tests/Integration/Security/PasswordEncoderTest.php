@@ -21,7 +21,7 @@ class PasswordEncoderTest extends TestCase
     {
         $encoder = new PasswordEncoder();
         Assert::assertTrue(
-            $encoder->isPasswordValid('$2y$10$Vzca1uIY2d85UDcBpCuTzOhT0Y8tg0lEyK7/Nw7C3JrDQNI7HRQrW', 'foo')
+            $encoder->isPasswordValid('$2y$10$eUc9b9dsyPoJtdoKqE/dROpNyhTMsVsdX.8weoK5gBnLMPabr79MS', 'foobar')
         );
         Assert::assertFalse(
             $encoder->isPasswordValid('$2y$10$Vzca1uIY2d85UDcBpCuTzOhT0Y8tg0lEyK7/Nw7C3JrDQNI7HRfoo', 'foo')

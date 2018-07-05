@@ -17,15 +17,19 @@ class UserProvider implements UserProviderInterface
     /** @var UserRepository */
     private $userRepository;
 
-    public function __construct(Connection $db, UserRepository $userRepository)
+    /** @var TokenValidator */
+    private $tokenValidator;
+
+    public function __construct(Connection $db, UserRepository $userRepository, TokenValidator $tokenValidator)
     {
         $this->db = $db;
         $this->userRepository = $userRepository;
+        $this->tokenValidator = $tokenValidator;
     }
 
     public function loadUserByUsername($token)
     {
-        if (!$this->userRepository->tokenIsValid($token)) {
+        if (!$this->tokenValidator->tokenIsValid($token)) {
             return null;
         }
 

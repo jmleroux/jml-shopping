@@ -6,24 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>JML Shoping List</title>
     <link href="img/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
-    <link href="css/style.css" media="screen" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="./build/css/app.css">
+    <link rel="stylesheet" media="screen" type="text/css" href="css/style.css"/>
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#login-container" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="">JML Shopping List</a>
-        </div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="">JML Shopping List</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div id="login-container" class="collapse navbar-collapse"></div>
     </div>
 </nav>
@@ -31,6 +26,6 @@
 <div id="product-list" class="container-fluid"></div>
 <div id="category-list" class="container-fluid"></div>
 <div id="footer" class="container-fluid"></div>
-<script src="./js/dist/bundle.js"></script>
+<script src="./build/js/app.js"></script>
 </body>
 </html>

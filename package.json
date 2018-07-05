@@ -1,0 +1,33 @@
+{
+    "name": "jmlshopping",
+    "version": "1.0.0",
+    "description": "",
+    "main": "webpack.config.js",
+    "license": "UNLICENSED",
+    "private": true,
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.19.0",
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.4",
+        "babel-preset-react": "^6.24.1",
+        "bootstrap": "^4.1.1",
+        "isomorphic-fetch": "^2.2.1",
+        "jquery": "^3.3.1",
+        "node-sass": "^4.9.0",
+        "popper.js": "^1.14.3",
+        "react": "^16.4.1",
+        "react-dom": "^16.4.1",
+        "react-redux": "^5.0.7",
+        "react-router": "^4.3.1",
+        "redux": "^4.0.0",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.3.0",
+        "sass-loader": "^7.0.3"
+    },
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production"
+    }
+}

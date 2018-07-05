@@ -26,10 +26,11 @@ class UserRepository
         $qb = $this->db->createQueryBuilder();
         $qb->select('login, password')
             ->from(self::TABLENAME, 'u')
-            ->where('login = ?')
-            ->values([$username]);
+            ->where('login = :username')
+            ->setParameter('username', $username, \PDO::PARAM_STR);
 
         $stmt = $qb->execute();
+
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if (!$row) {

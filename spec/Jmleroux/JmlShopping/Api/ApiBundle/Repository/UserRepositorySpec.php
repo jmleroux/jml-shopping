@@ -18,7 +18,7 @@ class UserRepositorySpec extends ObjectBehavior
         $connection->createQueryBuilder()->willReturn($qb);
         $qb->select('login, password')->willReturn($qb);
         $qb->from('users', 'u')->willReturn($qb);
-        $qb->where('login = ?')->willReturn($qb);
+        $qb->where('login = :username')->willReturn($qb);
         $qb->execute()->willReturn($statement);
 
         $this->beConstructedWith($connection);
@@ -34,7 +34,7 @@ class UserRepositorySpec extends ObjectBehavior
         $row = $this->get_row_fixture();
         $username = $row['login'];
 
-        $qb->values([$username])->willReturn($qb);
+        $qb->setParameter('username', $username, \PDO::PARAM_STR)->willReturn($qb);
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
 
         $this->findByUsername('admin')->shouldHaveType(User::class);
@@ -44,7 +44,7 @@ class UserRepositorySpec extends ObjectBehavior
     {
         $username = 'foo';
 
-        $qb->values([$username])->willReturn($qb);
+        $qb->setParameter('username', $username, \PDO::PARAM_STR)->willReturn($qb);
         $statement->fetch(PDO::FETCH_ASSOC)->willReturn(null);
 
         $this->findByUsername($username)->shouldReturn(null);

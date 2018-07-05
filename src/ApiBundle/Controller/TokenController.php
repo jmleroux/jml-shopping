@@ -2,6 +2,7 @@
 
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Controller;
 
+use Jmleroux\JmlShopping\Api\ApiBundle\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,11 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TokenController extends Controller
 {
-    public function loginAction(Request $request)
+    public function loginAction(Request $request, UserService $userService)
     {
         $data = json_decode($request->getContent());
 
-        $userService = $this->get('jmlshopping.user');
         $authenticationResult = $userService->authenticate($data->username, $data->password);
 
         if (!empty($authenticationResult['token'])) {

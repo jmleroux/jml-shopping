@@ -6,6 +6,7 @@ use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
+use Jmleroux\JmlShopping\Api\ApiBundle\Security\PasswordEncoder;
 
 class UserService
 {
@@ -21,10 +22,14 @@ class UserService
 
     protected $tokenLifetime = 3600;
 
-    public function __construct(UserRepository $userRepository, $encryptionKey)
+    /** @var PasswordEncoder */
+    private $passwordEncoder;
+
+    public function __construct(UserRepository $userRepository, PasswordEncoder $passwordEncoder, $encryptionKey)
     {
         $this->userRepository = $userRepository;
         $this->encryptionKey = $encryptionKey;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -41,8 +46,9 @@ class UserService
             'username' => $username,
             'token'    => '',
         ];
+
         if (!empty($user)) {
-            $verified = password_verify($password, $user->getPassword());
+            $verified = $this->passwordEncoder->isPasswordValid($user->getPassword(), $password);
             if ($verified) {
                 $authenticationResult['token'] = $this->encryptToken($username);
             }
