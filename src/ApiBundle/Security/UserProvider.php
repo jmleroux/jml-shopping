@@ -54,7 +54,7 @@ class UserProvider implements UserProviderInterface
             );
         }
 
-        return $this->loadUserByUsername($user->getUsername());
+        return $user;
     }
 
     public function supportsClass($class)

@@ -47,7 +47,11 @@ class TokenValidator
         list($username, $base64Token) = explode('-+-', $payload);
         $token = base64_decode($base64Token);
         $key = Key::loadFromAsciiSafeString($this->encryptionKey);
-        $decrypted = Crypto::Decrypt($token, $key);
+        try {
+            $decrypted = Crypto::Decrypt($token, $key);
+        } catch (\Exception $e) {
+            return false;
+        }
         if ($decrypted) {
             list($secretUsername, $time) = explode('-+-', $decrypted);
             if ($secretUsername != $username) {

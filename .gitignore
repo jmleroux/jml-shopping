@@ -1,5 +1,6 @@
 .idea
 coverage.xml
+docker-compose.override.yml
 
 ###> symfony/framework-bundle ###
 /.env
