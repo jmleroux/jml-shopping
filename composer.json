@@ -6,7 +6,6 @@
         "php": ">=7.1",
         "defuse/php-encryption": "@stable",
         "doctrine/doctrine-bundle": "@stable",
-        "ramsey/uuid": "^3.7",
         "symfony/flex": "^1.0",
         "symfony/monolog-bundle": "^3.3",
         "symfony/security-bundle": "^4.1",
