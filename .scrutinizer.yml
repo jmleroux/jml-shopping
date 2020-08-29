@@ -1,23 +1,32 @@
 filter:
     paths:
-        - Api/src/*
+        - src/*
 
 build:
     environment:
-        php: 7.1.0
+        php: 7.1
 
     project_setup:
         before:
-            - 'cd Api'
-            - 'composer install'
+            - 'cp .env.dist .env'
+            - 'bash ./bin/setup.bash'
     tests:
         override:
             -
-                command: './bin/phpspec run -f progress -c phpspec-ci.yml'
+                command: './vendor/bin/phpspec run -f progress -c phpspec-ci.yml'
                 coverage:
-                    file: 'Api/coverage.xml'
+                    file: 'var/reports/phpspec/coverage.xml'
                     format: 'php-clover'
-
+            -
+                command: './bin/phpunit'
+                coverage:
+                    file: 'var/reports/phpunit/logs/clover.xml'
+                    format: 'clover'
 tools:
     php_cs_fixer:
         config: { level: psr2 }
+
+checks:
+    php:
+        code_rating: true
+        duplication: true

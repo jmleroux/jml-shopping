@@ -1,0 +1,39 @@
+user_login:
+    path: /api/login
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\TokenController::loginAction }
+    methods: [POST]
+
+product_list:
+    path: /api/products
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductController::listAction }
+    methods: [GET]
+
+product_create:
+    path: /api/product
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductController::createAction }
+    methods: [POST]
+
+product_delete:
+    path: /api/product/{id}
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductController::deleteAction }
+    methods: [DELETE]
+
+product_clear_all:
+    path: /api/products
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductController::truncateAction }
+    methods: [DELETE]
+
+category_list:
+    path: /api/categories
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\CategoryController::listAction }
+    methods: [GET]
+
+category_edit:
+    path: /api/category
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\CategoryController::createAction }
+    methods: [POST]
+
+category_delete:
+    path: /api/category/{id}
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\CategoryController::deleteAction }
+    methods: [DELETE]
