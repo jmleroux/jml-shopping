@@ -2,16 +2,33 @@
 
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Security;
 
-use Symfony\Component\HttpFoundation\Request;
+use League\OAuth2\Client\Provider\Google;
+use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
+    /** @var Security */
+    private $security;
+    /** @var string */
+    private $googleClientId;
+    /** @var string */
+    private $googleSecret;
+
+    public function __construct(Security $security, string $googleClientId, string $googleSecret)
+    {
+        $this->security = $security;
+        $this->googleClientId = $googleClientId;
+        $this->googleSecret = $googleSecret;
+    }
+
     public function getCredentials(Request $request)
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
@@ -23,13 +40,29 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        $provider = new Google([
+            'clientId' => $this->googleClientId,
+            'clientSecret' => $this->googleSecret,
+            'redirectUri' => 'https://example.com/callback-url',
+        ]);
+
         $token = $credentials['token'];
 
         if (!$token) {
             throw new AuthenticationException('No token found.');
         }
 
-        return $userProvider->loadUserByUsername($token);
+        try {
+            $googleUser = $provider->getResourceOwner(new AccessToken(['access_token' => $token]))->toArray();
+        } catch (\Exception $e) {
+            throw new AuthenticationException('Bad access token.');
+        }
+
+        if (!isset($googleUser['email'])) {
+            throw new AuthenticationException('Bad access token.');
+        }
+
+        return $userProvider->loadUserByUsername($googleUser['email']);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -67,6 +100,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request): bool
     {
-        return $request->headers->has('X-AUTH-TOKEN');
+        if ($this->security->getUser()) {
+            return false;
+        }
+
+        return true;
     }
 }

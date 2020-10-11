@@ -19,7 +19,6 @@ CREATE TABLE products (
 
 CREATE TABLE users (
   login    VARCHAR(20) NOT NULL,
-  password VARCHAR(50) NOT NULL,
   PRIMARY KEY (login)
 );
 

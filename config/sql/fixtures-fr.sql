@@ -13,5 +13,3 @@ insert into products ("id", "category_id", "name", "quantity") values ('pid1', '
 insert into products ("id", "category_id", "name", "quantity") values ('pid2', 'cid1', 'product2', 10);
 insert into products ("id", "category_id", "name", "quantity") values ('pid3', 'cid2', 'product3', 5);
 insert into products ("id", "category_id", "name", "quantity") values ('pid4', 'cid2', 'product4', 10);
-
-insert into users ("login", "password") values ('admin', '$2y$10$eUc9b9dsyPoJtdoKqE/dROpNyhTMsVsdX.8weoK5gBnLMPabr79MS');

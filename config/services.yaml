@@ -5,7 +5,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    encoder.seed: 'def000004df82059ef280997071b2a3b0501164cc8e4bc25d930a4fa7f79f21efabab7a9cd1ba900bedd6020ef916182c5fb463cf123f6d5a14b231318f5dcfc49a99a2a'
 
 services:
     # default configuration for services in *this* file
@@ -28,10 +27,7 @@ services:
         resource: '../src/ApiBundle/Controller'
         tags: ['controller.service_arguments']
 
-    Jmleroux\JmlShopping\Api\ApiBundle\Security\PasswordAuthenticator:
+    Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenAuthenticator:
         arguments:
-            $encryptionKey: '%encoder.seed%'
-
-    Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenEncoder:
-        arguments:
-            $encryptionKey: '%encoder.seed%'
+            $googleClientId: '%env(GOOGLE_CLIENT_ID)%'
+            $googleSecret: '%env(GOOGLE_SECRET)%'

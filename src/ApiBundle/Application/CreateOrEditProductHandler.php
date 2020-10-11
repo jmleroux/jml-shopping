@@ -22,7 +22,7 @@ class CreateOrEditProductHandler
         $data = $command->productData;
 
         $product = Product::create($data['id'], $data['name'], $data['category_id'], $data['quantity']);
-        $existingProduct = $this->productRepository->findByName($product->getName());
+        $existingProduct = $this->productRepository->findByName($data['name']);
 
         if (null === $existingProduct) {
             $result = $this->productRepository->create($product);

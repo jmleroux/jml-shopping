@@ -47,7 +47,21 @@ export const clearAllProducts = (id) => ({
     payload: {id},
 });
 
+export const authSuccess = (authValues) => ({
+    type: 'AUTH_SUCCESS',
+    payload: authValues,
+});
+
+export const authError = () => ({
+    type: 'AUTH_ERROR',
+    payload: {},
+});
+
 const initialState = {
+    isAuthenticated: false,
+    token: null,
+    username: null,
+    avatar: null,
     product: {
         id: null,
         name: '',
@@ -142,7 +156,25 @@ const StateProvider = ({children}) => {
                     products: [],
                 };
             }
-
+            case 'AUTH_SUCCESS': {
+                sessionStorage.setItem("tokens", JSON.stringify(action.payload));
+                return {
+                    ...state,
+                    isAuthenticated: true,
+                    token: action.payload.accessToken,
+                    username: action.payload.username,
+                    avatar: action.payload.avatar,
+                };
+            }
+            case 'AUTH_ERROR': {
+                // sessionStorage.removeItem("tokens");
+                return state
+                return {
+                    ...state,
+                    isAuthenticated: false,
+                    token: null,
+                };
+            }
             default: {
                 return state;
             }

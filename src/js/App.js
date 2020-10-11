@@ -1,12 +1,10 @@
 import React from 'react';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import {HashRouter, Switch} from 'react-router-dom';
 import {StateProvider} from './store';
-
-import ProductForm from "./components/ProductForm";
-import ProductTable from "./components/ProductTable";
-import CategoryForm from "./components/CategoryForm";
-import CategoryTable from "./components/CategoryTable";
 import Menu from "./components/Menu";
+import CategoryPage from "./CategoryPage";
+import PrivateRoute from "./PrivateRoute";
+import ProductPage from "./ProductPage";
 
 const App = () => {
     return (
@@ -15,18 +13,8 @@ const App = () => {
                 <Menu/>
                 <div>
                     <Switch>
-                        <Route path="/product-list">
-                            <ProductForm/>
-                            <ProductTable />
-                        </Route>
-                        <Route path="/category-list">
-                            <CategoryForm/>
-                            <CategoryTable />
-                        </Route>
-                        <Route>
-                            <ProductForm/>
-                            <ProductTable />
-                        </Route>
+                        <PrivateRoute path="/category-list" component={CategoryPage}/>
+                        <PrivateRoute path="/product-list" component={ProductPage}/>
                     </Switch>
                 </div>
 

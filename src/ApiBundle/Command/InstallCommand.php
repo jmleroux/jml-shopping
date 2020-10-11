@@ -5,18 +5,22 @@ declare(strict_types=1);
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Command;
 
 use Doctrine\DBAL\Connection;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InstallCommand extends ContainerAwareCommand
+class InstallCommand extends Command
 {
     /** @var Connection */
     private $connection;
+    /** @var ContainerInterface */
+    private $container;
 
-    public function __construct(Connection $connection)
+    public function __construct(ContainerInterface $container, Connection $connection)
     {
         parent::__construct();
+        $this->container = $container;
         $this->connection = $connection;
     }
 
@@ -28,7 +32,7 @@ class InstallCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->connection->exec("PRAGMA foreign_keys = ON;");
+        $this->connection->executeStatement("PRAGMA foreign_keys = ON;");
         $this->connection->beginTransaction();
         $this->createSchema($output);
         $this->loadFixtures($output);
@@ -37,14 +41,14 @@ class InstallCommand extends ContainerAwareCommand
 
     private function createSchema(OutputInterface $output): void
     {
-        $file = $this->getContainer()->getParameter('kernel.root_dir') . '/config/sql/schema.sql';
+        $file = $this->container->getParameter('kernel.root_dir') . '/config/sql/schema.sql';
         $sql = file_get_contents($file);
         $this->executeFixtures($output, $sql);
     }
 
     private function loadFixtures(OutputInterface $output): void
     {
-        $file = $this->getContainer()->getParameter('kernel.root_dir') . '/config/sql/fixtures-fr.sql';
+        $file = $this->container->getParameter('kernel.root_dir') . '/config/sql/fixtures-fr.sql';
         $sql = file_get_contents($file);
         $this->executeFixtures($output, $sql);
     }
@@ -52,6 +56,6 @@ class InstallCommand extends ContainerAwareCommand
     private function executeFixtures(OutputInterface $output, string $sql): void
     {
         $output->writeln(sprintf('Execute command <info>"%s"</info>', $sql));
-        $this->connection->exec($sql);
+        $this->connection->executeQuery($sql);
     }
 }

@@ -5,7 +5,6 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Statement;
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\User;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use PDO;
@@ -34,8 +33,12 @@ class UserRepositorySpec extends ObjectBehavior
         $row = $this->get_row_fixture();
         $username = $row['login'];
 
+        $qb->select('login')->willReturn($qb);
+        $qb->from('users', 'u')->willReturn($qb);
+        $qb->where('login = :username')->willReturn($qb);
         $qb->setParameter('username', $username, \PDO::PARAM_STR)->willReturn($qb);
-        $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
+
+        $statement->fetchAssociative()->willReturn($row);
 
         $this->findByUsername('admin')->shouldHaveType(User::class);
     }
@@ -44,8 +47,12 @@ class UserRepositorySpec extends ObjectBehavior
     {
         $username = 'foo';
 
+        $qb->select('login')->willReturn($qb);
+        $qb->from('users', 'u')->willReturn($qb);
+        $qb->where('login = :username')->willReturn($qb);
         $qb->setParameter('username', $username, \PDO::PARAM_STR)->willReturn($qb);
-        $statement->fetch(PDO::FETCH_ASSOC)->willReturn(null);
+
+        $statement->fetchAssociative()->willReturn(null);
 
         $this->findByUsername($username)->shouldReturn(null);
     }
@@ -54,7 +61,6 @@ class UserRepositorySpec extends ObjectBehavior
     {
         return [
             'login' => 'admin',
-            'password' => 'adminpass',
         ];
     }
 
@@ -62,7 +68,6 @@ class UserRepositorySpec extends ObjectBehavior
     {
         return [
             'username' => 'admin',
-            'password' => 'adminpass',
         ];
     }
 }

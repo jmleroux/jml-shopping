@@ -7,7 +7,7 @@ import useFetchList from "../useFetchList";
 
 const ProductRow = ({product}) => {
 
-    const {dispatch} = useContext(store);
+    const {state, dispatch} = useContext(store);
     const [confirmDelete, setConfirmDelete] = useState(false);
 
     const handleEdit = async (product) => {
@@ -15,7 +15,11 @@ const ProductRow = ({product}) => {
     };
 
     const handleDelete = async (id) => {
-        await axios.delete(`api/product/${id}`);
+        let config = {}
+        if (state.token) {
+            config = {...config, headers: {'X-AUTH-TOKEN': state.token}};
+        }
+        await axios.delete(`api/product/${id}`, config);
         dispatch(deleteProductSuccess(id));
     };
 

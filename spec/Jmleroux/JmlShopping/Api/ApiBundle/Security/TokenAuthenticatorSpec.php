@@ -6,20 +6,24 @@ use Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenAuthenticator;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class TokenAuthenticatorSpec extends ObjectBehavior
 {
+    function let(Security $security, Request $request, HeaderBag $headers)
+    {
+        $this->beConstructedWith($security, 'google_id', 'google_secret');
+
+        $headers->get('X-AUTH-TOKEN')->willReturn('foo-token');
+        $request->headers = $headers;
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(TokenAuthenticator::class);
-    }
-
-    function let(Request $request, HeaderBag $headers)
-    {
-        $headers->get('X-AUTH-TOKEN')->willReturn('foo-token');
-        $request->headers = $headers;
     }
 
     function it_can_get_credentials(Request $request)
@@ -27,13 +31,14 @@ class TokenAuthenticatorSpec extends ObjectBehavior
         $this->getCredentials($request)->shouldReturn(['token' => 'foo-token']);
     }
 
-    function it_can_get_user(UserProviderInterface $userProvider, UserInterface $user)
+    function it_must_authenticate(UserProviderInterface $userProvider, UserInterface $user)
     {
         $credentials = ['token' => 'foo-token'];
         $userProvider->loadUserByUsername('foo-token')
-            ->willReturn($user);
-        $this->getUser($credentials, $userProvider)
-            ->shouldReturn($user);
+            ->shouldNotBeCalled();
+
+        $this->shouldThrow(AuthenticationException::class)
+            ->during('getUser', [$credentials, $userProvider]);
     }
 
     function it_does_not_support_remember_me()

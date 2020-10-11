@@ -4,6 +4,7 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Entity;
 
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class CategorySpec extends ObjectBehavior
 {
@@ -12,18 +13,16 @@ class CategorySpec extends ObjectBehavior
         $this->shouldHaveType(Category::class);
     }
 
-    function it_can_set_id()
+    function it_can_be_created_with_id()
     {
-        $this->setId('uuid');
-        $this->getId()->shouldReturn('uuid');
+        $this->beConstructedThrough('create', ['category_id', 'category_name']);
+        $this->getId()->shouldReturn('category_id');
+        $this->getName()->shouldReturn('category_name');
     }
 
-    function it_can_set_label()
+    function it_can_have_null_id()
     {
-        $this->setName('foo');
-        $this->getName()->shouldReturn('foo');
-
-        $this->setName('  foo   ');
-        $this->getName()->shouldReturn('foo');
+        $this->beConstructedThrough('create', [null, 'category_name']);
+        $this->getId()->shouldBeString();
     }
 }

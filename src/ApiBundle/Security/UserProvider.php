@@ -13,28 +13,17 @@ class UserProvider implements UserProviderInterface
 {
     /** @var Connection */
     private $db;
-
     /** @var UserRepository */
     private $userRepository;
 
-    /** @var TokenEncoder */
-    private $tokenValidator;
-
-    public function __construct(Connection $db, UserRepository $userRepository, TokenEncoder $tokenValidator)
+    public function __construct(Connection $db, UserRepository $userRepository)
     {
         $this->db = $db;
         $this->userRepository = $userRepository;
-        $this->tokenValidator = $tokenValidator;
     }
 
-    public function loadUserByUsername($token)
+    public function loadUserByUsername($username): ?UserInterface
     {
-        if (!$this->tokenValidator->tokenIsValid($token)) {
-            return null;
-        }
-
-        list($username, $base64Token) = explode('-+-', $token);
-
         $user = $this->userRepository->findByUsername($username);
 
         if (null === $user) {

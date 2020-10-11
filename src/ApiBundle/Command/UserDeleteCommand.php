@@ -4,12 +4,12 @@ namespace Jmleroux\JmlShopping\Api\ApiBundle\Command;
 
 use Doctrine\DBAL\DBALException;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserDeleteCommand extends ContainerAwareCommand
+class UserDeleteCommand extends Command
 {
     /** @var UserRepository */
     private $userRepository;

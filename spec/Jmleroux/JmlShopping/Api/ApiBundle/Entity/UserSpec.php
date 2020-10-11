@@ -26,13 +26,13 @@ class UserSpec extends ObjectBehavior
 
     function it_can_get_password()
     {
-        $this->getPassword()->shouldReturn('pwd');
+        $this->getPassword()->shouldReturn(null);
     }
 
     function it_can_erase_credentials()
     {
         $this->eraseCredentials();
-        $this->getPassword()->shouldReturn('');
+        $this->getPassword()->shouldReturn(null);
     }
 
     function it_can_get_roles()

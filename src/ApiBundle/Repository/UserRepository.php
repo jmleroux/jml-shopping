@@ -24,26 +24,26 @@ class UserRepository
     public function findByUsername(string $username): ?User
     {
         $qb = $this->db->createQueryBuilder();
-        $qb->select('login, password')
+        $qb->select('login')
             ->from(self::TABLENAME, 'u')
             ->where('login = :username')
             ->setParameter('username', $username, \PDO::PARAM_STR);
 
         $stmt = $qb->execute();
 
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $row = $stmt->fetchAssociative();
 
         if (!$row) {
             return null;
         }
 
-        return User::create($row['login'], $row['password']);
+        return User::create($row['login']);
     }
 
     public function save(User $user)
     {
-        $sql = 'INSERT INTO users (login, password) VALUES (?, ?);';
-        $values = [$user->getUsername(), $user->getPassword()];
+        $sql = 'INSERT INTO users (login) VALUES (?);';
+        $values = [$user->getUsername()];
         $this->db->executeUpdate($sql, $values);
     }
 

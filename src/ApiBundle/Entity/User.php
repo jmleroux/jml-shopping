@@ -25,7 +25,6 @@ class User implements UserInterface
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
     }
 
     public function getUsername()
@@ -35,17 +34,15 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        $this->password = '';
     }
 
-    private function __construct(string $username, string $password)
+    private function __construct(string $username)
     {
         $this->username = $username;
-        $this->password = $password;
     }
 
-    public static function create(string $username, string $password): User
+    public static function create(string $username): User
     {
-        return new self($username, $password);
+        return new self($username);
     }
 }

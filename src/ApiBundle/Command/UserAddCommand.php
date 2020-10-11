@@ -5,12 +5,12 @@ namespace Jmleroux\JmlShopping\Api\ApiBundle\Command;
 use Doctrine\DBAL\DBALException;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\User;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserAddCommand extends ContainerAwareCommand
+class UserAddCommand extends Command
 {
     /** @var UserRepository */
     private $userRepository;
@@ -29,27 +29,22 @@ class UserAddCommand extends ContainerAwareCommand
                 'login',
                 InputArgument::REQUIRED,
                 'User login'
-            )
-            ->addArgument(
-                'password',
-                InputArgument::REQUIRED,
-                'User password'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $login = $input->getArgument('login');
-        $password = $input->getArgument('password');
 
         try {
-            $user = User::create($login, $password);
+            $user = User::create($login);
             $this->userRepository->save($user);
-            $message = sprintf('User "%s" created with password "%s"', $login, $password);
+            $message = sprintf('User "%s" created', $login);
             $output->writeln($message);
         } catch (DBALException $e) {
             $message = 'User already in database.';
             $output->writeln('<error>' . $message . '</error>');
+            $output->writeln($e->getMessage());
         }
     }
 }

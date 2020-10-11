@@ -42,9 +42,11 @@ setup:
 .PHONY: database
 database:
 	$(DOCKER_RUN) bin/console --env=dev jmlshopping:install
+	$(DOCKER_RUN) bin/console --env=dev jmlshopping:user:add jmleroux.pro@gmail.com
 
 .PHONY: tests
 tests:
+	$(DOCKER_RUN) ./vendor/bin/phpspec run
 	$(DOCKER_RUN) ./vendor/bin/simple-phpunit ${path}
 
 .PHONY: coverage

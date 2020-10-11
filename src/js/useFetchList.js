@@ -1,8 +1,6 @@
 import {useContext, useEffect} from 'react';
-import store from './store';
+import store, {authError, getListSuccess} from './store';
 import axios from 'axios';
-
-import {getListSuccess} from './store';
 
 const useFetchList = ({resource}) => {
     const {state, dispatch} = useContext(store);
@@ -10,8 +8,20 @@ const useFetchList = ({resource}) => {
     useEffect(() => {
         const fetchData = async () => {
             const url = `api/${resource}`;
-            const response = await axios.get(url);
-            dispatch(getListSuccess(response.data, resource));
+            let config = {
+                headers: {}
+            };
+            if (state.token) {
+                config.headers['X-AUTH-TOKEN'] = state.token;
+            }
+            try {
+                const response = await axios.get(url, config);
+                dispatch(getListSuccess(response.data, resource));
+            } catch (error) {
+                if (403 === error.response.status) {
+                    dispatch(authError())
+                }
+            }
         };
         fetchData();
     }, [resource, dispatch]);

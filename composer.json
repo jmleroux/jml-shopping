@@ -4,24 +4,25 @@
     "homepage": "https://github.com/jmleroux/jml-shopping",
     "require": {
         "php": ">=7.3",
-        "ext-pdo": "*",
         "ext-json": "*",
+        "ext-pdo": "*",
         "defuse/php-encryption": "@stable",
         "doctrine/doctrine-bundle": "@stable",
-        "symfony/dotenv": "^4.1",
+        "league/oauth2-google": "^3.0",
+        "symfony/dotenv": "^4.4",
         "symfony/flex": "^1.9",
-        "symfony/monolog-bundle": "^3.3",
-        "symfony/security-bundle": "^4.1",
-        "symfony/validator": "^4.1",
+        "symfony/monolog-bundle": "^3.6",
+        "symfony/security-bundle": "^4.4",
+        "symfony/validator": "^4.4",
         "symfony/webpack-encore-bundle": "^1.2"
     },
     "require-dev": {
-        "dama/doctrine-test-bundle": "^5.0",
+        "dama/doctrine-test-bundle": "^6.0",
         "leanphp/phpspec-code-coverage": "@stable",
         "phpspec/phpspec": "@stable",
-        "symfony/browser-kit": "^4.1",
+        "symfony/browser-kit": "^4.4",
         "symfony/maker-bundle": "^1.5",
-        "symfony/phpunit-bridge": "^4.1"
+        "symfony/phpunit-bridge": "^4.4"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -33,6 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "spec\\Jmleroux\\": "spec/Jmleroux",
             "Jmleroux\\JmlShopping\\Api\\Tests\\": "tests"
         }
     },
@@ -52,7 +54,8 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": "true"
+            "allow-contrib": "true",
+            "require": "4.4.*"
         }
     }
 }
