@@ -1,9 +1,9 @@
 import React, {useContext, useState} from "react";
-import axios from 'axios';
 import {Button, Confirm, Container, Icon, Table} from 'semantic-ui-react'
 
 import store, {clearAllProducts, deleteProductSuccess, editProduct} from "../store";
 import useFetchList from "../useFetchList";
+import apiProduct from "../apiProduct";
 
 const ProductRow = ({product}) => {
 
@@ -15,11 +15,7 @@ const ProductRow = ({product}) => {
     };
 
     const handleDelete = async (id) => {
-        let config = {}
-        if (state.token) {
-            config = {...config, headers: {'X-AUTH-TOKEN': state.token}};
-        }
-        await axios.delete(`api/product/${id}`, config);
+        await apiProduct.deleteProduct(state, id);
         dispatch(deleteProductSuccess(id));
     };
 
@@ -60,7 +56,7 @@ const ProductTable = () => {
     });
 
     const handleClearAll = () => {
-        axios.delete(`api/products`);
+        apiProduct.deleteProducts(state);
         dispatch(clearAllProducts());
         setConfirmClear(false);
     };

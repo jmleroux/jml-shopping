@@ -3,11 +3,11 @@ import {Button, Confirm, Container, Table} from 'semantic-ui-react'
 
 import useFetchList from "../useFetchList";
 import store, {deleteCategorySuccess, editCategory} from "../store";
-import axios from "axios";
+import apiCategory from "../apiCategory";
 
 const CategoryRow = ({category}) => {
 
-    const {dispatch} = useContext(store);
+    const {state, dispatch} = useContext(store);
     const [confirmDelete, setConfirmDelete] = useState(false);
 
     const handleEdit = (category) => {
@@ -15,7 +15,7 @@ const CategoryRow = ({category}) => {
     };
 
     const handleDelete = async (id) => {
-        await axios.delete(`api/category/${id}`);
+        await apiCategory.deleteCategory(state, id);
         dispatch(deleteCategorySuccess(id));
     };
 

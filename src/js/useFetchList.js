@@ -1,25 +1,28 @@
 import {useContext, useEffect} from 'react';
 import store, {authError, getListSuccess} from './store';
-import axios from 'axios';
+import apiProduct from "./apiProduct";
+import apiCategory from "./apiCategory";
 
 const useFetchList = ({resource}) => {
     const {state, dispatch} = useContext(store);
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = `api/${resource}`;
-            let config = {
-                headers: {}
-            };
-            if (state.token) {
-                config.headers['X-AUTH-TOKEN'] = state.token;
+            let api = null;
+            if ('products' === resource) {
+                api = apiProduct.getProducts;
             }
-            try {
-                const response = await axios.get(url, config);
-                dispatch(getListSuccess(response.data, resource));
-            } catch (error) {
-                if (403 === error.response.status) {
-                    dispatch(authError())
+            if ('categories' === resource) {
+                api = apiCategory.getCategories;
+            }
+            if (null !== api) {
+                try {
+                    const response = await api(state);
+                    dispatch(getListSuccess(response.data, resource));
+                } catch (error) {
+                    if (403 === error.response.status) {
+                        dispatch(authError())
+                    }
                 }
             }
         };

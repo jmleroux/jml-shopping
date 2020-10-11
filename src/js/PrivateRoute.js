@@ -4,13 +4,14 @@ import store, {authCheckToken} from "./store";
 
 function PrivateRoute({component: Component, ...rest}) {
 
-    const {dispatch} = useContext(store);
+    const {state} = useContext(store);
 
     useLayoutEffect(() => {
     }, [])
 
     return (
         <Route {...rest} render={(props) => (
+            state.isAuthenticated &&
             <Component {...props} />
         )}
         />

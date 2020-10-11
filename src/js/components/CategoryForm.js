@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
 import {Button, Container, Form, Input} from 'semantic-ui-react'
-import axios from "axios";
 
 import store, {editCategory, updateCategories} from '../store';
+import apiCategory from "../apiCategory";
 
 const CategoryForm = () => {
 
@@ -11,8 +11,7 @@ const CategoryForm = () => {
 
     const handleSubmit = async (event) => {
         if (event) event.preventDefault();
-        const payload = JSON.stringify(category);
-        const result = await axios.post('/api/category', payload);
+        await apiCategory.createCategory(state, category);
         dispatch(updateCategories());
     };
 

@@ -157,22 +157,12 @@ const StateProvider = ({children}) => {
                 };
             }
             case 'AUTH_SUCCESS': {
-                sessionStorage.setItem("tokens", JSON.stringify(action.payload));
                 return {
                     ...state,
                     isAuthenticated: true,
                     token: action.payload.accessToken,
                     username: action.payload.username,
                     avatar: action.payload.avatar,
-                };
-            }
-            case 'AUTH_ERROR': {
-                // sessionStorage.removeItem("tokens");
-                return state
-                return {
-                    ...state,
-                    isAuthenticated: false,
-                    token: null,
                 };
             }
             default: {

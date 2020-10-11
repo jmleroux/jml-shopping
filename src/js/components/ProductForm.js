@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
-import axios from 'axios';
 import {Button, Container, Dropdown, Form, Input} from 'semantic-ui-react'
 
 import store, {editProduct, updateProducts} from "../store";
+import apiProduct from "../apiProduct";
 
 const ProductForm = () => {
 
@@ -12,8 +12,7 @@ const ProductForm = () => {
 
     const handleSubmit = async (event) => {
         if (event) event.preventDefault();
-        const payload = JSON.stringify(product);
-        const result = await axios.post('/api/product', payload);
+        const result = await apiProduct.createProduct(state, product);
         dispatch(updateProducts());
     };
 
