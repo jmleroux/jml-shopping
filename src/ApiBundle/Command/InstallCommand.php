@@ -30,13 +30,15 @@ class InstallCommand extends Command
             ->setDescription('Install application');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->connection->executeStatement("PRAGMA foreign_keys = ON;");
         $this->connection->beginTransaction();
         $this->createSchema($output);
         $this->loadFixtures($output);
         $this->connection->commit();
+
+        return 0;
     }
 
     private function createSchema(OutputInterface $output): void
@@ -56,6 +58,6 @@ class InstallCommand extends Command
     private function executeFixtures(OutputInterface $output, string $sql): void
     {
         $output->writeln(sprintf('Execute command <info>"%s"</info>', $sql));
-        $this->connection->executeQuery($sql);
+        $this->connection->executeStatement($sql);
     }
 }

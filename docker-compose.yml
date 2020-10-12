@@ -4,6 +4,7 @@ services:
   fpm:
     image: jmleroux/fpm:php-7.3
     environment:
+      APP_ENV: '${APP_ENV:-prod}'
       COMPOSER_HOME: /home/docker/.composer
       PHP_IDE_CONFIG: 'serverName=jmleroux-cli'
       PHP_XDEBUG_ENABLED: 0

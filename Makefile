@@ -26,7 +26,7 @@ down:
 vendor:
 	rm -rf var/cache/* var/log/*
 	$(DOCKER_RUN) composer install
-	$(DOCKER_RUN)  bin/console --env=dev cache:warmup
+	$(DOCKER_RUN)  bin/console cache:warmup
 	docker-compose run --rm node yarn install
 
 .PHONY: setup
@@ -41,13 +41,13 @@ setup:
 
 .PHONY: database
 database:
-	$(DOCKER_RUN) bin/console --env=dev jmlshopping:install
-	$(DOCKER_RUN) bin/console --env=dev jmlshopping:user:add jmleroux.pro@gmail.com
+	$(DOCKER_RUN) bin/console jmlshopping:install
+	$(DOCKER_RUN) bin/console jmlshopping:user:add jmleroux.pro@gmail.com
 
 .PHONY: tests
 tests:
-	$(DOCKER_RUN) ./vendor/bin/phpspec run
-	$(DOCKER_RUN) ./vendor/bin/simple-phpunit ${path}
+	APP_ENV=test $(DOCKER_RUN) ./vendor/bin/phpspec run
+	APP_ENV=test docker-compose run -e PHP_XDEBUG_ENABLED=0 --rm fpm ./vendor/bin/simple-phpunit ${path}
 
 .PHONY: coverage
 coverage:

@@ -13,6 +13,7 @@ docker-compose.override.yml
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+.phpunit.result.cache
 
 ###> symfony/webpack-encore-pack ###
 /node_modules/
