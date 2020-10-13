@@ -6,7 +6,7 @@ services:
     environment:
       APP_ENV: '${APP_ENV:-prod}'
       COMPOSER_HOME: /home/docker/.composer
-    user: "${UID}:${GID}"
+    user: "1001:1001"
     volumes:
       - ./:/srv/jmleroux
       - ~/.composer:/home/docker/.composer
