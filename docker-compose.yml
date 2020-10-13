@@ -6,11 +6,7 @@ services:
     environment:
       APP_ENV: '${APP_ENV:-prod}'
       COMPOSER_HOME: /home/docker/.composer
-      PHP_IDE_CONFIG: 'serverName=jmleroux-cli'
-      PHP_XDEBUG_ENABLED: 0
-      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1
-      XDEBUG_CONFIG: 'remote_host=172.17.0.1'
-    user: docker
+    user: "${UID}:${GID}"
     volumes:
       - ./:/srv/jmleroux
       - ~/.composer:/home/docker/.composer
@@ -33,7 +29,6 @@ services:
     user: node
     volumes:
       - ./:/srv/jmleroux
-      - ~/.npm:/home/node/.npm
     working_dir: /srv/jmleroux
     networks:
       - jmleroux-network
