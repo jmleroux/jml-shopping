@@ -1,6 +1,5 @@
 DOCKER_EXEC = docker-compose exec fpm
-DOCKER_RUN = docker-compose run -e PHP_XDEBUG_ENABLED=0 --rm fpm
-DOCKER_RUN_XDEBUG = docker-compose run -e PHP_XDEBUG_ENABLED=1 --rm fpm
+DOCKER_RUN = docker-compose run --rm fpm
 
 .PHONY: up
 up:
@@ -8,13 +7,11 @@ up:
 
 xdebug-on:
 	docker-compose stop fpm
-	sed -i -e "s/PHP_XDEBUG_ENABLED: 0/PHP_XDEBUG_ENABLED: 1/g" docker-compose.override.yml
-	docker-compose up -d fpm
+	PHP_XDEBUG_ENABLED=1 docker-compose up -d fpm
 
 xdebug-off:
 	docker-compose stop fpm
-	sed -i -e "s/PHP_XDEBUG_ENABLED: 1/PHP_XDEBUG_ENABLED: 0/g" docker-compose.override.yml
-	docker-compose up -d fpm
+	XDEBUG_ENABLED=0 docker-compose up -d fpm
 
 .PHONY: down
 down:
@@ -47,9 +44,10 @@ database:
 .PHONY: tests
 tests:
 	APP_ENV=test $(DOCKER_RUN) ./vendor/bin/phpspec run
-	APP_ENV=test docker-compose run -e PHP_XDEBUG_ENABLED=0 --rm fpm ./vendor/bin/simple-phpunit ${path}
+	APP_ENV=test $(DOCKER_RUN) ./vendor/bin/simple-phpunit ${path}
 
 .PHONY: coverage
 coverage:
-	$(DOCKER_RUN_XDEBUG) vendor/bin/simple-phpunit --coverage-html var/coverage
+	XDEBUG_ENABLED=1 APP_ENV=test $(DOCKER_RUN) ./vendor/bin/phpspec run -c phpspec-coverage.yml
+	XDEBUG_ENABLED=1 APP_ENV=test $(DOCKER_RUN) vendor/bin/simple-phpunit --coverage-html var/coverage
 

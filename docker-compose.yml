@@ -7,7 +7,7 @@ services:
       APP_ENV: '${APP_ENV:-prod}'
       COMPOSER_HOME: /home/docker/.composer
       PHP_IDE_CONFIG: 'serverName=jmleroux-cli'
-      PHP_XDEBUG_ENABLED: 0
+      PHP_XDEBUG_ENABLED: '${XDEBUG_ENABLED:-0}'
       PHP_XDEBUG_REMOTE_HOST: 172.17.0.1
       XDEBUG_CONFIG: 'remote_host=172.17.0.1'
     user: docker

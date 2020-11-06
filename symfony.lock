@@ -8,9 +8,6 @@
             "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
         }
     },
-    "defuse/php-encryption": {
-        "version": "v2.2.0"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -62,6 +59,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "friends-of-phpspec/phpspec-code-coverage": {
+        "version": "v4.3.2"
+    },
     "guzzlehttp/guzzle": {
         "version": "7.2.0"
     },
@@ -79,9 +79,6 @@
     },
     "league/oauth2-google": {
         "version": "3.0.3"
-    },
-    "leanphp/phpspec-code-coverage": {
-        "version": "v4.2.2"
     },
     "monolog/monolog": {
         "version": "1.23.0"

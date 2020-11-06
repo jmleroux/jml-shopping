@@ -1,0 +1,8 @@
+extensions:
+    FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
+        output:
+            html: 'var/coverage/phpspec'
+        blacklist:
+            - 'src/ApiBundle/Controller'
+        blacklist_files:
+            - 'src/MicroKernel.php'

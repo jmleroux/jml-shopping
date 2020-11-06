@@ -18,8 +18,7 @@ export default () => {
                 {state.isAuthenticated ?
                     <Fragment>
                         <a className="item">
-                            <img className="avatar" src={state.avatar}/>
-                            {state.username}
+                            <img className="avatar" src={state.avatar} title={state.username}/>
                         </a>
                     </Fragment>
                     :
