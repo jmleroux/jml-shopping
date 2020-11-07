@@ -107,7 +107,7 @@ const StateProvider = ({children}) => {
             }
             case UPDATE_PRODUCTS: {
                 const currentProduct = state.product;
-                const products = state.products.filter(product => product.name !== currentProduct.name);
+                const products = state.products.filter(product => product.id !== currentProduct.id);
                 products.push(state.product);
                 products.sort((p1, p2) => {
                     return p1.name.toLowerCase() > p2.name.toLowerCase() ? 1 : -1;

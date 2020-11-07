@@ -74,62 +74,6 @@ class ProductRepositorySpec extends ObjectBehavior
         $this->getProduct($id)->shouldReturn($product);
     }
 
-    function it_returns_null_for_unknown_product(
-        Connection $connection,
-        QueryBuilder $qb,
-        Statement $statement
-    ) {
-        $id = 'unknown_uuid';
-
-        $connection->createQueryBuilder()->willReturn($qb);
-
-        $this->prepare_find_query_builder($qb);
-        $qb->where('p.id = :productId')->willReturn($qb);
-        $qb->setParameter('productId', $id, PDO::PARAM_STR)->willReturn($qb);
-        $qb->execute()->willReturn($statement);
-        $statement->fetchAssociative()->shouldBeCalled()->willReturn(false);
-
-        $this->getProduct($id)->shouldReturn(null);
-    }
-
-    function it_fetch_one_product_by_name(
-        Connection $connection,
-        QueryBuilder $qb,
-        Statement $statement
-    ) {
-        $row = $this->get_row_fixture();
-        $product = $this->get_product_fixture();
-        $name = $row['name'];
-
-        $connection->createQueryBuilder()->willReturn($qb);
-
-        $this->prepare_find_query_builder($qb);
-        $qb->where('p.name = :name')->willReturn($qb);
-        $qb->setParameter('name', $name, PDO::PARAM_STR)->willReturn($qb);
-        $qb->execute()->willReturn($statement);
-        $statement->fetchAssociative()->shouldBeCalled()->willReturn($row);
-
-        $this->findByName($name)->shouldReturn($product);
-    }
-
-    function it_returns_nul_for_unknown_name(
-        Connection $connection,
-        QueryBuilder $qb,
-        Statement $statement
-    ) {
-        $name = 'unknown';
-
-        $connection->createQueryBuilder()->willReturn($qb);
-
-        $this->prepare_find_query_builder($qb);
-        $qb->where('p.name = :name')->willReturn($qb);
-        $qb->setParameter('name', $name, PDO::PARAM_STR)->willReturn($qb);
-        $qb->execute()->willReturn($statement);
-        $statement->fetchAssociative()->shouldBeCalled()->willReturn(false);
-
-        $this->findByName($name)->shouldReturn(null);
-    }
-
     function it_removes_all_products(Connection $connection)
     {
         $connection->executeQuery('DELETE FROM products')->shouldBeCalled();

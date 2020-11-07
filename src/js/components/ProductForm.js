@@ -12,7 +12,9 @@ const ProductForm = () => {
 
     const handleSubmit = async (event) => {
         if (event) event.preventDefault();
-        await apiProduct.createProduct(state, product);
+        const result = await apiProduct.createProduct(state, product);
+        const newProduct = result.data;
+        dispatch(editProduct(newProduct));
         dispatch(updateProducts());
     };
 
@@ -48,7 +50,7 @@ const ProductForm = () => {
                     </Form.Field>
                     <Form.Field>
                         <Dropdown selection onChange={handleChangeCategory}
-                                  compact
+
                                   options={categoryOptions}
                                   value={product.category_id}/>
                     </Form.Field>

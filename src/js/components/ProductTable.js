@@ -19,10 +19,18 @@ const ProductRow = ({product}) => {
         dispatch(deleteProductSuccess(id));
     };
 
+    const categoryName = (categoryId) => {
+        if (null === categoryId) {
+            return '';
+        }
+        const category = state.categories.find(category => category.id === categoryId);
+        return category.name;
+    }
+
     return (
         <tr>
             <td className="product-name">{product.name}</td>
-            <td className="product-category">{product.category}</td>
+            <td className="product-category">{categoryName(product.category_id)}</td>
             <td className="product-quantity">{product.quantity}</td>
             <td className="product-quantity">
                 <Button size="mini" icon="edit" onClick={() => handleEdit(product)}/>
@@ -48,11 +56,11 @@ const ProductTable = () => {
     const [confirmClear, setConfirmClear] = useState(false);
 
     useFetchList({
-        resource: 'products',
+        resource: 'categories',
     });
 
     useFetchList({
-        resource: 'categories',
+        resource: 'products',
     });
 
     const handleClearAll = () => {
@@ -66,9 +74,9 @@ const ProductTable = () => {
             <Table compact unstackable>
                 <thead>
                 <tr>
-                    <th className="product-name">Name</th>
-                    <th className="product-category">Category</th>
-                    <th className="product-quantity">Quantity</th>
+                    <Table.HeaderCell className="product-name" width={5}>Name</Table.HeaderCell>
+                    <Table.HeaderCell className="product-category" width={5}>Category</Table.HeaderCell>
+                    <Table.HeaderCell className="product-quantity" width={2}>Quantity</Table.HeaderCell>
                     <Table.HeaderCell width={1}>Operations</Table.HeaderCell>
                 </tr>
                 </thead>

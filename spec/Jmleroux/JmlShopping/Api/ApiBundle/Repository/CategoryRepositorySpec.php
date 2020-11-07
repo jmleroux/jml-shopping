@@ -4,7 +4,6 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Repository;
 
 use Doctrine\DBAL\Connection;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\CategoryHydrator;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -24,7 +23,7 @@ class CategoryRepositorySpec extends ObjectBehavior
     function it_fetches_all_categories(Connection $connection)
     {
         $category = [
-            'id'   => 'uuid',
+            'id' => 'uuid',
             'name' => 'foo',
         ];
         $connection->fetchAll(Argument::type('string'))
@@ -36,7 +35,7 @@ class CategoryRepositorySpec extends ObjectBehavior
     function it_fetch_one_category(Connection $connection)
     {
         $row = [
-            'id'   => 'uuid',
+            'id' => 'uuid',
             'name' => 'category-name',
         ];
 

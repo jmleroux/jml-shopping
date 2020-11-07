@@ -34,7 +34,7 @@ class ProductController extends AbstractController
         $command->productData = $data;
         $product = $createOrEditProductHandler->execute($command);
 
-        return new JsonResponse($product);
+        return new JsonResponse($product->normalize());
     }
 
     public function deleteAction(ProductRepository $productRepository, string $id): JsonResponse

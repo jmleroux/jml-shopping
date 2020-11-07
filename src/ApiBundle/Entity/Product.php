@@ -59,4 +59,14 @@ class Product
 
         return new self($id, $name, $categoryId, $quantity);
     }
+
+    public function normalize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'category_id' => $this->categoryId,
+            'quantity' => $this->quantity,
+        ];
+    }
 }

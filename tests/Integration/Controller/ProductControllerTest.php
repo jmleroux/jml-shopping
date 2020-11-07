@@ -5,7 +5,6 @@ namespace Jmleroux\JmlShopping\Api\Tests\Integration\Controller;
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
-use Jmleroux\JmlShopping\Api\Tests\Integration\Utils;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -120,9 +119,8 @@ class ProductControllerTest extends WebTestCase
         $json = json_decode($this->client->getResponse()->getContent(), true);
         Assert::assertCount(5, $json);
 
-        /** @var Product $product */
-        $product = static::$container->get(ProductRepository::class)->getProduct('pid100');
-        Assert::assertNotNull($product);
+        $productExists = static::$container->get(ProductRepository::class)->productExists('pid100');
+        Assert::assertTrue($productExists);
     }
 
     public function testUpdateProductQuantity()
@@ -173,7 +171,7 @@ class ProductControllerTest extends WebTestCase
         Assert::assertEquals('cid1', $product['category_id']);
     }
 
-    public function testCannotUpdateProductName()
+    public function testUpdateProductName()
     {
         $postData = json_encode([
             'id' => 'pid1',
@@ -185,7 +183,7 @@ class ProductControllerTest extends WebTestCase
         $this->logIn();
         $this->client->request('POST', '/api/product', [], [], [], $postData);
 
-        Assert::assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
+        Assert::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     private function logIn()

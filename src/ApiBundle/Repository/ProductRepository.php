@@ -69,24 +69,15 @@ class ProductRepository
         return null;
     }
 
-    public function findByName(string $name): ?array
+    public function productExists($id): bool
     {
         $qb = $this->getFindQueryBuilder();
-        $qb->where('p.name = :name')->setParameter('name', $name, PDO::PARAM_STR);
+        $qb->where('p.id = :productId')->setParameter('productId', $id, PDO::PARAM_STR);
 
         $stmt = $qb->execute();
         $row = $stmt->fetchAssociative();
 
-        if (false !== $row) {
-            $row['category'] = [
-                'id' => $row['category_id'],
-                'name' => $row['category'],
-            ];
-
-            return $row;
-        }
-
-        return null;
+        return false !== $row;
     }
 
     public function remove(string $productId): int

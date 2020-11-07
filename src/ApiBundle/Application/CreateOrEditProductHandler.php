@@ -20,19 +20,12 @@ class CreateOrEditProductHandler
     public function execute(CreateOrEditProductCommand $command): Product
     {
         $data = $command->productData;
-        $existingProductData = $this->productRepository->findByName($data['name']);
+        $product = Product::create($data['id'], $data['name'], $data['category_id'], $data['quantity']);
 
-        if (null === $existingProductData) {
-            $product = Product::create($data['id'], $data['name'], $data['category_id'], $data['quantity']);
-            $result = $this->productRepository->create($product);
-        } else {
-            $product = Product::create(
-                $existingProductData['id'],
-                $data['name'],
-                $data['category_id'],
-                $data['quantity']
-            );
+        if ($this->productRepository->productExists($product->getId())) {
             $result = $this->productRepository->update($product);
+        } else {
+            $result = $this->productRepository->create($product);
         }
 
         if (0 === $result) {
