@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useLayoutEffect} from 'react';
+import React, {useContext, useLayoutEffect} from 'react';
 import {Route} from 'react-router-dom';
-import store, {authCheckToken} from "./store";
+import store from "./store";
 
 function PrivateRoute({component: Component, ...rest}) {
 

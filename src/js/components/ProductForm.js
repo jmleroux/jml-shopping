@@ -12,7 +12,7 @@ const ProductForm = () => {
 
     const handleSubmit = async (event) => {
         if (event) event.preventDefault();
-        const result = await apiProduct.createProduct(state, product);
+        await apiProduct.createProduct(state, product);
         dispatch(updateProducts());
     };
 
@@ -42,22 +42,24 @@ const ProductForm = () => {
     return (
         <Container>
             <Form onSubmit={handleSubmit}>
-                <Form.Group unstackable>
+                <div className='inline fields'>
                     <Form.Field>
                         <Input type='text' name='name' value={product.name} onChange={handleChange}/>
                     </Form.Field>
                     <Form.Field>
                         <Dropdown selection onChange={handleChangeCategory}
+                                  compact
                                   options={categoryOptions}
                                   value={product.category_id}/>
                     </Form.Field>
                     <Form.Field>
-                        <Input type="number" name='quantity' value={product.quantity} onChange={handleChange}/>
+                        <Input type="number" name='quantity'
+                               value={product.quantity} onChange={handleChange}/>
                     </Form.Field>
                     <Form.Field>
                         <Button icon="save" type="submit"/>
                     </Form.Field>
-                </Form.Group>
+                </div>
             </Form>
         </Container>
     );

@@ -35,7 +35,7 @@ class ProductRepositorySpec extends ObjectBehavior
         $this->prepare_find_query_builder($qb);
         $qb->orderBy('c.name, p.name')->willReturn($qb);
         $qb->execute()->willReturn($statement);
-        $statement->fetchAll(PDO::FETCH_ASSOC)->willReturn([
+        $statement->fetchAllAssociative()->shouldBeCalled()->willReturn([
             [
                 'id' => 'pid1',
                 'category_id' => 'cid1',
@@ -69,7 +69,7 @@ class ProductRepositorySpec extends ObjectBehavior
         $qb->where('p.id = :productId')->willReturn($qb);
         $qb->setParameter('productId', $id, PDO::PARAM_STR)->willReturn($qb);
         $qb->execute()->willReturn($statement);
-        $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
+        $statement->fetchAssociative()->shouldBeCalled()->willReturn($row);
 
         $this->getProduct($id)->shouldReturn($product);
     }
@@ -87,7 +87,7 @@ class ProductRepositorySpec extends ObjectBehavior
         $qb->where('p.id = :productId')->willReturn($qb);
         $qb->setParameter('productId', $id, PDO::PARAM_STR)->willReturn($qb);
         $qb->execute()->willReturn($statement);
-        $statement->fetch(PDO::FETCH_ASSOC)->willReturn(false);
+        $statement->fetchAssociative()->shouldBeCalled()->willReturn(false);
 
         $this->getProduct($id)->shouldReturn(null);
     }
@@ -107,7 +107,7 @@ class ProductRepositorySpec extends ObjectBehavior
         $qb->where('p.name = :name')->willReturn($qb);
         $qb->setParameter('name', $name, PDO::PARAM_STR)->willReturn($qb);
         $qb->execute()->willReturn($statement);
-        $statement->fetch(PDO::FETCH_ASSOC)->willReturn($row);
+        $statement->fetchAssociative()->shouldBeCalled()->willReturn($row);
 
         $this->findByName($name)->shouldReturn($product);
     }
@@ -125,7 +125,7 @@ class ProductRepositorySpec extends ObjectBehavior
         $qb->where('p.name = :name')->willReturn($qb);
         $qb->setParameter('name', $name, PDO::PARAM_STR)->willReturn($qb);
         $qb->execute()->willReturn($statement);
-        $statement->fetch(PDO::FETCH_ASSOC)->willReturn(false);
+        $statement->fetchAssociative()->shouldBeCalled()->willReturn(false);
 
         $this->findByName($name)->shouldReturn(null);
     }
@@ -138,7 +138,7 @@ class ProductRepositorySpec extends ObjectBehavior
 
     function it_removes_one_product(Connection $connection)
     {
-        $connection->executeUpdate('DELETE FROM products WHERE id = ?', ['pid'])->willReturn(1);
+        $connection->executeStatement('DELETE FROM products WHERE id = ?', ['pid'])->shouldBeCalled()->willReturn(1);
         $this->remove('pid')->shouldReturn(1);
     }
 
@@ -155,7 +155,7 @@ class ProductRepositorySpec extends ObjectBehavior
             $product->getQuantity(),
             $product->getId(),
         ];
-        $connection->executeUpdate($sql, $values)->willReturn(1);
+        $connection->executeStatement($sql, $values)->shouldBeCalled()->willReturn(1);
         $this->update($product)->shouldReturn(1);
     }
 
@@ -171,7 +171,7 @@ class ProductRepositorySpec extends ObjectBehavior
             $product->getCategoryId(),
             $product->getQuantity(),
         ];
-        $connection->executeUpdate($sql, $values)->willReturn(1);
+        $connection->executeStatement($sql, $values)->shouldBeCalled()->willReturn(1);
         $this->create($product)->shouldReturn(1);
     }
 
@@ -188,7 +188,7 @@ class ProductRepositorySpec extends ObjectBehavior
             null,
             $product->getQuantity(),
         ];
-        $connection->executeUpdate($sql, $values)->willReturn(1);
+        $connection->executeStatement($sql, $values)->shouldBeCalled()->willReturn(1);
         $this->create($product)->shouldReturn(1);
     }
 

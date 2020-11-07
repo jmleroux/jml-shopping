@@ -14,7 +14,7 @@ const App = () => {
                 <div>
                     <Switch>
                         <PrivateRoute path="/category-list" component={CategoryPage}/>
-                        <PrivateRoute path="/product-list" component={ProductPage}/>
+                        <PrivateRoute path="/" component={ProductPage}/>
                     </Switch>
                 </div>
 

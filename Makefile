@@ -7,7 +7,7 @@ up:
 
 xdebug-on:
 	docker-compose stop fpm
-	PHP_XDEBUG_ENABLED=1 docker-compose up -d fpm
+	XDEBUG_ENABLED=1 docker-compose up -d fpm
 
 xdebug-off:
 	docker-compose stop fpm

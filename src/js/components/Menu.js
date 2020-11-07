@@ -4,7 +4,7 @@ import store from "../store";
 import Login from "./Login";
 
 export default () => {
-    const {state, dispatch} = useContext(store);
+    const {state} = useContext(store);
 
     return (
         <div className="ui menu">

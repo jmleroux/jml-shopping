@@ -41,7 +41,7 @@ class ProductRepository
         $qb->orderBy('c.name, p.name');
 
         $stmt = $qb->execute();
-        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = $stmt->fetchAllAssociative();
 
         // TODO: find a better way to have integer quantity
         // @see http://php.net/manual/en/pdo.setattribute.php PDO::ATTR_EMULATE_PREPARES
@@ -54,7 +54,7 @@ class ProductRepository
         $qb->where('p.id = :productId')->setParameter('productId', $id, PDO::PARAM_STR);
 
         $stmt = $qb->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetchAssociative();
 
         if (false !== $row) {
             $row = $this->cleanRow($row);
@@ -75,7 +75,7 @@ class ProductRepository
         $qb->where('p.name = :name')->setParameter('name', $name, PDO::PARAM_STR);
 
         $stmt = $qb->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetchAssociative();
 
         if (false !== $row) {
             $row['category'] = [
@@ -94,7 +94,7 @@ class ProductRepository
         $sql = 'DELETE FROM products WHERE id = ?';
         $values = [$productId];
 
-        return $this->db->executeUpdate($sql, $values);
+        return $this->db->executeStatement($sql, $values);
     }
 
     public function removeAll(): void
@@ -113,9 +113,8 @@ class ProductRepository
             $product->getCategoryId(),
             $product->getQuantity(),
         ];
-        $products = $this->db->executeUpdate($sql, $values);
 
-        return $products;
+        return $this->db->executeStatement($sql, $values);
     }
 
     public function update(Product $product): int
@@ -129,14 +128,13 @@ class ProductRepository
             $product->getQuantity(),
             $product->getId(),
         ];
-        $products = $this->db->executeUpdate($sql, $values);
 
-        return $products;
+        return $this->db->executeStatement($sql, $values);
     }
 
     private function cleanRow(array $row): array
     {
-        $row['quantity'] = (int)$row['quantity'];
+        $row['quantity'] = (int) $row['quantity'];
 
         return $row;
     }
