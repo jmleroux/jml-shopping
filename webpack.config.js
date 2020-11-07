@@ -10,6 +10,8 @@ Encore
     // uncomment to create hashed filenames (e.g. app.abc123.css)
     // .enableVersioning(Encore.isProduction())
     .enableSingleRuntimeChunk()
+    .enableSassLoader()
+    .enableSassLoader()
 
     // uncomment to define the assets of the project
     .addEntry('js/app', './src/js/index.js')
