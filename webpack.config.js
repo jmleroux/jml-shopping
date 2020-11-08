@@ -1,4 +1,5 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
+const Dotenv = require('dotenv-webpack')
 
 Encore
     // the project directory where compiled assets will be stored
@@ -18,6 +19,8 @@ Encore
 
     .enableReactPreset()
     .autoProvidejQuery()
+
+    .addPlugin(new Dotenv({path: './.env.local', systemvars: true}))
 ;
 
 module.exports = Encore.getWebpackConfig();

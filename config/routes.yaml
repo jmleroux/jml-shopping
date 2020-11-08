@@ -1,12 +1,7 @@
-user_login:
-    path: /api/login
-    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\TokenController::loginAction }
-    methods: [POST]
-
-user_token:
-    path: /api/token
-    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\TokenController::checkToken }
-    methods: [POST]
+check_token:
+    path: /api/check_token
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\SecurityController::checkAuthentication }
+    methods: [GET]
 
 product_list:
     path: /api/products
