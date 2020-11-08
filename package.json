@@ -23,6 +23,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "dotenv-webpack": "^5.1.0",
         "react-google-login": "^5.1.21"
     }
 }

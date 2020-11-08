@@ -2,21 +2,24 @@ import React, {useContext} from 'react';
 import {GoogleLogin} from 'react-google-login';
 
 import store, {authSuccess} from "../store";
+import apiUser from "../apiUser";
 
-const clientId = '157938711281-pqfq286sic3gjja0cm9cokl5fe6fdlhd.apps.googleusercontent.com';
+const clientId = process.env.GOOGLE_CLIENT_ID;
 
 function Login() {
-    console.log('start login');
-    const {state, dispatch} = useContext(store);
+    const {dispatch} = useContext(store);
 
-    const onSuccess = (res) => {
+    const onSuccess = async (res) => {
         console.log('Login Success: result:', res);
-        console.log('Login Success: currentUser:', res.profileObj);
-        dispatch(authSuccess({
-            accessToken: res.accessToken,
-            username: res.profileObj.email,
-            avatar: res.profileObj.imageUrl,
-        }))
+        const response = await apiUser.isAuthorized(res.accessToken)
+        if (200 === response.status) {
+            console.log('Dispatching auth success');
+            dispatch(authSuccess({
+                accessToken: res.accessToken,
+                username: res.profileObj.email,
+                avatar: res.profileObj.imageUrl,
+            }))
+        }
     };
 
     const onFailure = (res) => {
