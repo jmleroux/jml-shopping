@@ -1,6 +1,8 @@
 # JML Shopping list
 A simple shopping list to play with JS frameworks - React hooks version
 
+![Shopping Meme](https://memegenerator.net/img/instances/400x/65716889/happy-shopping.jpg)
+
 ## Development
 
 ### Setup
@@ -35,6 +37,9 @@ docker-compose exec fpm bin/console jmlshopping:user:del jmleroux.pro@gmail.com
 ```
 make tests
 ```
+
+![Testing is doubting](https://pbs.twimg.com/media/Cvmxg8PXEAA5bcL.jpg)
+
 
 With coverage available in `var/coverage`:
 
