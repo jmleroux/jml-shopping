@@ -3,9 +3,7 @@
 namespace Jmleroux\JmlShopping\Api\Tests\Integration\Controller;
 
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
-use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
-use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
