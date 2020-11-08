@@ -24,7 +24,7 @@ for Google authentication.
 
 https://developers.google.com/identity/protocols/oauth2#1.-obtain-oauth-2.0-credentials-from-the-dynamic_data.setvar.console_name-.
 
-You might also want to remove the default user (myself :) ):
+You might also want to remove the default user (myself :smile:):
 
 ```
 docker-compose exec fpm bin/console jmlshopping:user:del jmleroux.pro@gmail.com
