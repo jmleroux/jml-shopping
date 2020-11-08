@@ -37,3 +37,24 @@ category_delete:
     path: /api/category/{id}
     defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\CategoryController::deleteAction }
     methods: [DELETE]
+
+product_selection_list:
+    path: /api/product-selection
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductSelectionController::listAction }
+    methods: [GET]
+
+product_selection_create:
+    path: /api/product-selection
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductSelectionController::createAction }
+    methods: [POST]
+
+product_selection_delete:
+    path: /api/product-selection/{id}
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductSelectionController::deleteAction }
+    methods: [DELETE]
+
+product_selection_add_to_list:
+    path: /api/product-selection/add-to-list
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductSelectionController::addSelectionToList }
+    methods: [POST]
+

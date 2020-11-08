@@ -1,22 +1,24 @@
 import React, {Fragment, useContext, useState} from "react";
-import {Button, Confirm, Icon, Table} from 'semantic-ui-react'
+import {Button, Checkbox, Confirm, Icon, Table} from 'semantic-ui-react'
 
-import store, {clearAllProducts, deleteProductSuccess, editProduct} from "../store";
+import store, {addSelectionToList, deleteProductSelectionSuccess} from "../store";
 import useFetchList from "../useFetchList";
-import apiProduct from "../apiProduct";
+import apiProductSelection from "../apiProductSelection";
 
-const ProductRow = ({product}) => {
+const ProductRow = ({product, handleCheckedProduct}) => {
 
     const {state, dispatch} = useContext(store);
     const [confirmDelete, setConfirmDelete] = useState(false);
 
-    const handleEdit = async (product) => {
-        dispatch(editProduct(product));
+    const handleDelete = async (id) => {
+        await apiProductSelection.deleteProductSelection(state, id);
+        dispatch(deleteProductSelectionSuccess(id));
     };
 
-    const handleDelete = async (id) => {
-        await apiProduct.deleteProduct(state, id);
-        dispatch(deleteProductSuccess(id));
+    const handleCheck = (event, data) => {
+        const id = data.value
+        const checked = data.checked
+        handleCheckedProduct(id, checked)
     };
 
     const categoryName = (categoryId) => {
@@ -29,16 +31,20 @@ const ProductRow = ({product}) => {
 
     return (
         <tr>
+            <td className="product-selection-checkbox">
+                <Checkbox
+                    value={product.id}
+                    onChange={handleCheck}
+                />
+            </td>
             <td className="product-name">{product.name}</td>
             <td className="product-category">{categoryName(product.category_id)}</td>
-            <td className="product-quantity">{product.quantity}</td>
-            <td className="product-quantity">
-                <Button size="mini" icon="edit" onClick={() => handleEdit(product)}/>
+            <td className="product-operation">
                 <Button size="mini" icon="trash" onClick={() => setConfirmDelete(true)}/>
             </td>
             <Confirm
                 open={confirmDelete}
-                content={"You will delete this product"}
+                content={"You will delete this product selection"}
                 header={product.name + ': Warning!'}
                 cancelButton='Nope'
                 confirmButton="Let's do it"
@@ -50,22 +56,32 @@ const ProductRow = ({product}) => {
     );
 };
 
-const ProductTable = () => {
+const ProductSelectionTable = () => {
 
     const {state, dispatch} = useContext(store);
     const [confirmClear, setConfirmClear] = useState(false);
+    const [checkedProducts, setCheckedProducts] = useState([]);
 
     useFetchList({
         resource: 'categories',
     });
 
     useFetchList({
-        resource: 'products',
+        resource: 'productSelection',
     });
 
-    const handleClearAll = () => {
-        apiProduct.deleteProducts(state);
-        dispatch(clearAllProducts());
+    const handleCheckedProduct = (id, checked) => {
+        let list = checkedProducts;
+        if (checked) {
+            list.push(id);
+        } else {
+            list = list.filter(item => item !== id)
+        }
+        setCheckedProducts(list);
+    };
+
+    const handleAddToList = () => {
+        dispatch(addSelectionToList(checkedProducts));
         setConfirmClear(false);
     };
 
@@ -74,33 +90,33 @@ const ProductTable = () => {
             <Table compact unstackable>
                 <thead>
                 <tr>
+                    <Table.HeaderCell className="product-name" width={1}/>
                     <Table.HeaderCell className="product-name" width={5}>Name</Table.HeaderCell>
                     <Table.HeaderCell className="product-category" width={5}>Category</Table.HeaderCell>
-                    <Table.HeaderCell className="product-quantity" width={2}>Quantity</Table.HeaderCell>
                     <Table.HeaderCell width={1}>Operations</Table.HeaderCell>
                 </tr>
                 </thead>
                 <tbody>
-                {state.products.map(product => (
-                    <ProductRow key={product.id} product={product}/>
+                {state.productSelection.map(product => (
+                    <ProductRow key={product.id} product={product} handleCheckedProduct={handleCheckedProduct}/>
                 ))}
                 </tbody>
             </Table>
             <Button icon labelPosition='left' onClick={() => setConfirmClear(true)}>
-                <Icon name='trash alternate'/> Clear All
+                <Icon name='shopping cart'/> Add to list
             </Button>
             <Confirm
                 open={confirmClear}
-                content='You will clear all products'
+                content='You will add these products to your list'
                 header='Warning!'
                 cancelButton='Nope'
                 confirmButton="Let's do it"
                 onCancel={() => setConfirmClear(false)}
-                onConfirm={handleClearAll}
+                onConfirm={handleAddToList}
                 size='tiny'
             />
         </Fragment>
     );
 };
 
-export default ProductTable;
+export default ProductSelectionTable;

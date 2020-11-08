@@ -1,5 +1,5 @@
-import React, {useContext, useState} from "react";
-import {Button, Confirm, Container, Table} from 'semantic-ui-react'
+import React, {Fragment, useContext, useState} from "react";
+import {Button, Confirm, Table} from 'semantic-ui-react'
 
 import useFetchList from "../useFetchList";
 import store, {deleteCategorySuccess, editCategory} from "../store";
@@ -51,7 +51,7 @@ const CategoryTable = () => {
     });
 
     return (
-        <Container>
+        <Fragment>
             <Table compact unstackable>
                 <thead>
                 <tr>
@@ -65,7 +65,7 @@ const CategoryTable = () => {
                 ))}
                 </tbody>
             </Table>
-        </Container>
+        </Fragment>
     );
 };
 

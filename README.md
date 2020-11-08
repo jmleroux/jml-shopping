@@ -34,12 +34,17 @@ docker-compose exec fpm bin/console jmlshopping:user:del jmleroux.pro@gmail.com
 
 ### Tests:
 
+![Testing is doubting](https://pbs.twimg.com/media/Cvmxg8PXEAA5bcL.jpg)
+
 ```
 make tests
 ```
 
-![Testing is doubting](https://pbs.twimg.com/media/Cvmxg8PXEAA5bcL.jpg)
+_Note: tests are based on the database content from setup. If you modified the database content, you must reset it with:_
 
+```
+make database
+```
 
 With coverage available in `var/coverage`:
 

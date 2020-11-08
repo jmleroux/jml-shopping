@@ -1,4 +1,5 @@
 import React, {createContext, useReducer} from 'react';
+import apiProductSelection from "./apiProductSelection";
 
 const GET_LIST_SUCCESS = 'GET_LIST_SUCCESS';
 const EDIT_PRODUCT = 'EDIT_PRODUCT';
@@ -7,6 +8,10 @@ const UPDATE_PRODUCTS = 'UPDATE_PRODUCTS';
 const UPDATE_CATEGORIES = 'UPDATE_CATEGORIES';
 const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS';
 const CLEAR_ALL_PRODUCT = 'CLEAR_ALL_PRODUCTS';
+const ADD_SELECTION_TO_LIST = 'ADD_SELECTION_TO_LIST';
+const EDIT_PRODUCT_SELECTION = 'EDIT_PRODUCT_SELECTION';
+const UPDATE_PRODUCT_SELECTION = 'UPDATE_PRODUCT_SELECTION';
+const DELETE_PRODUCT_SELECTION_SUCCESS = 'DELETE_PRODUCT_SELECTION_SUCCESS';
 
 export const getListSuccess = (data, resource) => ({
     type: GET_LIST_SUCCESS,
@@ -28,6 +33,10 @@ export const updateProducts = () => ({
     type: UPDATE_PRODUCTS,
 });
 
+export const updateProductSelection = () => ({
+    type: UPDATE_PRODUCT_SELECTION,
+});
+
 export const updateCategories = () => ({
     type: UPDATE_CATEGORIES,
 });
@@ -44,6 +53,21 @@ export const deleteCategorySuccess = (id) => ({
 
 export const clearAllProducts = (id) => ({
     type: CLEAR_ALL_PRODUCT,
+    payload: {id},
+});
+
+export const addSelectionToList = (ids) => ({
+    type: ADD_SELECTION_TO_LIST,
+    payload: ids
+});
+
+export const editProductSelection = (values) => ({
+    type: EDIT_PRODUCT_SELECTION,
+    payload: {values},
+});
+
+export const deleteProductSelectionSuccess = (id) => ({
+    type: DELETE_PRODUCT_SELECTION_SUCCESS,
     payload: {id},
 });
 
@@ -72,8 +96,14 @@ const initialState = {
         id: null,
         name: '',
     },
-    products: [],
+    currentProductSelection: {
+        id: null,
+        name: '',
+        category_id: null,
+    },
     categories: [],
+    products: [],
+    productSelection: [],
 };
 
 const store = createContext(initialState);
@@ -98,6 +128,13 @@ const StateProvider = ({children}) => {
                     product: product,
                 };
             }
+            case EDIT_PRODUCT_SELECTION: {
+                const {values: product} = action.payload;
+                return {
+                    ...state,
+                    currentProductSelection: product,
+                };
+            }
             case EDIT_CATEGORY: {
                 const {values} = action.payload;
                 return {
@@ -117,6 +154,28 @@ const StateProvider = ({children}) => {
                     product: initialState.product,
                     products: products,
                 };
+            }
+            case UPDATE_PRODUCT_SELECTION: {
+                const currentProduct = state.currentProductSelection;
+                const productSelection = state.productSelection.filter(product => product.id !== currentProduct.id);
+                productSelection.push(currentProduct);
+                productSelection.sort((p1, p2) => {
+                    return p1.name.toLowerCase() > p2.name.toLowerCase() ? 1 : -1;
+                });
+                return {
+                    ...state,
+                    currentProductSelection: initialState.currentProductSelection,
+                    productSelection: productSelection,
+                };
+            }
+            case ADD_SELECTION_TO_LIST: {
+                console.log('ADD_SELECTION_TO_LIST')
+                console.log(action.payload)
+                apiProductSelection.addProductSelectionToList(
+                    state,
+                    {ids: action.payload}
+                )
+                return state;
             }
             case UPDATE_CATEGORIES: {
                 const currentCategory = state.category;
@@ -140,6 +199,14 @@ const StateProvider = ({children}) => {
                 return {
                     ...state,
                     products: products,
+                };
+            }
+            case DELETE_PRODUCT_SELECTION_SUCCESS: {
+                const {id} = action.payload;
+                const products = state.productSelection.filter(product => product.id !== id);
+                return {
+                    ...state,
+                    productSelection: products,
                 };
             }
             case 'DELETE_CATEGORY_SUCCESS': {

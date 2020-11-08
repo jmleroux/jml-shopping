@@ -12,6 +12,7 @@ export default () => {
             <Fragment>
                 <Link className="item" to="/product-list">Products</Link>
                 <Link className="item" to="/category-list">Categories</Link>
+                <Link className="item" to="/product-selection">Product Selection</Link>
             </Fragment>
             }
             <div className="right menu">
