@@ -5,7 +5,7 @@ import store, {addSelectionToList, deleteProductSelectionSuccess} from "../store
 import useFetchList from "../useFetchList";
 import apiProductSelection from "../apiProductSelection";
 
-const ProductRow = ({product}) => {
+const ProductRow = ({product, handleCheckedProduct}) => {
 
     const {state, dispatch} = useContext(store);
     const [confirmDelete, setConfirmDelete] = useState(false);
@@ -13,6 +13,12 @@ const ProductRow = ({product}) => {
     const handleDelete = async (id) => {
         await apiProductSelection.deleteProductSelection(state, id);
         dispatch(deleteProductSelectionSuccess(id));
+    };
+
+    const handleCheck = (event, data) => {
+        const id = data.value
+        const checked = data.checked
+        handleCheckedProduct(id, checked)
     };
 
     const categoryName = (categoryId) => {
@@ -26,7 +32,10 @@ const ProductRow = ({product}) => {
     return (
         <tr>
             <td className="product-selection-checkbox">
-                <Checkbox/>
+                <Checkbox
+                    value={product.id}
+                    onChange={handleCheck}
+                />
             </td>
             <td className="product-name">{product.name}</td>
             <td className="product-category">{categoryName(product.category_id)}</td>
@@ -51,6 +60,7 @@ const ProductSelectionTable = () => {
 
     const {state, dispatch} = useContext(store);
     const [confirmClear, setConfirmClear] = useState(false);
+    const [checkedProducts, setCheckedProducts] = useState([]);
 
     useFetchList({
         resource: 'categories',
@@ -60,8 +70,18 @@ const ProductSelectionTable = () => {
         resource: 'productSelection',
     });
 
+    const handleCheckedProduct = (id, checked) => {
+        let list = checkedProducts;
+        if (checked) {
+            list.push(id);
+        } else {
+            list = list.filter(item => item !== id)
+        }
+        setCheckedProducts(list);
+    };
+
     const handleAddToList = () => {
-        dispatch(addSelectionToList());
+        dispatch(addSelectionToList(checkedProducts));
         setConfirmClear(false);
     };
 
@@ -78,7 +98,7 @@ const ProductSelectionTable = () => {
                 </thead>
                 <tbody>
                 {state.productSelection.map(product => (
-                    <ProductRow key={product.id} product={product}/>
+                    <ProductRow key={product.id} product={product} handleCheckedProduct={handleCheckedProduct}/>
                 ))}
                 </tbody>
             </Table>

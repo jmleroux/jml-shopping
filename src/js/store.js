@@ -55,8 +55,9 @@ export const clearAllProducts = (id) => ({
     payload: {id},
 });
 
-export const addSelectionToList = () => ({
+export const addSelectionToList = (ids) => ({
     type: ADD_SELECTION_TO_LIST,
+    payload: ids
 });
 
 export const editProductSelection = (values) => ({
@@ -168,6 +169,7 @@ const StateProvider = ({children}) => {
             }
             case ADD_SELECTION_TO_LIST: {
                 console.log('ADD_SELECTION_TO_LIST')
+                console.log(action.payload)
                 return state;
             }
             case UPDATE_CATEGORIES: {
