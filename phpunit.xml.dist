@@ -28,6 +28,10 @@
     <filter>
         <whitelist>
             <directory>./src/</directory>
+            <exclude>
+                <file>src/ApiBundle/ApiBundle.php</file>
+                <file>src/Kernel.php</file>
+            </exclude>
         </whitelist>
     </filter>
 
