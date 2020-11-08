@@ -53,3 +53,8 @@ product_selection_delete:
     defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductSelectionController::deleteAction }
     methods: [DELETE]
 
+product_selection_add_to_list:
+    path: /api/product-selection/add-to-list
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductSelectionController::addSelectionToList }
+    methods: [POST]
+

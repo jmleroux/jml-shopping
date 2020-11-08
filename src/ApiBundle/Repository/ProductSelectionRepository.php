@@ -55,6 +55,17 @@ class ProductSelectionRepository
         return null;
     }
 
+    public function findByIds(array $ids): array
+    {
+        $qb = $this->getFindQueryBuilder();
+        $qb->where('p.id IN (:ids)')
+            ->setParameter('ids', $ids, Connection::PARAM_STR_ARRAY);
+
+        $stmt = $qb->execute();
+
+        return $stmt->fetchAllAssociative();
+    }
+
     public function remove(string $productId): int
     {
         $sql = sprintf('DELETE FROM %s WHERE id = ?', self::TABLENAME);

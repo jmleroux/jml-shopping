@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jmleroux\JmlShopping\Api\ApiBundle\Controller;
 
+use Jmleroux\JmlShopping\Api\ApiBundle\Application\CreateOrEditProductCommand;
+use Jmleroux\JmlShopping\Api\ApiBundle\Application\CreateOrEditProductHandler;
 use Jmleroux\JmlShopping\Api\ApiBundle\Application\CreateProductSelectionCommand;
 use Jmleroux\JmlShopping\Api\ApiBundle\Application\CreateProductSelectionHandler;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductSelectionRepository;
@@ -43,5 +45,23 @@ class ProductSelectionController extends AbstractController
         $product = $repository->remove($id);
 
         return new JsonResponse($product);
+    }
+
+    public function addSelectionToList(
+        Request $request,
+        ProductSelectionRepository $repository,
+        CreateOrEditProductHandler $createOrEditProductHandler
+    ): JsonResponse {
+        $ids = json_decode($request->getContent(), true)['ids'];
+        $selectedProducts = $repository->findByIds($ids);
+
+        foreach ($selectedProducts as $selectedProduct) {
+            $selectedProduct['quantity'] = 0;
+            $command = new CreateOrEditProductCommand();
+            $command->productData = $selectedProduct;
+            $createOrEditProductHandler->execute($command);
+        }
+
+        return new JsonResponse($selectedProducts);
     }
 }

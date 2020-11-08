@@ -1,4 +1,5 @@
 import React, {createContext, useReducer} from 'react';
+import apiProductSelection from "./apiProductSelection";
 
 const GET_LIST_SUCCESS = 'GET_LIST_SUCCESS';
 const EDIT_PRODUCT = 'EDIT_PRODUCT';
@@ -170,6 +171,10 @@ const StateProvider = ({children}) => {
             case ADD_SELECTION_TO_LIST: {
                 console.log('ADD_SELECTION_TO_LIST')
                 console.log(action.payload)
+                apiProductSelection.addProductSelectionToList(
+                    state,
+                    {ids: action.payload}
+                )
                 return state;
             }
             case UPDATE_CATEGORIES: {

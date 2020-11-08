@@ -27,4 +27,8 @@ export default {
         const config = addAuthTokenHeader(state);
         return axios.delete(`api/product-selection/${id}`, config);
     },
+    addProductSelectionToList: (state, ids) => {
+        const config = addAuthTokenHeader(state);
+        return axios.post('/api/product-selection/add-to-list', ids, config);
+    },
 }

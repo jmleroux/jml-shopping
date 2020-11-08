@@ -97,6 +97,30 @@ class ProductSelectionControllerTest extends WebTestCase
         Assert::assertEquals('testproduct', $createdProduct['name']);
     }
 
+    public function testAddSelectionToList()
+    {
+        static::ensureKernelShutdown();
+        $this->client = static::createClient();
+        $this->logIn();
+        $this->client->request('GET', '/api/products');
+        $json = json_decode($this->client->getResponse()->getContent(), true);
+        Assert::assertCount(4, $json);
+
+        $postData = json_encode([
+            'ids' => ['psid1', 'psid3'],
+        ]);
+        static::ensureKernelShutdown();
+        $this->client = static::createClient();
+        $this->logIn();
+        $this->client->request('POST', '/api/product-selection/add-to-list', [], [], [], $postData);
+
+        Assert::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $this->client->request('GET', '/api/products');
+        $json = json_decode($this->client->getResponse()->getContent(), true);
+        Assert::assertCount(6, $json);
+    }
+
     private function logIn()
     {
         $session = self::$container->get('session');
