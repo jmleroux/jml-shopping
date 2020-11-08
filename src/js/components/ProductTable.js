@@ -1,9 +1,10 @@
-import React, {Fragment, useContext, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import {Button, Confirm, Icon, Table} from 'semantic-ui-react'
 
-import store, {clearAllProducts, deleteProductSuccess, editProduct} from "../store";
-import useFetchList from "../useFetchList";
+import store, {clearAllProducts, deleteProductSuccess, editProduct, getListSuccess} from "../store";
 import apiProduct from "../apiProduct";
+import apiCategory from "../apiCategory";
+import {categoryName, sortProducts} from "../utils";
 
 const ProductRow = ({product}) => {
 
@@ -19,18 +20,10 @@ const ProductRow = ({product}) => {
         dispatch(deleteProductSuccess(id));
     };
 
-    const categoryName = (categoryId) => {
-        if (null === categoryId) {
-            return '';
-        }
-        const category = state.categories.find(category => category.id === categoryId);
-        return category.name;
-    }
-
     return (
         <tr>
             <td className="product-name">{product.name}</td>
-            <td className="product-category">{categoryName(product.category_id)}</td>
+            <td className="product-category">{categoryName(state, product.category_id)}</td>
             <td className="product-quantity">{product.quantity}</td>
             <td className="product-quantity">
                 <Button size="mini" icon="edit" onClick={() => handleEdit(product)}/>
@@ -54,14 +47,28 @@ const ProductTable = () => {
 
     const {state, dispatch} = useContext(store);
     const [confirmClear, setConfirmClear] = useState(false);
+    const [loadedCategories, setLoadedCategories] = useState(false);
 
-    useFetchList({
-        resource: 'categories',
-    });
+    useEffect(() => {
+        const fetchData = async () => {
+            console.log('Fetch categories');
+            const response = await apiCategory.getCategories(state);
+            dispatch(getListSuccess(response.data, 'categories'));
+            setLoadedCategories(true);
+        };
+        fetchData();
+    }, [dispatch]);
 
-    useFetchList({
-        resource: 'products',
-    });
+    useEffect(() => {
+        if (loadedCategories) {
+            const fetchData = async () => {
+                console.log('Fetch products');
+                const response = await apiProduct.getProducts(state);
+                dispatch(getListSuccess(response.data, 'products'));
+            };
+            fetchData();
+        }
+    }, [loadedCategories, dispatch]);
 
     const handleClearAll = () => {
         apiProduct.deleteProducts(state);
@@ -81,7 +88,7 @@ const ProductTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {state.products.map(product => (
+                {sortProducts(state, state.products).map(product => (
                     <ProductRow key={product.id} product={product}/>
                 ))}
                 </tbody>

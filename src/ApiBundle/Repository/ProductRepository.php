@@ -28,9 +28,9 @@ class ProductRepository
     protected function getFindQueryBuilder(): QueryBuilder
     {
         $qb = $this->db->createQueryBuilder();
-        $qb->select('p.id, p.name, p.quantity, p.category_id, c.name AS category')
+        $qb->select('p.id, p.name, p.quantity, p.category_id')
             ->from(self::TABLENAME, 'p')
-            ->leftJoin('p', CategoryRepository::TABLENAME, 'c', 'p.category_id = c.id');
+            ->orderBy('p.name');
 
         return $qb;
     }
@@ -38,7 +38,6 @@ class ProductRepository
     public function getAll(): array
     {
         $qb = $this->getFindQueryBuilder();
-        $qb->orderBy('c.name, p.name');
 
         $stmt = $qb->execute();
         $products = $stmt->fetchAllAssociative();
@@ -58,10 +57,6 @@ class ProductRepository
 
         if (false !== $row) {
             $row = $this->cleanRow($row);
-            $row['category'] = [
-                'id' => $row['category_id'],
-                'name' => $row['category'],
-            ];
 
             return $row;
         }

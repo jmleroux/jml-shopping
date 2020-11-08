@@ -37,15 +37,16 @@ class ProductControllerTest extends WebTestCase
         $json = json_decode($this->client->getResponse()->getContent(), true);
 
         Assert::assertCount(4, $json);
-        Assert::assertSame($json[0],
-            ['id' => 'pid1', 'name' => 'product1', 'quantity' => 10, 'category_id' => 'cid1', 'category' => 'Frais']);
+        Assert::assertSame(
+            ['id' => 'pid1', 'name' => 'product1', 'quantity' => 10, 'category_id' => 'cid1'],
+            $json[0]
+        );
         Assert::assertSame($json[3],
             [
                 'id' => 'pid4',
                 'name' => 'product4',
                 'quantity' => 10,
                 'category_id' => 'cid2',
-                'category' => 'Scolaire',
             ]);
     }
 

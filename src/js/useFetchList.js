@@ -1,5 +1,5 @@
 import {useContext, useEffect} from 'react';
-import store, {authError, getListSuccess} from './store';
+import store, {getListSuccess} from './store';
 import apiProduct from "./apiProduct";
 import apiCategory from "./apiCategory";
 import apiProductSelection from "./apiProductSelection";
@@ -20,18 +20,13 @@ const useFetchList = ({resource}) => {
                 api = apiCategory.getCategories;
             }
             if (null !== api) {
-                try {
-                    const response = await api(state);
-                    dispatch(getListSuccess(response.data, resource));
-                } catch (error) {
-                    if (403 === error.response.status) {
-                        dispatch(authError())
-                    }
-                }
+                console.log('Fetching resource ' + resource);
+                const response = await api(state);
+                dispatch(getListSuccess(response.data, resource));
             }
         };
         fetchData();
-    }, [resource, dispatch]);
+    }, [dispatch]);
 };
 
 export default useFetchList;

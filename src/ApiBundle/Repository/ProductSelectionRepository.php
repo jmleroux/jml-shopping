@@ -28,7 +28,6 @@ class ProductSelectionRepository
     public function findAll(): array
     {
         $qb = $this->getFindQueryBuilder();
-        $qb->orderBy('c.name, p.name');
 
         $stmt = $qb->execute();
 
@@ -43,16 +42,7 @@ class ProductSelectionRepository
         $stmt = $qb->execute();
         $row = $stmt->fetchAssociative();
 
-        if (false !== $row) {
-            $row['category'] = [
-                'id' => $row['category_id'],
-                'name' => $row['category'],
-            ];
-
-            return $row;
-        }
-
-        return null;
+        return $row ? $row : null;
     }
 
     public function findByIds(array $ids): array
@@ -89,9 +79,9 @@ class ProductSelectionRepository
     private function getFindQueryBuilder(): QueryBuilder
     {
         $qb = $this->db->createQueryBuilder();
-        $qb->select('p.id, p.name, p.category_id, c.name AS category')
+        $qb->select('p.id, p.name, p.category_id')
             ->from(self::TABLENAME, 'p')
-            ->leftJoin('p', CategoryRepository::TABLENAME, 'c', 'p.category_id = c.id');
+            ->orderBy('p.name');
 
         return $qb;
     }

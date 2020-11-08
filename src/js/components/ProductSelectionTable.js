@@ -4,6 +4,7 @@ import {Button, Checkbox, Confirm, Icon, Table} from 'semantic-ui-react'
 import store, {addSelectionToList, deleteProductSelectionSuccess} from "../store";
 import useFetchList from "../useFetchList";
 import apiProductSelection from "../apiProductSelection";
+import {categoryName, sortProducts} from "../utils";
 
 const ProductRow = ({product, handleCheckedProduct}) => {
 
@@ -21,14 +22,6 @@ const ProductRow = ({product, handleCheckedProduct}) => {
         handleCheckedProduct(id, checked)
     };
 
-    const categoryName = (categoryId) => {
-        if (null === categoryId) {
-            return '';
-        }
-        const category = state.categories.find(category => category.id === categoryId);
-        return category.name;
-    }
-
     return (
         <tr>
             <td className="product-selection-checkbox">
@@ -38,7 +31,7 @@ const ProductRow = ({product, handleCheckedProduct}) => {
                 />
             </td>
             <td className="product-name">{product.name}</td>
-            <td className="product-category">{categoryName(product.category_id)}</td>
+            <td className="product-category">{categoryName(state, product.category_id)}</td>
             <td className="product-operation">
                 <Button size="mini" icon="trash" onClick={() => setConfirmDelete(true)}/>
             </td>
@@ -97,7 +90,7 @@ const ProductSelectionTable = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {state.productSelection.map(product => (
+                {sortProducts(state, state.productSelection).map(product => (
                     <ProductRow key={product.id} product={product} handleCheckedProduct={handleCheckedProduct}/>
                 ))}
                 </tbody>

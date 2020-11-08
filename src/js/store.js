@@ -1,5 +1,6 @@
 import React, {createContext, useReducer} from 'react';
 import apiProductSelection from "./apiProductSelection";
+import {sortProducts} from "./utils";
 
 const GET_LIST_SUCCESS = 'GET_LIST_SUCCESS';
 const EDIT_PRODUCT = 'EDIT_PRODUCT';
@@ -76,11 +77,6 @@ export const authSuccess = (authValues) => ({
     payload: authValues,
 });
 
-export const authError = () => ({
-    type: 'AUTH_ERROR',
-    payload: {},
-});
-
 const initialState = {
     isAuthenticated: false,
     token: null,
@@ -146,9 +142,7 @@ const StateProvider = ({children}) => {
                 const currentProduct = state.product;
                 const products = state.products.filter(product => product.id !== currentProduct.id);
                 products.push(state.product);
-                products.sort((p1, p2) => {
-                    return p1.name.toLowerCase() > p2.name.toLowerCase() ? 1 : -1;
-                });
+                sortProducts(state, products);
                 return {
                     ...state,
                     product: initialState.product,

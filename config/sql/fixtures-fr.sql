@@ -15,6 +15,6 @@ insert into product_selection ("id", "category_id", "name") values ('psid3', 'ci
 insert into product_selection ("id", "category_id", "name") values ('psid4', 'cid8', 'Café');
 
 insert into products ("id", "category_id", "name", "quantity") values ('pid1', 'cid1', 'product1', 10);
-insert into products ("id", "category_id", "name", "quantity") values ('pid2', 'cid1', 'product2', 10);
-insert into products ("id", "category_id", "name", "quantity") values ('pid3', 'cid2', 'product3', 5);
+insert into products ("id", "category_id", "name", "quantity") values ('pid2', 'cid2', 'product2', 10);
+insert into products ("id", "category_id", "name", "quantity") values ('pid3', 'cid1', 'product3', 5);
 insert into products ("id", "category_id", "name", "quantity") values ('pid4', 'cid2', 'product4', 10);

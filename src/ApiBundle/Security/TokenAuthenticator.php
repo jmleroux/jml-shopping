@@ -4,6 +4,7 @@ namespace Jmleroux\JmlShopping\Api\ApiBundle\Security;
 
 use League\OAuth2\Client\Provider\Google;
 use League\OAuth2\Client\Token\AccessToken;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -21,17 +22,26 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     private $googleClientId;
     /** @var string */
     private $googleSecret;
+    /** @var LoggerInterface */
+    private $logger;
 
-    public function __construct(Security $security, string $googleClientId, string $googleSecret)
-    {
+    public function __construct(
+        Security $security,
+        LoggerInterface $logger,
+        string $googleClientId,
+        string $googleSecret
+    ) {
         $this->security = $security;
         $this->googleClientId = $googleClientId;
         $this->googleSecret = $googleSecret;
+        $this->logger = $logger;
     }
 
     public function getCredentials(Request $request)
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
+
+        $this->logger->info(sprintf('Auth token: %s', $token));
 
         return [
             'token' => $token,

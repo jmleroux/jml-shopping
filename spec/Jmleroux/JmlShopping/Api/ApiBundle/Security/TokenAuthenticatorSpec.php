@@ -4,6 +4,7 @@ namespace spec\Jmleroux\JmlShopping\Api\ApiBundle\Security;
 
 use Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenAuthenticator;
 use PhpSpec\ObjectBehavior;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -13,9 +14,9 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class TokenAuthenticatorSpec extends ObjectBehavior
 {
-    function let(Security $security, Request $request, HeaderBag $headers)
+    function let(Security $security, LoggerInterface $logger, Request $request, HeaderBag $headers)
     {
-        $this->beConstructedWith($security, 'google_id', 'google_secret');
+        $this->beConstructedWith($security, $logger, 'google_id', 'google_secret');
 
         $headers->get('X-AUTH-TOKEN')->willReturn('foo-token');
         $request->headers = $headers;

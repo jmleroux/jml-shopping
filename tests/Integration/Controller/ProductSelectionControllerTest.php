@@ -3,7 +3,6 @@
 namespace Jmleroux\JmlShopping\Api\Tests\Integration\Controller;
 
 use Jmleroux\JmlShopping\Api\ApiBundle\Entity\ProductSelection;
-use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductSelectionRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use PHPUnit\Framework\Assert;
@@ -39,15 +38,14 @@ class ProductSelectionControllerTest extends WebTestCase
 
         Assert::assertCount(4, $json);
         Assert::assertSame(
-            ['id' => 'psid1', 'name' => 'Lait', 'category_id' => 'cid1', 'category' => 'Frais'],
+            ['id' => 'psid4', 'name' => 'Café', 'category_id' => 'cid8'],
             $json[0]
         );
         Assert::assertSame(
             [
-                'id' => 'psid3',
-                'name' => 'Encre noire',
-                'category_id' => 'cid2',
-                'category' => 'Scolaire',
+                'id' => 'psid2',
+                'name' => 'Oeufs',
+                'category_id' => 'cid1',
             ],
             $json[3]
         );
