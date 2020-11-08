@@ -2,6 +2,10 @@
 
 namespace Jmleroux\JmlShopping\Api\Tests\Integration\Controller;
 
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Category;
+use Jmleroux\JmlShopping\Api\ApiBundle\Entity\Product;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\CategoryRepository;
+use Jmleroux\JmlShopping\Api\ApiBundle\Repository\ProductRepository;
 use Jmleroux\JmlShopping\Api\ApiBundle\Repository\UserRepository;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -32,6 +36,69 @@ class CategoryControllerTest extends WebTestCase
         Assert::assertCount(10, $json);
         Assert::assertSame($json[0], ['id' => 'cid6', 'name' => 'Boissons']);
         Assert::assertSame($json[9], ['id' => 'cid10', 'name' => 'Surgelés']);
+    }
+
+    public function testDeleteCategory()
+    {
+        $this->client = static::createClient();
+        $this->logIn();
+        $this->client->request('DELETE', '/api/category/cid1');
+
+        $json = $this->client->getResponse()->getContent();
+        Assert::assertEquals(1, $json);
+    }
+
+    public function testCreateCategory()
+    {
+        $invalidData = json_encode([
+            'id' => 'cid100',
+            'name' => '',
+        ]);
+        $this->client = static::createClient();
+        $this->logIn();
+        $this->client->request('POST', '/api/category', [], [], [], $invalidData);
+
+        Assert::assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $this->client->getResponse()->getStatusCode());
+
+        $postData = json_encode([
+            'id' => 'cid100',
+            'name' => 'foocat',
+        ]);
+        static::ensureKernelShutdown();
+        $this->client = static::createClient();
+        $this->logIn();
+        $this->client->request('POST', '/api/category', [], [], [], $postData);
+
+        Assert::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $this->client->request('GET', '/api/categories');
+        $json = json_decode($this->client->getResponse()->getContent(), true);
+        Assert::assertCount(11, $json);
+
+        $category = static::$container->get(CategoryRepository::class)->findById('cid100');
+        Assert::assertNotNull($category);
+    }
+
+    public function testUpdateCategory()
+    {
+        $postData = json_encode([
+            'id' => 'cid1',
+            'name' => 'updatedCategory',
+        ]);
+        $this->client = static::createClient();
+        $this->logIn();
+        $this->client->request('POST', '/api/category', [], [], [], $postData);
+
+        Assert::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $this->client->request('GET', '/api/categories');
+        $json = json_decode($this->client->getResponse()->getContent(), true);
+        Assert::assertCount(10, $json);
+
+        /** @var Category $category */
+        $category = static::$container->get(CategoryRepository::class)->findById('cid1');
+        Assert::assertNotNull($category);
+        Assert::assertEquals('updatedCategory', $category->getName());
     }
 
     private function logIn()

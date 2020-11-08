@@ -33,11 +33,6 @@ class Product
         return $this->categoryId;
     }
 
-    public function setQuantity(int $quantity)
-    {
-        $this->quantity = $quantity;
-    }
-
     public function getQuantity(): int
     {
         return $this->quantity;

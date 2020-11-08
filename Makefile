@@ -48,6 +48,5 @@ tests:
 
 .PHONY: coverage
 coverage:
-	XDEBUG_ENABLED=1 APP_ENV=test $(DOCKER_RUN) ./vendor/bin/phpspec run -c phpspec-coverage.yml
 	XDEBUG_ENABLED=1 APP_ENV=test $(DOCKER_RUN) vendor/bin/simple-phpunit --coverage-html var/coverage
 
