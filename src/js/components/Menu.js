@@ -7,7 +7,7 @@ export default () => {
     const {state} = useContext(store);
 
     return (
-        <div className="ui menu">
+        <div className="ui small menu">
             {state.isAuthenticated &&
             <Fragment>
                 <Link className="item" to="/product-list">Products</Link>
