@@ -20,6 +20,9 @@ down:
 .env.local: .env
 	cp -n .env .env.local
 
+docker-compose.override.yml:
+	cp -n docker-compose.override.yml.dist docker-compose.override.yml
+
 vendor:
 	rm -rf var/cache/* var/log/*
 	$(DOCKER_RUN) composer install
@@ -34,6 +37,7 @@ setup:
 	make vendor
 	docker-compose run --rm node yarn dev
 	make database
+	make docker-compose.override.yml
 	make up
 
 .PHONY: database
