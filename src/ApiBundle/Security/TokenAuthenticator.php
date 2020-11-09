@@ -41,7 +41,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         $token = $request->headers->get('X-AUTH-TOKEN');
 
-        $this->logger->info(sprintf('Auth token: %s', $token));
+        $this->logger->notice(sprintf('Auth token: %s', $token));
 
         return [
             'token' => $token,

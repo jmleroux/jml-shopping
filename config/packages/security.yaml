@@ -8,7 +8,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            logout: ~
+            logout:
+                path: /logout
+                target: /
+                invalidate_session: true
             guard:
                 authenticators:
                     - Jmleroux\JmlShopping\Api\ApiBundle\Security\TokenAuthenticator

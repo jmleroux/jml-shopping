@@ -3,6 +3,11 @@ check_token:
     defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\SecurityController::checkAuthentication }
     methods: [GET]
 
+logout:
+    path: /logout
+    defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\SecurityController::logout }
+    methods: [GET]
+
 product_list:
     path: /api/products
     defaults: { _controller: Jmleroux\JmlShopping\Api\ApiBundle\Controller\ProductController::listAction }
