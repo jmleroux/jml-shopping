@@ -21,7 +21,6 @@ export default () => {
                         <a className="item">
                             <img className="avatar" src={state.avatar} title={state.username}/>
                         </a>
-                        <a className="item" href='/'>Logout</a>
                     </Fragment>
                     :
                     <Fragment>
