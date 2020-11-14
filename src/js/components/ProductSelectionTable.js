@@ -106,7 +106,7 @@ const ProductSelectionTable = () => {
                 confirmButton="Let's do it"
                 onCancel={() => setConfirmClear(false)}
                 onConfirm={handleAddToList}
-                size='tiny'
+                size='mini'
             />
         </Fragment>
     );

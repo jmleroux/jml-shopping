@@ -36,7 +36,7 @@ const CategoryRow = ({category}) => {
                 confirmButton="Let's do it"
                 onCancel={() => setConfirmDelete(false)}
                 onConfirm={() => handleDelete(category.id)}
-                size='tiny'
+                size='mini'
             />
         </tr>
     );

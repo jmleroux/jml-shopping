@@ -37,7 +37,7 @@ const ProductRow = ({product}) => {
                 confirmButton="Let's do it"
                 onCancel={() => setConfirmDelete(false)}
                 onConfirm={() => handleDelete(product.id)}
-                size='tiny'
+                size='mini'
             />
         </tr>
     );
@@ -104,7 +104,7 @@ const ProductTable = () => {
                 confirmButton="Let's do it"
                 onCancel={() => setConfirmClear(false)}
                 onConfirm={handleClearAll}
-                size='tiny'
+                size='mini'
             />
         </Fragment>
     );
