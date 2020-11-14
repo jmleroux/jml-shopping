@@ -1,4 +1,5 @@
 import React, {Fragment, useContext, useState} from "react";
+import {Redirect} from "react-router-dom";
 import {Button, Checkbox, Confirm, Icon, Table} from 'semantic-ui-react'
 
 import store, {addSelectionToList, deleteProductSelectionSuccess} from "../store";
@@ -54,6 +55,7 @@ const ProductSelectionTable = () => {
     const {state, dispatch} = useContext(store);
     const [confirmClear, setConfirmClear] = useState(false);
     const [checkedProducts, setCheckedProducts] = useState([]);
+    const [goToHomepage, setGoToHomepage] = useState(false);
 
     useFetchList({
         resource: 'categories',
@@ -76,7 +78,12 @@ const ProductSelectionTable = () => {
     const handleAddToList = () => {
         dispatch(addSelectionToList(checkedProducts));
         setConfirmClear(false);
+        setGoToHomepage(true);
     };
+
+    if (goToHomepage) {
+        return (<Redirect to='/'/>)
+    }
 
     return (
         <Fragment>

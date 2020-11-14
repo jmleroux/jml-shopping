@@ -51,7 +51,7 @@ const ProductTable = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log('Fetch categories');
+            console.info('Fetch categories');
             const response = await apiCategory.getCategories(state);
             dispatch(getListSuccess(response.data, 'categories'));
             setLoadedCategories(true);
@@ -62,7 +62,7 @@ const ProductTable = () => {
     useEffect(() => {
         if (loadedCategories) {
             const fetchData = async () => {
-                console.log('Fetch products');
+                console.info('Fetch products');
                 const response = await apiProduct.getProducts(state);
                 dispatch(getListSuccess(response.data, 'products'));
             };

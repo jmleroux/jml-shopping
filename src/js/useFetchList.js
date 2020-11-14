@@ -20,7 +20,7 @@ const useFetchList = ({resource}) => {
                 api = apiCategory.getCategories;
             }
             if (null !== api) {
-                console.log('Fetching resource ' + resource);
+                console.info('Fetching resource ' + resource);
                 const response = await api(state);
                 dispatch(getListSuccess(response.data, resource));
             }

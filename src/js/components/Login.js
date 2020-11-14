@@ -10,10 +10,10 @@ function Login() {
     const {dispatch} = useContext(store);
 
     const onSuccess = async (res) => {
-        console.log('Login Success: result:', res);
+        console.info('Login Success: result:', res);
         const response = await apiUser.isAuthorized(res.accessToken)
         if (200 === response.status) {
-            console.log('Dispatching auth success');
+            console.info('Dispatching auth success');
             dispatch(authSuccess({
                 accessToken: res.accessToken,
                 username: res.profileObj.email,
@@ -23,7 +23,7 @@ function Login() {
     };
 
     const onFailure = (res) => {
-        console.log('Login failed: res:', res);
+        console.error('Login failed: res:', res);
     };
 
     return (
