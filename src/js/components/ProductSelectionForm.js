@@ -51,6 +51,7 @@ const ProductSelectionForm = () => {
                     </Form.Field>
                     <Form.Field>
                         <Dropdown selection onChange={handleChangeCategory}
+                                  search
                                   options={categoryOptions}
                                   value={currentProductSelection.category_id}/>
                     </Form.Field>
