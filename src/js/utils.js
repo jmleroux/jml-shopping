@@ -3,7 +3,7 @@ export const categoryName = (state, categoryId) => {
         return '';
     }
     const category = state.categories.find(category => category.id === categoryId);
-    return category.name;
+    return category ? category.name : '';
 }
 
 export const sortProducts = (state, list) => {
