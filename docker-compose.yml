@@ -1,42 +1,17 @@
-version: '3'
+version: '3.7'
 
 services:
-  fpm:
-    image: jmleroux/fpm:php-7.3
-    environment:
-      APP_ENV: '${APP_ENV:-prod}'
-      COMPOSER_HOME: /home/docker/.composer
-      PHP_IDE_CONFIG: 'serverName=jmleroux-cli'
-      PHP_XDEBUG_ENABLED: '${XDEBUG_ENABLED:-0}'
-      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1
-      XDEBUG_CONFIG: 'remote_host=172.17.0.1'
-    user: docker
-    volumes:
-      - ./:/srv/jmleroux
-      - ~/.composer:/home/docker/.composer
-    working_dir: /srv/jmleroux
-    networks:
-      - jmleroux-network
-
-  nginx:
-    image: 'nginx:alpine'
-    depends_on:
-      - 'fpm'
-    volumes:
-      - './:/srv/jmleroux:ro'
-      - './docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro'
-    networks:
-      - jmleroux-network
-
-  node:
-    image: node:12
-    user: node
-    volumes:
-      - ./:/srv/jmleroux
-      - ~/.npm:/home/node/.npm
-    working_dir: /srv/jmleroux
-    networks:
-      - jmleroux-network
-
-networks:
-  jmleroux-network:
+    node:
+        build:
+            context: .
+            target: dev
+        volumes:
+            - ./:/srv/jmleroux
+            - ~/.npm:/home/node/.npm
+        command: yarn serve
+        environment:
+            # https://cli.vuejs.org/guide/mode-and-env.html#modes
+            # development is used by vue-cli-service serve
+            - NODE_ENV=development
+        ports:
+            - 8080:8080

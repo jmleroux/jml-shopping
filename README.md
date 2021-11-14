@@ -1,53 +1,24 @@
-# JML Shopping list
-A simple shopping list to play with JS frameworks - React hooks version
+# jml-shopping
 
-![Shopping Meme](https://memegenerator.net/img/instances/400x/65716889/happy-shopping.jpg)
-
-## Development
-
-### Setup
-
-You can start the application from scratch with the following command:
-
+## Project setup
 ```
-make setup
+yarn install
 ```
 
-### Setup
-
-To authenticate yourself for development, you will need to add your user to the database:
-
+### Compiles and hot-reloads for development
 ```
-docker-compose exec fpm bin/console jmlshopping:user:add yourself@gmail.com
+yarn serve
 ```
 
-You will then have to set your GOOGLE_CLIENT_ID and GOOGLE_SECRET env vars in a `.env.local` file
-for Google authentication. 
-
-https://developers.google.com/identity/protocols/oauth2#1.-obtain-oauth-2.0-credentials-from-the-dynamic_data.setvar.console_name-.
-
-You might also want to remove the default user (myself :smile:):
-
+### Compiles and minifies for production
 ```
-docker-compose exec fpm bin/console jmlshopping:user:del jmleroux.pro@gmail.com
+yarn build
 ```
 
-### Tests:
-
-![Testing is doubting](https://pbs.twimg.com/media/Cvmxg8PXEAA5bcL.jpg)
-
+### Lints and fixes files
 ```
-make tests
+yarn lint
 ```
 
-_Note: tests are based on the database content from setup. If you modified the database content, you must reset it with:_
-
-```
-make database
-```
-
-With coverage available in `var/coverage`:
-
-```
-make coverage
-```
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

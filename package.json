@@ -1,29 +1,47 @@
 {
-    "name": "jmlshopping",
-    "version": "2.0.0",
-    "description": "",
-    "main": "webpack.config.js",
-    "license": "UNLICENSED",
-    "private": true,
-    "devDependencies": {
-        "@babel/preset-react": "^7.9.4",
-        "@symfony/webpack-encore": "^0.31.0",
-        "axios": "^0.21.2",
-        "node-sass": "^5.0.0",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
-        "react-router-dom": "^5.1",
-        "sass-loader": "^9.0.1",
-        "semantic-ui-css": "^2.4.1",
-        "semantic-ui-react": "^0.88.2"
+  "name": "jml-shopping",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11",
+    "vuetify": "^2.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "sass": "~1.32.0",
+    "sass-loader": "^10.0.0",
+    "vue-cli-plugin-vuetify": "~2.4.3",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.7.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
     },
-    "scripts": {
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
     },
-    "dependencies": {
-        "dotenv-webpack": "^5.1.0",
-        "react-google-login": "^5.1.21"
-    }
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
