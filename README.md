@@ -2,22 +2,28 @@
 
 ## Project setup
 ```
-yarn install
+docker-compose run --rm node yarn install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+docker-compose run --rm node yarn serve
+```
+
+or
+
+```bash
+docker-compose up
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+docker-compose run --rm node yarn build
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+docker-compose run --rm node yarn lint
 ```
 
 ### Customize configuration
