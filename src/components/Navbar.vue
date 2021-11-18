@@ -1,8 +1,7 @@
 <template>
   <div>
     <v-app-bar dark color="deep-purple" clipped-left app>
-      <v-toolbar-title class="white--text">JML Shopping</v-toolbar-title
-      >
+      <v-toolbar-title class="white--text mr-4">JML Shopping</v-toolbar-title>
       <v-btn
         v-for="(route, label) in links"
         :key="label"
@@ -31,6 +30,6 @@ export default {
         Contact: "about",
       },
     };
-  },
+  }
 };
 </script>

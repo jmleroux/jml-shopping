@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Products</h1>
-    <v-form ref="form" v-on:submit.prevent="onSubmit">
+    <v-form ref="form" v-on:submit.prevent="saveProduct">
       <v-row>
         <v-col><v-text-field v-model="product.label" label="Label" /></v-col>
         <v-col>
@@ -28,6 +28,7 @@
             <th class="text-left">Label</th>
             <th class="text-left">Category</th>
             <th class="text-left">Quantity</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,12 @@
             <td class="text-left">{{ item.label }}</td>
             <td class="text-left">{{ categoryLabel(item.category) }}</td>
             <td class="text-left">{{ item.quantity }}</td>
+            <td>
+              <v-btn @click="() => removeProduct(item.id)">
+                <v-icon left> mdi-delete </v-icon>
+                Remove
+              </v-btn>
+            </td>
           </tr>
         </tbody>
       </template>
@@ -43,22 +50,23 @@
 </template>
 
 <script>
-import { onValue, ref, push, set } from "firebase/database"
-import db from "../db"
-import useCategories from "../useCategories"
+import { onValue } from "firebase/database";
+import useProducts from "../useProducts";
+import useCategories from "../useCategories";
 
-const productsRef = ref(db, "products")
-const categoriesRef = ref(db, "categories")
+const productsRef = useProducts.productsRef;
+const categoriesRef = useCategories.categoriesRef;
+const emptyProduct = {
+  id: null,
+  label: null,
+  category: null,
+  quantity: null,
+};
 
 export default {
   name: "Home",
   data: () => ({
-    product: {
-      id: null,
-      label: null,
-      category: null,
-      quantity: null,
-    },
+    product: { ...emptyProduct },
     products: [],
     categories: [],
   }),
@@ -66,43 +74,27 @@ export default {
     onValue(productsRef, (snapshot) => {
       this.products = [];
       snapshot.forEach((doc) => {
-        this.addProduct(doc.val());
+        useProducts.addDocToProducts(doc, this.products);
       });
     });
     onValue(categoriesRef, (snapshot) => {
       this.categories = [];
       snapshot.forEach((doc) => {
-        this.categories.push(doc.val());
+        useCategories.addDocToCategories(doc, this.categories);
       });
     });
   },
   methods: {
-    addProduct(values) {
-      this.products.push({
-        label: values.label,
-        category: values.category,
-        quantity: values.quantity,
-      });
-    },
-    addCategory(values) {
-      this.categories.push({
-        label: values.label,
-      });
-    },
     saveProduct() {
-      const newPostRef = push(productsRef);
-      set(newPostRef, {
-        label: this.product.label,
-        category: this.product.category,
-        quantity: this.product.quantity,
-      });
+      useProducts.saveProduct(this.product);
+      this.product = { ...emptyProduct };
+    },
+    removeProduct(productId) {
+      useProducts.removeProduct(productId);
     },
     categoryLabel(categoryId) {
       return useCategories.categoryLabel(categoryId, this.categories);
     },
-    onSubmit() {
-      this.saveProduct();
-    },
   },
-}
+};
 </script>
