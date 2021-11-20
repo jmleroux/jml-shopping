@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase } from "firebase/database";
+import { getDatabase, query, ref, orderByChild, equalTo, get } from "firebase/database";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCPjc8oRmv4Lxe919Rea9QOTpka5Vhu1uw",
@@ -24,5 +25,24 @@ initializeAppCheck(app, {
   isTokenAutoRefreshEnabled: true
 });
 
+const db = getDatabase(app);
+
+export const auth = getAuth();
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      unsubscribe();
+      resolve(user);
+    }, reject);
+  })
+};
+
+export const userExists = email => {
+  const usersQuery = query(ref(db, 'users'), orderByChild('email'), equalTo(email));
+  const usersSnapshot = get(usersQuery);
+  return usersSnapshot
+}
+
 // Get a reference to the database service
-export default getDatabase(app);
+export default db

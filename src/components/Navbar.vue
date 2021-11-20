@@ -24,6 +24,7 @@ export default {
     return {
       links: {
         Home: "/",
+        Products: "/products",
         Categories: "categories",
         Preselection: "preselection",
         About: "about",

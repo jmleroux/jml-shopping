@@ -25,12 +25,16 @@
       <template v-slot:default>
         <thead>
           <tr>
+            <th></th>
             <th class="text-left">Product</th>
             <th class="text-left">Categorie</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in preselection" :key="item.id">
+            <td class="text-left">
+              <v-simple-checkbox indeterminate></v-simple-checkbox>
+            </td>
             <td class="text-left">{{ item.label }}</td>
             <td class="text-left">{{ categoryLabel(item.category) }}</td>
             <td>
@@ -48,7 +52,7 @@
 
 <script>
 import { ref, onValue, child, set, remove } from "firebase/database";
-import slugify from "slugify"
+import slugify from "slugify";
 import db from "@/db";
 import useCategories from "@/useCategories";
 
@@ -67,6 +71,7 @@ export default {
     products: [],
     categories: [],
     preselection: [],
+    selected: [],
   }),
   created() {
     onValue(categoriesRef, (snapshot) => {
@@ -100,6 +105,9 @@ export default {
     removeItem(itemId) {
       const itemRef = ref(db, "preselection/" + itemId);
       remove(itemRef);
+    },
+    selectItem(item) {
+      this.selected.push(item);
     },
   },
 };
