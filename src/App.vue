@@ -1,15 +1,13 @@
 <template>
-  <v-app>
+  <section id="app">
     <Navbar />
-    <v-main>
-      <v-container>
-        <v-slide-y-transition mode="out-in">
+    <section id="main">
+      <div class="container">
           <router-view />
-        </v-slide-y-transition>
-      </v-container>
-    </v-main>
+      </div>
+    </section>
     <Footer />
-  </v-app>
+  </section>
 </template>
 
 <script>

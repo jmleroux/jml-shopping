@@ -38,6 +38,11 @@ export const getCurrentUser = () => {
   })
 };
 
+export const isAuthenticated = async () => {
+  const user = await getCurrentUser()
+  return null !== user
+};
+
 export const userExists = email => {
   const usersQuery = query(ref(db, 'users'), orderByChild('email'), equalTo(email));
   const usersSnapshot = get(usersQuery);

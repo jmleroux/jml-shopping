@@ -1,7 +1,10 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <button @click="googleSignIn">Sign In with Google</button>
+    <b-button variant="outline-primary" @click="googleSignIn">
+      <b-img class="button-logo" :src="require('../assets/google_logo.svg')" fluid alt="Google logo"></b-img>
+      Sign In with Google
+      </b-button>
     <button @click="logout">Logout</button>
   </div>
 </template>
@@ -41,3 +44,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.button-logo {
+  width: 30px;;
+}
+</style>
