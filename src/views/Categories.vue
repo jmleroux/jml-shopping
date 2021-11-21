@@ -1,36 +1,50 @@
 <template>
   <div class="categories">
     <h1>Categories</h1>
-    <v-form ref="form" v-on:submit.prevent="saveCategory">
-      <v-row>
-        <v-col><v-text-field v-model="category.label" label="Label" /></v-col>
-        <v-col><v-btn class="mr-4" type="submit">Submit</v-btn></v-col>
-      </v-row>
-    </v-form>
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in categories" :key="item.id">
-            <td class="text-left">{{ item.label }}</td>
-            <td>
-              <v-btn @click="() => removeCategory(item.id)">
-                <v-icon left> mdi-delete </v-icon>
-                Remove
-              </v-btn>
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <form
+      class="row gy-2 gx-3 align-items-center"
+      v-on:submit.prevent="saveCategory"
+    >
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingInput">Label></label>
+        <input
+          v-model="category.label"
+          type="text"
+          class="form-control"
+          id="autoSizingInput"
+          placeholder="Label"
+        />
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in categories.items" :key="item.id">
+          <td>{{ item.label }}</td>
+          <td>
+            <button
+              class="btn sm-btn btn-secondary"
+              @click="() => removeCategory(item.id)"
+            >
+              <i class="bi bitrash" />
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
-<script>
+<script setup>
+import { reactive } from "@vue/reactivity";
 import { onValue } from "firebase/database";
 import useCategories from "../useCategories";
 
@@ -40,31 +54,25 @@ const emptyCategory = {
   label: null,
 };
 
-export default {
-  name: "Categories",
-  data: () => ({
-    category: { ...emptyCategory },
-    categories: [],
-  }),
-  created() {
-    onValue(categoriesRef, (snapshot) => {
-      this.categories = [];
-      snapshot.forEach((doc) => {
-        this.categories.push({
-          id: doc.ref.key,
-          label: doc.val().label,
-        });
-      });
+const category = reactive({ ...emptyCategory });
+const categories = reactive({ items: [] });
+
+onValue(categoriesRef, (snapshot) => {
+  categories.items = [];
+  snapshot.forEach((doc) => {
+    categories.items.push({
+      id: doc.ref.key,
+      label: doc.val().label,
     });
-  },
-  methods: {
-    saveCategory() {
-      useCategories.saveCategory(this.category);
-      this.category = { ...emptyCategory };
-    },
-    removeCategory(categoryId) {
-      useCategories.removeCategory(categoryId);
-    },
-  },
+  });
+});
+
+const saveCategory = () => {
+  useCategories.saveCategory(category);
+  Object.assign(category, { ...emptyCategory });
+};
+
+const removeCategory = (categoryId) => {
+  useCategories.removeCategory(categoryId);
 };
 </script>

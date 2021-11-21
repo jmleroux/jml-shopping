@@ -1,43 +1,73 @@
 <template>
   <div class="home">
     <h1>Products</h1>
-    <b-form ref="form" v-on:submit.prevent="saveProduct" inline>
-      <b-form-input
-        v-model="product.label"
-        placeholder="Enter your name"
-      ></b-form-input>
-      <b-form-select
-        class="mb-3"
-        v-model="product.category"
-        :options="categories"
-        text-field="label"
-        value-field="id"
-      />
-      <b-form-input
-        v-model="product.quantity"
-        placeholder="Quantity"
-      ></b-form-input>
-      <b-button class="mr-4" type="submit">Submit</b-button>
-    </b-form>
+
+    <form
+      class="row gy-2 gx-3 align-items-center"
+      v-on:submit.prevent="saveProduct"
+    >
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingInput">Label></label>
+        <input
+          v-model="product.label"
+          type="text"
+          class="form-control"
+          id="autoSizingInput"
+          placeholder="Label"
+        />
+      </div>
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingSelect">Category</label>
+        <select
+          class="form-select"
+          id="autoSizingSelect"
+          v-model="product.category"
+          text-field="label"
+          value-field="id"
+        >
+          <option
+            v-for="category in categories.items"
+            :key="category.id"
+            :value="category.id"
+          >
+            {{ category.label }}
+          </option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingInput">Quantity></label>
+        <input
+          v-model="product.quantity"
+          type="text"
+          class="form-control"
+          id="autoSizingInput"
+          placeholder="Quantity"
+        />
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+
     <table class="table">
       <thead>
         <tr>
-          <th class="text-left">Label</th>
-          <th class="text-left">Category</th>
-          <th class="text-left">Quantity</th>
+          <th>Label</th>
+          <th>Category</th>
+          <th>Quantity</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in products" :key="item.id">
-          <td class="text-left">{{ item.label }}</td>
-          <td class="text-left">{{ categoryLabel(item.category) }}</td>
-          <td class="text-left">{{ item.quantity }}</td>
+        <tr v-for="item in products.items" :key="item.id">
+          <td>{{ item.label }}</td>
+          <td>{{ categoryLabel(item.category) }}</td>
+          <td>{{ item.quantity }}</td>
           <td>
-            <b-button @click="() => removeProduct(item.id)">
-              <b-icon-trash />
+            <button class="btn sm-btn btn-secondary" @click="() => removeProduct(item.id)">
+              <i class="bi bi-trash" />
               Remove
-            </b-button>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -45,10 +75,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { onValue } from "firebase/database";
 import useProducts from "../useProducts";
 import useCategories from "../useCategories";
+import { reactive } from "vue";
 
 const productsRef = useProducts.productsRef;
 const categoriesRef = useCategories.categoriesRef;
@@ -59,38 +90,32 @@ const emptyProduct = {
   quantity: null,
 };
 
-export default {
-  name: "Products",
-  data: () => ({
-    product: { ...emptyProduct },
-    products: [],
-    categories: [],
-  }),
-  created() {
-    onValue(productsRef, (snapshot) => {
-      this.products = [];
-      snapshot.forEach((doc) => {
-        useProducts.addDocToProducts(doc, this.products);
-      });
-    });
-    onValue(categoriesRef, (snapshot) => {
-      this.categories = [];
-      snapshot.forEach((doc) => {
-        useCategories.addDocToCategories(doc, this.categories);
-      });
-    });
-  },
-  methods: {
-    saveProduct() {
-      useProducts.saveProduct(this.product);
-      this.product = { ...emptyProduct };
-    },
-    removeProduct(productId) {
-      useProducts.removeProduct(productId);
-    },
-    categoryLabel(categoryId) {
-      return useCategories.categoryLabel(categoryId, this.categories);
-    },
-  },
+const product = reactive({ ...emptyProduct });
+const products = reactive({ items: [] });
+const categories = reactive({ items: [] });
+
+onValue(productsRef, (snapshot) => {
+  products.items = [];
+  snapshot.forEach((doc) => {
+    useProducts.addDocToProducts(doc, products.items);
+  });
+});
+
+onValue(categoriesRef, (snapshot) => {
+  categories.items.value = [];
+  snapshot.forEach((doc) => {
+    useCategories.addDocToCategories(doc, categories.items);
+  });
+});
+
+const saveProduct = () => {
+  useProducts.saveProduct(product);
+  Object.assign(product, { ...emptyProduct })
+};
+const removeProduct = (productId) => {
+  useProducts.removeProduct(productId);
+};
+const categoryLabel = (categoryId) => {
+  return useCategories.categoryLabel(categoryId, categories.items);
 };
 </script>

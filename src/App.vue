@@ -3,24 +3,19 @@
     <Navbar />
     <section id="main">
       <div class="container">
-          <router-view />
+        <router-view />
       </div>
     </section>
     <Footer />
   </section>
 </template>
 
-<script>
+<script setup>
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-export default {
-  name: "app",
-  components: { Navbar, Footer },
-};
 </script>
 
-<style lang="scss">
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

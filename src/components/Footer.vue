@@ -2,9 +2,7 @@
   <footer class="bg-light text-center text-lg-start">
     <div class="text-center p-3">
       ©2021 — <strong>JML Shopping</strong>
-      <a class="text-dark" href="https://github.com/jmleroux"
-        ><b-icon-github></b-icon-github
-      ></a>
+      <a class="text-dark" href="https://github.com/jmleroux"><i class="bi bi-github"/></a>
     </div>
   </footer>
 </template>

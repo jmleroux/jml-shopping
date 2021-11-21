@@ -1,45 +1,29 @@
 <template>
-  <div>
-    <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand tag="h1" class="mb-0">JML Shopping</b-navbar-brand>
-
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <h1 class="navbar-brand">JML Shopping</h1>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <router-link
-            v-for="item in visibleLinks"
+            v-for="item in links"
             :key="item.label"
             :to="item.route"
             class="nav-item nav-link"
             >{{ item.label }}</router-link
           >
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+        </ul>
+      </div>
+    </nav>
   </div>
 </template>
 
-<script>
-export default {
-  name: "navbar",
-  data: function () {
-    return {
-      links: [
-        { label: "Home", route: "/" },
-        { label: "Products", route: "/products", authenticated: true },
-        { label: "Categories", route: "categories", authenticated: true },
-        { label: "Preselection", route: "preselection", authenticated: true },
-        { label: "About", route: "about" },
-        { label: "Contact", route: "about" },
-      ],
-    };
-  },
-  computed: {
-    visibleLinks() {
-      const filtered = this.links
-      return filtered
-    },
-  },
-};
+<script setup>
+const links = [
+  { label: "Home", route: "/" },
+  { label: "Products", route: "/products", authenticated: true },
+  { label: "Categories", route: "categories", authenticated: true },
+  { label: "Preselection", route: "preselection", authenticated: true },
+  { label: "About", route: "about" },
+  { label: "Contact", route: "about" },
+];
 </script>

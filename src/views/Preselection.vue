@@ -1,60 +1,76 @@
 <template>
   <div class="preselection">
     <h1>Preselection</h1>
-    <v-form ref="form" v-on:submit.prevent="saveItem">
-      <v-row>
-        <v-col>
-          <v-text-field v-model="newItem.label" label="Product" />
-        </v-col>
-        <v-col>
-          <v-select
-            v-model="newItem.category"
-            :items="categories"
-            item-text="label"
-            item-value="id"
-            label="Category"
-            data-vv-name="select"
-            required
-          />
-        </v-col>
-        <v-col><v-btn class="mr-4" type="submit">Submit</v-btn></v-col>
-      </v-row>
-    </v-form>
 
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th></th>
-            <th class="text-left">Product</th>
-            <th class="text-left">Categorie</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in preselection" :key="item.id">
-            <td class="text-left">
-              <v-simple-checkbox indeterminate></v-simple-checkbox>
-            </td>
-            <td class="text-left">{{ item.label }}</td>
-            <td class="text-left">{{ categoryLabel(item.category) }}</td>
-            <td>
-              <v-btn @click="() => removeItem(item.id)">
-                <v-icon left> mdi-delete </v-icon>
-                Remove
-              </v-btn>
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+    <form
+      class="row gy-2 gx-3 align-items-center"
+      v-on:submit.prevent="saveItem"
+    >
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingInput">Label></label>
+        <input
+          v-model="newItem.label"
+          type="text"
+          class="form-control"
+          id="autoSizingInput"
+          placeholder="Product"
+        />
+      </div>
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingSelect">Category</label>
+        <select
+          class="form-select"
+          id="autoSizingSelect"
+          v-model="newItem.category"
+        >
+          <option
+            v-for="category in categories.items"
+            :key="category.id"
+            :value="category.id"
+          >
+            {{ category.label }}
+          </option>
+        </select>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="text-left">Product</th>
+          <th class="text-left">Categorie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in preselection.items" :key="item.id">
+          <td class="text-left">
+            <input class="form-check-input" type="checkbox" value="">
+          </td>
+          <td class="text-left">{{ item.label }}</td>
+          <td class="text-left">{{ categoryLabel(item.category) }}</td>
+          <td>
+            <button class="btn sm-btn btn-secondary" @click="() => removeItem(item.id)">
+              <i class="bi bi-trash"/>
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onValue, child, set, remove } from "firebase/database";
 import slugify from "slugify";
 import db from "@/db";
 import useCategories from "@/useCategories";
+import { reactive } from "@vue/reactivity";
 
 const preselectionRef = ref(db, "preselection");
 const categoriesRef = useCategories.categoriesRef;
@@ -64,51 +80,41 @@ const emptyItem = {
   category: null,
 };
 
-export default {
-  name: "Preselection",
-  data: () => ({
-    newItem: { ...emptyItem },
-    products: [],
-    categories: [],
-    preselection: [],
-    selected: [],
-  }),
-  created() {
-    onValue(categoriesRef, (snapshot) => {
-      this.categories = [];
-      snapshot.forEach((doc) => {
-        useCategories.addDocToCategories(doc, this.categories);
-      });
+const newItem = reactive({ ...emptyItem });
+const categories = reactive({ items: [] });
+const preselection = reactive({ items: [] });
+
+onValue(categoriesRef, (snapshot) => {
+  categories.items = [];
+  snapshot.forEach((doc) => {
+    useCategories.addDocToCategories(doc, categories.items);
+  });
+});
+onValue(preselectionRef, (snapshot) => {
+  preselection.items = [];
+  snapshot.forEach((doc) => {
+    preselection.items.push({
+      id: doc.ref.key,
+      label: doc.val().label,
+      category: doc.val().category,
     });
-    onValue(preselectionRef, (snapshot) => {
-      this.preselection = [];
-      snapshot.forEach((doc) => {
-        this.preselection.push({
-          id: doc.ref.key,
-          label: doc.val().label,
-          category: doc.val().category,
-        });
-      });
-    });
-  },
-  methods: {
-    categoryLabel(categoryId) {
-      return useCategories.categoryLabel(categoryId, this.categories);
-    },
-    saveItem() {
-      const newRef = child(preselectionRef, slugify(this.newItem.label));
-      set(newRef, {
-        label: this.newItem.label,
-        category: this.newItem.category,
-      });
-    },
-    removeItem(itemId) {
-      const itemRef = ref(db, "preselection/" + itemId);
-      remove(itemRef);
-    },
-    selectItem(item) {
-      this.selected.push(item);
-    },
-  },
-};
+  });
+});
+
+const categoryLabel = (categoryId) => {
+  return useCategories.categoryLabel(categoryId, categories.items);
+}
+
+const saveItem = () => {
+  const newRef = child(preselectionRef, slugify(newItem.label));
+  set(newRef, {
+    label: newItem.label,
+    category: newItem.category,
+  });
+}
+
+const removeItem = (itemId) => {
+  const itemRef = ref(db, "preselection/" + itemId);
+  remove(itemRef);
+}
 </script>
