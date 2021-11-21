@@ -34,20 +34,6 @@ export const removeById = id => {
 
 export const auth = getAuth();
 
-export const getCurrentUser = () => {
-  return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      unsubscribe();
-      resolve(user);
-    }, reject);
-  })
-};
-
-export const isAuthenticated = async () => {
-  const user = await getCurrentUser()
-  return null !== user
-};
-
 export const userExists = email => {
   const usersQuery = query(ref(db, 'users'), orderByChild('email'), equalTo(email));
   const usersSnapshot = get(usersQuery);

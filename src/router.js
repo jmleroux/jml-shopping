@@ -1,7 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import { getCurrentUser } from './db'
 import Home from './views/Home.vue'
+import useAuthentication from "./useAuthentication";
+
+const { isAuthenticated } = useAuthentication();
 
 const routes = [
   {
@@ -41,7 +43,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !await getCurrentUser()) {
+  if (requiresAuth && !isAuthenticated.value) {
     next('/');
   }
   else {

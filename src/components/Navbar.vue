@@ -5,19 +5,27 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <router-link
-            v-for="item in links"
+            v-for="item in filteredLinks"
             :key="item.label"
             :to="item.route"
             class="nav-item nav-link"
             >{{ item.label }}</router-link
           >
         </ul>
+        <Authentication />
       </div>
     </nav>
   </div>
 </template>
 
 <script setup>
+import { computed } from "@vue/reactivity";
+import useAuthentication from "../useAuthentication";
+
+import Authentication from "./Authentication.vue";
+
+const { isAuthenticated } = useAuthentication();
+
 const links = [
   { label: "Home", route: "/" },
   { label: "Products", route: "/products", authenticated: true },
@@ -26,4 +34,13 @@ const links = [
   { label: "About", route: "about" },
   { label: "Contact", route: "about" },
 ];
+
+const filteredLinks = computed(() => {
+  return links.filter((item) => {
+    if (item.authenticated && !isAuthenticated.value) {
+      return false;
+    }
+    return true;
+  });
+});
 </script>

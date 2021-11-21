@@ -33,7 +33,6 @@ export default function useProducts() {
   onValue(productsRef, (snapshot) => {
     products.items = [];
     snapshot.forEach((doc) => {
-      console.log(doc.ref.key)
       products.items.push({
         id: doc.ref.key,
         label: doc.val().label,
