@@ -30,17 +30,24 @@ export default function useProducts() {
     removeById("products/" + productId);
   }
 
-  onValue(productsRef, (snapshot) => {
-    products.items = [];
-    snapshot.forEach((doc) => {
-      products.items.push({
-        id: doc.ref.key,
-        label: doc.val().label,
-        category: doc.val().category,
-        quantity: doc.val().quantity,
+  onValue(
+    productsRef,
+    (snapshot) => {
+      products.items = [];
+      snapshot.forEach((doc) => {
+        products.items.push({
+          id: doc.ref.key,
+          label: doc.val().label,
+          category: doc.val().category,
+          quantity: doc.val().quantity,
+        })
       })
-    });
-  });
+    },
+    (error) => {
+      console.log('Error reading products')
+      console.log(error)
+    }
+  );
 
   return {
     product,

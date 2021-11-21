@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, query, ref, orderByChild, equalTo, get, remove } from "firebase/database";
+import { getDatabase, ref, remove } from "firebase/database";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth } from "firebase/auth";
 
@@ -33,12 +33,6 @@ export const removeById = id => {
 }
 
 export const auth = getAuth();
-
-export const userExists = email => {
-  const usersQuery = query(ref(db, 'users'), orderByChild('email'), equalTo(email));
-  const usersSnapshot = get(usersQuery);
-  return usersSnapshot
-}
 
 // Get a reference to the database service
 export default db

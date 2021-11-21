@@ -35,15 +35,21 @@ export default function useCategories() {
     return found?.label || "";
   }
 
-  onValue(categoriesRef, (snapshot) => {
-    categories.items = [];
-    snapshot.forEach((doc) => {
-      categories.items.push({
-        id: doc.ref.key,
-        label: doc.val().label,
+  onValue(categoriesRef,
+    (snapshot) => {
+      categories.items = [];
+      snapshot.forEach((doc) => {
+        categories.items.push({
+          id: doc.ref.key,
+          label: doc.val().label,
+        });
       });
-    });
-  });
+    },
+    (error) => {
+      console.log('Error reading categories')
+      console.log(error)
+    }
+  );
 
   return {
     category,
