@@ -26,9 +26,10 @@
 <script setup>
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import useAuthentication from "../useAuthentication";
+import { auth } from "../db";
 
 const provider = new GoogleAuthProvider();
-const { auth, isAuthenticated } = useAuthentication();
+const { isAuthenticated } = useAuthentication();
 
 const googleSignIn = () => {
   signInWithPopup(auth, provider);
