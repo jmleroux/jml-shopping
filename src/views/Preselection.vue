@@ -73,23 +73,17 @@ import useCategories from "@/useCategories";
 import { reactive } from "@vue/reactivity";
 
 const preselectionRef = ref(db, "preselection");
-const categoriesRef = useCategories.categoriesRef;
 const emptyItem = {
   id: null,
   label: null,
   category: null,
 };
 
+const { categories, categoryLabel } = useCategories();
+
 const newItem = reactive({ ...emptyItem });
-const categories = reactive({ items: [] });
 const preselection = reactive({ items: [] });
 
-onValue(categoriesRef, (snapshot) => {
-  categories.items = [];
-  snapshot.forEach((doc) => {
-    useCategories.addDocToCategories(doc, categories.items);
-  });
-});
 onValue(preselectionRef, (snapshot) => {
   preselection.items = [];
   snapshot.forEach((doc) => {
@@ -100,10 +94,6 @@ onValue(preselectionRef, (snapshot) => {
     });
   });
 });
-
-const categoryLabel = (categoryId) => {
-  return useCategories.categoryLabel(categoryId, categories.items);
-}
 
 const saveItem = () => {
   const newRef = child(preselectionRef, slugify(newItem.label));

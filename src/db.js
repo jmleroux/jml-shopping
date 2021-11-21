@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, query, ref, orderByChild, equalTo, get } from "firebase/database";
+import { getDatabase, query, ref, orderByChild, equalTo, get, remove } from "firebase/database";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth } from "firebase/auth";
 
@@ -26,6 +26,11 @@ initializeAppCheck(app, {
 });
 
 const db = getDatabase(app);
+
+export const removeById = id => {
+  const itemRef = ref(db, id);
+  remove(itemRef);
+}
 
 export const auth = getAuth();
 

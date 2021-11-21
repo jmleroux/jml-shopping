@@ -44,35 +44,8 @@
 </template>
 
 <script setup>
-import { reactive } from "@vue/reactivity";
-import { onValue } from "firebase/database";
 import useCategories from "../useCategories";
 
-const categoriesRef = useCategories.categoriesRef;
-const emptyCategory = {
-  id: null,
-  label: null,
-};
+const { category, categories, saveCategory, removeCategory } = useCategories()
 
-const category = reactive({ ...emptyCategory });
-const categories = reactive({ items: [] });
-
-onValue(categoriesRef, (snapshot) => {
-  categories.items = [];
-  snapshot.forEach((doc) => {
-    categories.items.push({
-      id: doc.ref.key,
-      label: doc.val().label,
-    });
-  });
-});
-
-const saveCategory = () => {
-  useCategories.saveCategory(category);
-  Object.assign(category, { ...emptyCategory });
-};
-
-const removeCategory = (categoryId) => {
-  useCategories.removeCategory(categoryId);
-};
 </script>

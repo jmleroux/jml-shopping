@@ -1,30 +1,52 @@
-import { ref, child, set, remove } from "firebase/database"
+import { ref, child, set, onValue } from "firebase/database"
 import slugify from "slugify";
-import db from "./db"
+import db, { removeById } from "./db"
+import { reactive } from "@vue/reactivity";
 
-const productsRef = ref(db, "products");
+export default function useProducts() {
 
-const saveProduct = product => {
-  const newRef = child(productsRef, slugify(product.label));
-  set(newRef, {
-    label: product.label,
-    category: product.category,
-    quantity: product.quantity,
+  const productsRef = ref(db, "products");
+
+  const emptyProduct = {
+    id: null,
+    label: null,
+    category: null,
+    quantity: null,
+  };
+
+  const product = reactive({ ...emptyProduct });
+  const products = reactive({ items: [] });
+
+  const saveProduct = () => {
+    const newRef = child(productsRef, slugify(product.label));
+    set(newRef, {
+      label: product.label,
+      category: product.category,
+      quantity: product.quantity,
+    });
+  }
+
+  const removeProduct = productId => {
+    removeById("products/" + productId);
+  }
+
+  onValue(productsRef, (snapshot) => {
+    products.items = [];
+    snapshot.forEach((doc) => {
+      console.log(doc.ref.key)
+      products.items.push({
+        id: doc.ref.key,
+        label: doc.val().label,
+        category: doc.val().category,
+        quantity: doc.val().quantity,
+      })
+    });
   });
-}
 
-const removeProduct = productId => {
-  const productRef = ref(db, "products/" + productId);
-  remove(productRef);
+  return {
+    product,
+    products,
+    saveProduct,
+    removeProduct,
+  }
 }
-
-const addDocToProducts = (doc, products) => {
-  products.push({
-    id: doc.ref.key,
-    label: doc.val().label,
-    category: doc.val().category,
-    quantity: doc.val().quantity,
-  });
-}
-
-export default { productsRef, saveProduct, removeProduct, addDocToProducts }

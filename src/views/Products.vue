@@ -64,7 +64,10 @@
           <td>{{ categoryLabel(item.category) }}</td>
           <td>{{ item.quantity }}</td>
           <td>
-            <button class="btn sm-btn btn-secondary" @click="() => removeProduct(item.id)">
+            <button
+              class="btn sm-btn btn-secondary"
+              @click="() => removeProduct(item.id)"
+            >
               <i class="bi bi-trash" />
               Remove
             </button>
@@ -76,46 +79,10 @@
 </template>
 
 <script setup>
-import { onValue } from "firebase/database";
 import useProducts from "../useProducts";
 import useCategories from "../useCategories";
-import { reactive } from "vue";
 
-const productsRef = useProducts.productsRef;
-const categoriesRef = useCategories.categoriesRef;
-const emptyProduct = {
-  id: null,
-  label: null,
-  category: null,
-  quantity: null,
-};
+const { product, products, saveProduct, removeProduct } = useProducts();
+const { categories, categoryLabel } = useCategories();
 
-const product = reactive({ ...emptyProduct });
-const products = reactive({ items: [] });
-const categories = reactive({ items: [] });
-
-onValue(productsRef, (snapshot) => {
-  products.items = [];
-  snapshot.forEach((doc) => {
-    useProducts.addDocToProducts(doc, products.items);
-  });
-});
-
-onValue(categoriesRef, (snapshot) => {
-  categories.items.value = [];
-  snapshot.forEach((doc) => {
-    useCategories.addDocToCategories(doc, categories.items);
-  });
-});
-
-const saveProduct = () => {
-  useProducts.saveProduct(product);
-  Object.assign(product, { ...emptyProduct })
-};
-const removeProduct = (productId) => {
-  useProducts.removeProduct(productId);
-};
-const categoryLabel = (categoryId) => {
-  return useCategories.categoryLabel(categoryId, categories.items);
-};
 </script>
