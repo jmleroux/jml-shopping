@@ -34,8 +34,7 @@ const links = [
   { label: "Products", route: "/products", authenticated: true },
   { label: "Categories", route: "categories", authenticated: true },
   { label: "Preselection", route: "preselection", authenticated: true },
-  { label: "About", route: "about" },
-  { label: "Contact", route: "about" },
+  { label: "Contact", route: "contact" },
 ];
 
 const filteredLinks = computed(() => {
