@@ -4,7 +4,7 @@
 
     <form
       class="row gy-2 gx-3 align-items-center"
-      v-on:submit.prevent="saveProduct"
+      v-on:submit.prevent="addProduct"
     >
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Label></label>
@@ -48,7 +48,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
-
+    <hr />
     <table class="table">
       <thead>
         <tr>
@@ -65,12 +65,15 @@
           <td>{{ item.quantity }}</td>
           <td>
             <button
-              class="btn sm-btn btn-secondary"
+              class="btn sm-btn btn-secondary me-1"
               @click="() => removeProduct(item.id)"
             >
-              <i class="bi bi-trash" />
-              Remove
-            </button>
+              <i class="bi bi-trash" /></button>
+            <button
+              class="btn sm-btn btn-secondary"
+              @click="() => edit(item)"
+            >
+              <i class="bi bi-pencil-square" /></button>
           </td>
         </tr>
       </tbody>
@@ -82,7 +85,15 @@
 import useProducts from "../useProducts";
 import useCategories from "../useCategories";
 
-const { product, products, saveProduct, removeProduct } = useProducts();
+const { emptyProduct, product, products, saveProduct, removeProduct } = useProducts();
 const { categories, categoryLabel } = useCategories();
 
+const addProduct = () => {
+  saveProduct(product)
+  Object.assign(product, emptyProduct)
+}
+
+const edit = item => {
+  Object.assign(product, item)
+}
 </script>

@@ -17,13 +17,10 @@ export default function useProducts() {
   const product = reactive({ ...emptyProduct });
   const products = reactive({ items: [] });
 
-  const saveProduct = () => {
-    const newRef = child(productsRef, slugify(product.label));
-    set(newRef, {
-      label: product.label,
-      category: product.category,
-      quantity: product.quantity,
-    });
+  const saveProduct = (newProduct) => {
+    const newProductId = newProduct.id || slugify(newProduct.label, { lower: true })
+    const newRef = child(productsRef, newProductId);
+    set(newRef, { ...emptyProduct, ...newProduct });
   }
 
   const removeProduct = productId => {
@@ -50,6 +47,7 @@ export default function useProducts() {
   );
 
   return {
+    emptyProduct,
     product,
     products,
     saveProduct,

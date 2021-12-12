@@ -17,7 +17,8 @@ export default function useCategories() {
   };
 
   const saveCategory = () => {
-    const newCategoryRef = child(categoriesRef, slugify(category.label, { lower: true }));
+    const categoryId = category.id || slugify(category.label, { lower: true })
+    const newCategoryRef = child(categoriesRef, categoryId);
     set(newCategoryRef, {
       label: category.label,
     });

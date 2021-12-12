@@ -1,12 +1,14 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-outline-primary btn-sm"
-    @click="logout"
-    v-if="isAuthenticated"
-  >
-    Logout
-  </button>
+  <div v-if="isAuthenticated">
+    {{ currentUser }}
+    <button
+      type="button"
+      class="btn btn-outline-primary btn-sm"
+      @click="logout"
+    >
+      Logout
+    </button>
+  </div>
   <div v-else>
     <button
       type="button"
@@ -28,20 +30,22 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 import useAuthentication from "../useAuthentication";
 import { auth } from "../db";
-import toast from '../useToast.js'
+import toast from "../useToast.js";
 
 const provider = new GoogleAuthProvider();
-const { isAuthenticated } = useAuthentication();
+const { isAuthenticated, currentUser } = useAuthentication();
+
+console.log(currentUser);
 
 const googleSignIn = () => {
   signInWithPopup(auth, provider).then(() => {
-      toast("You are now connected")
+    toast("You are now connected");
   });
 };
 
 const logout = () => {
   signOut(auth, provider).then(() => {
-      toast("You have been disconnected")
+    toast("You have been disconnected");
   });
 };
 </script>

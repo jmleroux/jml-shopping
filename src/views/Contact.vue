@@ -8,3 +8,13 @@
     </h2>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.about {
+  text-align: center;
+}
+img {
+  width: 100%;
+  max-width: 500px;
+}
+</style>
