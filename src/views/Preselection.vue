@@ -145,8 +145,10 @@ const filteredItems = computed(() => {
   return preselection.items.sort((item1, item2) => {
     const label1 = item1.label.toLowerCase()
     const label2 = item2.label.toLowerCase()
+    const category1 = item1.category.toLowerCase()
+    const category2 = item2.category.toLowerCase()
 
-    return label1 < label2 ? -1 : label1 > label2 ? 1 : 0;
+    return category1 < category2 ? -1 : category1 > category2 ? 1 : label1 < label2 ? -1 : label1 > label2 ? 1 : 0;
   })
 })
 
