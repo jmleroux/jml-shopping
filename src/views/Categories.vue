@@ -31,12 +31,12 @@
           <td>{{ item.label }}</td>
           <td>
             <button
-              class="btn sm-btn btn-secondary me-1"
+              class="btn btn-sm btn-danger m-1"
               @click="() => removeCategory(item.id)"
             >
               <i class="bi bi-trash" /></button>
             <button
-              class="btn sm-btn btn-secondary"
+              class="btn btn-sm btn-warning m-1"
               @click="() => edit(item)"
             >
               <i class="bi bi-pencil-square" /></button>

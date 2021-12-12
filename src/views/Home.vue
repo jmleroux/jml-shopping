@@ -3,7 +3,7 @@
     <div class="jumbotron">
       <h1 class="display-4">Welcome</h1>
       <p class="lead">
-        This is a simple shopping list app to play with VueJS andFirebase.
+        This is a simple shopping list app to play with VueJS and Firebase.
       </p>
     </div>
   </div>
