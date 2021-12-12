@@ -55,15 +55,20 @@
           <th @click="changeSort('label')">Label <i :class="sortIconClass('label')" /></th>
           <th @click="changeSort('category')">Category <i :class="sortIconClass('category')" /></th>
           <th>Quantity</th>
-          <th></th>
+          <th>Show checked items <input type="checkbox" v-model="showChecked"/></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in sortedItems" :key="item.id">
+        <tr v-for="item in filteredItems" :key="item.id" :class="productClass(item.checked)">
           <td>{{ item.label }}</td>
           <td>{{ categoryLabel(item.category) }}</td>
           <td>{{ item.quantity }}</td>
           <td>
+            <button
+              class="btn sm-btn btn-secondary me-1"
+              @click="() => checkProduct(item)"
+            >
+              <i class="bi bi-check" /></button>
             <button
               class="btn sm-btn btn-secondary me-1"
               @click="() => removeProduct(item.id)"
@@ -87,10 +92,11 @@ import { computed, ref } from "@vue/reactivity";
 import useProducts from "../useProducts";
 import useCategories from "../useCategories";
 
-const { emptyProduct, product, products, saveProduct, removeProduct } = useProducts();
+const { emptyProduct, checkProduct, product, products, saveProduct, removeProduct } = useProducts();
 const { categories, categoryLabel } = useCategories();
 const sortField = ref('label')
 const sortDirection = ref('asc')
+const showChecked = ref(true)
 
 const addProduct = () => {
   saveProduct(product)
@@ -108,6 +114,12 @@ const sortedItems = computed(() => {
   })
 })
 
+const filteredItems = computed(()=> {
+  return sortedItems.value.filter(item => {
+      return showChecked.value || false === item.checked
+  })
+})
+
 const changeSort = fieldName => {
   sortField.value = fieldName
   sortDirection.value = 'asc' === sortDirection.value ? 'desc' : 'asc'
@@ -122,4 +134,15 @@ const sortIconClass = fieldName => {
 const edit = item => {
   Object.assign(product, item)
 }
+
+const productClass = checked => {
+  return true === checked ? 'stroke' : ''
+}
 </script>
+
+<style lang="scss" scoped>
+.stroke {
+  text-decoration: line-through;
+  opacity: 0.25;
+}
+</style>

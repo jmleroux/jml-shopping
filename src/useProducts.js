@@ -12,15 +12,24 @@ export default function useProducts() {
     label: null,
     category: null,
     quantity: null,
+    checked: false,
   };
 
   const product = reactive({ ...emptyProduct });
   const products = reactive({ items: [] });
 
   const saveProduct = (newProduct) => {
+    if (undefined === newProduct.quantity) {
+      newProduct.quantity = null
+    }
     const newProductId = newProduct.id || slugify(newProduct.label, { lower: true })
     const newRef = child(productsRef, newProductId);
     set(newRef, { ...emptyProduct, ...newProduct });
+  }
+
+  const checkProduct = product => {
+    product.checked = !product.checked
+    saveProduct(product)
   }
 
   const removeProduct = productId => {
@@ -36,7 +45,8 @@ export default function useProducts() {
           id: doc.ref.key,
           label: doc.val().label,
           category: doc.val().category,
-          quantity: doc.val().quantity,
+          quantity: doc.val().quantity || null,
+          checked: doc.val().checked || false,
         })
       })
     },
@@ -50,6 +60,7 @@ export default function useProducts() {
     emptyProduct,
     product,
     products,
+    checkProduct,
     saveProduct,
     removeProduct,
   }
