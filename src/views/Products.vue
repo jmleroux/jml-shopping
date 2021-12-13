@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <h1>Products</h1>
-
     <form
       class="row gy-2 gx-3 align-items-center"
       v-on:submit.prevent="addProduct"
@@ -49,52 +48,55 @@
       </div>
     </form>
     <hr />
-    <div class="table-responsive">
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th @click="changeSort('label')">
-              Label <i :class="sortIconClass('label')" />
-            </th>
-            <th @click="changeSort('category')">
-              Category <i :class="sortIconClass('category')" />
-            </th>
-            <th>Quantity</th>
-            <th>
-              Show checked items <input type="checkbox" v-model="showChecked" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="item in filteredItems"
-            :key="item.id"
-            :class="productClass(item.checked)"
-          >
-            <td>{{ item.label }}</td>
-            <td>{{ categoryLabel(item.category) }}</td>
-            <td>{{ item.quantity }}</td>
-            <td class="buttons">
-              <button
-                class="btn btn-sm btn-success"
-                @click="() => checkProduct(item)"
-              >
-                <i class="bi bi-check" />
-              </button>
-              <button
-                class="btn btn-sm btn-danger"
-                @click="() => removeProduct(item.id)"
-              >
-                <i class="bi bi-trash" />
-              </button>
-              <button class="btn btn-sm btn-warning" @click="() => edit(item)">
-                <i class="bi bi-pencil-square" />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <p class="alert alert-info alert-dismissible fade show" role="alert">
+      You can check/uncheck a product by double clicking on the row.
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </p>
+
+    <table class="table table-hover table-sm">
+      <thead>
+        <tr>
+          <th @click="changeSort('label')">
+            Label <i :class="sortIconClass('label')" />
+          </th>
+          <th @click="changeSort('category')">
+            Category <i :class="sortIconClass('category')" />
+          </th>
+          <th>Quantity</th>
+          <th>
+            Show checked items <input type="checkbox" v-model="showChecked" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="item in filteredItems"
+          :key="item.id"
+          :class="productClass(item.checked)"
+          @dblclick="() => checkProduct(item)"
+        >
+          <td>{{ item.label }}</td>
+          <td>{{ categoryLabel(item.category) }}</td>
+          <td>{{ item.quantity }}</td>
+          <td class="buttons">
+            <button
+              class="btn btn-sm btn-danger"
+              @click="() => removeProduct(item.id)"
+            >
+              <i class="bi bi-trash" />
+            </button>
+            <button class="btn btn-sm btn-warning" @click="() => edit(item)">
+              <i class="bi bi-pencil-square" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -182,8 +184,8 @@ const productClass = (checked) => {
     width: 90px;
   }
   .btn-sm {
-    padding: 0.1rem 0.2rem;
-    margin-right: 2px;
+    padding: 0.2rem 0.4rem;
+    margin-right: 6px;
   }
 }
 </style>

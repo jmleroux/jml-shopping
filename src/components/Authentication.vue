@@ -35,8 +35,6 @@ import toast from "../useToast.js";
 const provider = new GoogleAuthProvider();
 const { isAuthenticated, currentUser } = useAuthentication();
 
-console.log(currentUser);
-
 const googleSignIn = () => {
   signInWithPopup(auth, provider).then(() => {
     toast("You are now connected");

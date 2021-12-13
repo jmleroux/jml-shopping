@@ -1,14 +1,12 @@
 <template>
   <div class="preselection">
     <h1>Preselection</h1>
-
     <p class="alert alert-info alert-dismissible fade show" role="alert">
       Here is a list of the recurrent products that you can quickly add to the
       shopping list. Just check the desired products and add them at once to the
       list.
        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </p>
-
     <form
       class="row gy-2 gx-3 align-items-center"
       v-on:submit.prevent="saveItem"
