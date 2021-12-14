@@ -1,13 +1,14 @@
 <template>
   <div class="home">
     <h1>Products</h1>
-    <form
+    <form autocomplete="off"
       class="row gy-2 gx-3 align-items-center"
       v-on:submit.prevent="addProduct"
     >
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Label></label>
         <input
+          autocomplete="off"
           v-model="product.label"
           type="text"
           class="form-control"
