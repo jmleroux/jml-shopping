@@ -116,8 +116,8 @@ const {
   removeProduct,
 } = useProducts();
 const { categories, categoryLabel } = useCategories();
-const sortField = ref("label");
-const sortDirection = ref("asc");
+const sortField = ref("category");
+const sortDirection = "asc";
 const showChecked = ref(true);
 
 const addProduct = () => {
@@ -127,12 +127,10 @@ const addProduct = () => {
 
 const sortedItems = computed(() => {
   return products.items.sort((item1, item2) => {
-    const label1 = item1[sortField.value].toLowerCase();
-    const label2 = item2[sortField.value].toLowerCase();
+    const value1 = item1[sortField.value].toLowerCase();
+    const value2 = item2[sortField.value].toLowerCase();
 
-    const result = label1 < label2 ? -1 : label1 > label2 ? 1 : 0;
-
-    return "asc" === sortDirection.value ? result : result * -1;
+    return value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
   });
 });
 
@@ -144,12 +142,11 @@ const filteredItems = computed(() => {
 
 const changeSort = (fieldName) => {
   sortField.value = fieldName;
-  sortDirection.value = "asc" === sortDirection.value ? "desc" : "asc";
 };
 
 const sortIconClass = (fieldName) => {
   const iconClass =
-    "asc" === sortDirection.value ? "bi bi-caret-down" : "bi bi-caret-up";
+    "asc" === sortDirection ? "bi bi-caret-down" : "bi bi-caret-up";
 
   return fieldName === sortField.value ? iconClass : "";
 };
