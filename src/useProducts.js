@@ -33,7 +33,9 @@ export default function useProducts() {
   }
 
   const removeProduct = productId => {
-    removeById("products/" + productId);
+    if (confirm('Confirm delete product ' + productId + '?')) {
+      removeById("products/" + productId);
+    }
   }
 
   onValue(

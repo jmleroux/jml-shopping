@@ -65,14 +65,14 @@
           </td>
           <td class="text-left">{{ item.label }}</td>
           <td class="text-left">{{ categoryLabel(item.category) }}</td>
-          <td>
+          <td class="buttons">
             <button
-              class="btn btn-sm btn-danger m-1"
+              class="btn btn-sm btn-danger"
               @click="() => removeItem(item.id)"
             >
               <i class="bi bi-trash" /></button>
             <button
-              class="btn btn-sm btn-warning m-1"
+              class="btn btn-sm btn-warning"
               @click="() => edit(item)"
             >
               <i class="bi bi-pencil-square" /></button>
@@ -155,3 +155,9 @@ const edit = item => {
   Object.assign(newItem, item)
 }
 </script>
+
+<style lang="scss" scoped>
+.buttons {
+  width: 100px;
+}
+</style>

@@ -1,0 +1,19 @@
+.btn-sm {
+    margin-right: 5px;
+}
+
+
+@media (max-width: 640px) {
+    .table {
+        font-size: 0.8rem;
+    }
+
+    .buttons {
+        width: 90px;
+    }
+
+    .btn-sm {
+        padding: 0.2rem 0.4rem;
+        margin-right: 6px;
+    }
+}

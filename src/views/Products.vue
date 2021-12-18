@@ -8,6 +8,7 @@
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Label></label>
         <input
+          ref="inputLabel"
           autocomplete="off"
           v-model="product.label"
           type="text"
@@ -119,18 +120,20 @@ const { categories, categoryLabel } = useCategories();
 const sortField = ref("category");
 const sortDirection = "asc";
 const showChecked = ref(true);
+const inputLabel = ref(null);
 
 const addProduct = () => {
   saveProduct(product);
   Object.assign(product, emptyProduct);
+  inputLabel.value.focus()
 };
 
 const sortedItems = computed(() => {
   return products.items.sort((item1, item2) => {
-    const value1 = item1[sortField.value].toLowerCase();
-    const value2 = item2[sortField.value].toLowerCase();
+    const value1 = item1[sortField.value]?.toLowerCase();
+    const value2 = item2[sortField.value]?.toLowerCase();
 
-    return value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+    return !value1 ? -1 : value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
   });
 });
 
@@ -167,23 +170,6 @@ const productClass = (checked) => {
 }
 
 .buttons {
-  width: 200px;
-}
-
-.btn-sm {
-  margin-right: 5px;
-}
-
-@media (max-width: 640px) {
-  .table {
-    font-size: 0.8rem;
-  }
-  .buttons {
-    width: 90px;
-  }
-  .btn-sm {
-    padding: 0.2rem 0.4rem;
-    margin-right: 6px;
-  }
+  width: 100px;
 }
 </style>
