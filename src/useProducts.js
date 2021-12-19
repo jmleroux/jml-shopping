@@ -19,6 +19,9 @@ export default function useProducts() {
   const products = reactive({ items: [] });
 
   const saveProduct = (newProduct) => {
+    if (!newProduct.label) {
+      return
+    }
     if (undefined === newProduct.quantity) {
       newProduct.quantity = null
     }

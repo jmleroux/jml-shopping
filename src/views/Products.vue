@@ -47,6 +47,7 @@
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary ms-1" @click="cancelEdit">Cancel</button>
       </div>
     </form>
     <hr />
@@ -156,6 +157,10 @@ const sortIconClass = (fieldName) => {
 
 const edit = (item) => {
   Object.assign(product, item);
+};
+
+const cancelEdit = () => {
+  Object.assign(product, emptyProduct);
 };
 
 const productClass = (checked) => {
