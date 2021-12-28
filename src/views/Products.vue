@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <h1>Products</h1>
-    <form autocomplete="off"
+    <form
+      autocomplete="off"
       class="row gy-2 gx-3 align-items-center"
       v-on:submit.prevent="addProduct"
     >
@@ -47,7 +48,13 @@
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-secondary ms-1" @click="cancelEdit">Cancel</button>
+        <button
+          type="button"
+          class="btn btn-secondary ms-1"
+          @click="cancelEdit"
+        >
+          Cancel
+        </button>
       </div>
     </form>
     <hr />
@@ -100,6 +107,9 @@
         </tr>
       </tbody>
     </table>
+    <button class="btn btn-danger" @click="() => deleteAllProducts()">
+      <i class="bi bi-recycle" /> Delete all products
+    </button>
   </div>
 </template>
 
@@ -116,6 +126,7 @@ const {
   products,
   saveProduct,
   removeProduct,
+  deleteAllProducts,
 } = useProducts();
 const { categories, categoryLabel } = useCategories();
 const sortField = ref("category");
@@ -126,7 +137,7 @@ const inputLabel = ref(null);
 const addProduct = () => {
   saveProduct(product);
   Object.assign(product, emptyProduct);
-  inputLabel.value.focus()
+  inputLabel.value.focus();
 };
 
 const sortedItems = computed(() => {

@@ -1,6 +1,6 @@
 import { ref, child, set, onValue } from "firebase/database"
 import slugify from "slugify";
-import db, { removeById } from "./db"
+import db, { removeById, updateData } from "./db"
 import { reactive } from "@vue/reactivity";
 
 export default function useProducts() {
@@ -41,6 +41,14 @@ export default function useProducts() {
     }
   }
 
+  const deleteAllProducts = () => {
+    if (confirm('Confirm delete all products?')) {
+      updateData({
+        products: {}
+      })
+    }
+  }
+
   onValue(
     productsRef,
     (snapshot) => {
@@ -68,5 +76,6 @@ export default function useProducts() {
     checkProduct,
     saveProduct,
     removeProduct,
+    deleteAllProducts,
   }
 }

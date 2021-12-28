@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, remove } from "firebase/database";
+import { getDatabase, ref, remove, update } from "firebase/database";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth } from "firebase/auth";
 
@@ -30,6 +30,10 @@ const db = getDatabase(app);
 export const removeById = id => {
   const itemRef = ref(db, id);
   remove(itemRef);
+}
+
+export const updateData = (payload) => {
+  return update(ref(db), payload);
 }
 
 export const auth = getAuth();
