@@ -1,10 +1,21 @@
 <template>
   <div class="home">
-    <h1>Products</h1>
+    <h1>
+      Products
+      <button
+        v-if="!showProductForm"
+        type="button"
+        class="btn btn-secondary ms-1"
+        @click="toggleProductForm"
+      >
+        Show form
+      </button>
+    </h1>
     <form
       autocomplete="off"
       class="row gy-2 gx-3 align-items-center"
       v-on:submit.prevent="addProduct"
+      v-if="showProductForm"
     >
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Label></label>
@@ -55,10 +66,22 @@
         >
           Cancel
         </button>
+        <button
+          type="button"
+          class="btn btn-secondary ms-1"
+          @click="toggleProductForm"
+        >
+          Hide form
+        </button>
       </div>
     </form>
     <hr />
-    <p class="alert alert-info alert-dismissible fade show" role="alert">
+    <p
+      v-if="showProductHint"
+      id="product-hint"
+      class="alert alert-info alert-dismissible fade show"
+      role="alert"
+    >
       You can check/uncheck a product by double clicking on the row.
       <button
         type="button"
@@ -77,7 +100,7 @@
           <th @click="changeSort('category')">
             Category <i :class="sortIconClass('category')" />
           </th>
-          <th>Quantity</th>
+          <th v-if="listHasQuantities">Quantity</th>
           <th>
             Show checked items <input type="checkbox" v-model="showChecked" />
           </th>
@@ -92,7 +115,7 @@
         >
           <td>{{ item.label }}</td>
           <td>{{ categoryLabel(item.category) }}</td>
-          <td>{{ item.quantity }}</td>
+          <td v-if="listHasQuantities">{{ item.quantity }}</td>
           <td class="buttons">
             <button
               class="btn btn-sm btn-danger"
@@ -116,8 +139,13 @@
 <script setup>
 import { computed, ref } from "@vue/reactivity";
 
+import store from "../store";
 import useProducts from "../useProducts";
 import useCategories from "../useCategories";
+import { onMounted } from "@vue/runtime-core";
+
+const { showProductHint, showProductForm, hideProductHint, toggleProductForm } =
+  store();
 
 const {
   emptyProduct,
@@ -127,6 +155,7 @@ const {
   saveProduct,
   removeProduct,
   deleteAllProducts,
+  listHasQuantities,
 } = useProducts();
 const { categories, categoryLabel } = useCategories();
 const sortField = ref("category");
@@ -177,6 +206,14 @@ const cancelEdit = () => {
 const productClass = (checked) => {
   return true === checked ? "stroke" : "";
 };
+
+onMounted(() => {
+  const productHint = document.getElementById("product-hint");
+
+  productHint?.addEventListener("close.bs.alert", function () {
+    hideProductHint();
+  });
+});
 </script>
 
 <style lang="scss" scoped>

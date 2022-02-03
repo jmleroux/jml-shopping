@@ -1,7 +1,7 @@
 <template>
   <div class="preselection">
     <h1>Preselection</h1>
-    <p class="alert alert-info alert-dismissible fade show" role="alert">
+    <p id="hint" class="alert alert-info alert-dismissible fade show" role="alert" v-if="showSelectionHint">
       Here is a list of the recurrent products that you can quickly add to the
       shopping list. Just check the desired products and add them at once to the
       list.
@@ -89,8 +89,12 @@ import { ref, onValue, child, set, remove } from "firebase/database";
 import slugify from "slugify";
 
 import db from "@/db";
+import store from '../store'
 import useCategories from "@/useCategories";
 import useProducts from "@/useProducts";
+import { onMounted } from "@vue/runtime-core";
+
+const { showSelectionHint, hideSelectionHint } = store();
 
 const preselectionRef = ref(db, "preselection");
 const emptyItem = {
@@ -150,10 +154,17 @@ const filteredItems = computed(() => {
   })
 })
 
-
 const edit = item => {
   Object.assign(newItem, item)
 }
+
+onMounted(() => {
+  const hint = document.getElementById("hint");
+
+  hint?.addEventListener("close.bs.alert", function () {
+    hideSelectionHint()
+  });
+})
 </script>
 
 <style lang="scss" scoped>

@@ -2,6 +2,7 @@ import { ref, child, set, onValue } from "firebase/database"
 import slugify from "slugify";
 import db, { removeById, updateData } from "./db"
 import { reactive } from "@vue/reactivity";
+import { computed } from "vue";
 
 export default function useProducts() {
 
@@ -49,6 +50,12 @@ export default function useProducts() {
     }
   }
 
+  const listHasQuantities = computed(() => {
+    const found = products.items.some(product => product.quantity)
+
+    return found
+  })
+
   onValue(
     productsRef,
     (snapshot) => {
@@ -77,5 +84,6 @@ export default function useProducts() {
     saveProduct,
     removeProduct,
     deleteAllProducts,
+    listHasQuantities,
   }
 }
