@@ -5,13 +5,14 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" ref="navbarContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <router-link
             v-for="item in filteredLinks"
             :key="item.label"
             :to="item.route"
             class="nav-item nav-link"
+            @click="hideNavbarmenu"
             >{{ item.label }}</router-link
           >
         </ul>
@@ -22,7 +23,7 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import useAuthentication from "../useAuthentication";
 
 import Authentication from "./Authentication.vue";
@@ -45,4 +46,9 @@ const filteredLinks = computed(() => {
     return true;
   });
 });
+
+const navbarContent = ref(null)
+const hideNavbarmenu = () => {
+  navbarContent.value.classList.remove('show')
+}
 </script>
