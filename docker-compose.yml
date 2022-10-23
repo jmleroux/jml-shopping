@@ -6,7 +6,7 @@ services:
             context: .
             target: dev
         volumes:
-            - ./:/srv/jmleroux
+            - ./:/app
             - ~/.npm:/home/node/.npm
         command: yarn serve
         environment:
