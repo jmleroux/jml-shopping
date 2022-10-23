@@ -144,7 +144,7 @@ import useProducts from "../useProducts";
 import useCategories from "../useCategories";
 import { onMounted } from "@vue/runtime-core";
 
-const { showProductHint, showProductForm, hideProductHint, toggleProductForm } =
+const { showProductHint, showProductForm, showChecked, hideProductHint, toggleProductForm } =
   store();
 
 const {
@@ -160,7 +160,6 @@ const {
 const { categories, categoryLabel } = useCategories();
 const sortField = ref("category");
 const sortDirection = "asc";
-const showChecked = ref(true);
 const inputLabel = ref(null);
 
 const addProduct = () => {
