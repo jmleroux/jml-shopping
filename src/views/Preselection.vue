@@ -5,34 +5,17 @@
       Here is a list of the recurrent products that you can quickly add to the
       shopping list. Just check the desired products and add them at once to the
       list.
-       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </p>
-    <form
-      class="row gy-2 gx-3 align-items-center"
-      v-on:submit.prevent="saveItem"
-    >
+    <form class="row gy-2 gx-3 align-items-center" v-on:submit.prevent="saveItem">
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Label></label>
-        <input
-          v-model="newItem.label"
-          type="text"
-          class="form-control"
-          id="autoSizingInput"
-          placeholder="Product"
-        />
+        <input v-model="newItem.label" type="text" class="form-control" id="autoSizingInput" placeholder="Product" />
       </div>
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingSelect">Category</label>
-        <select
-          class="form-select"
-          id="autoSizingSelect"
-          v-model="newItem.category"
-        >
-          <option
-            v-for="category in categories.items"
-            :key="category.id"
-            :value="category.id"
-          >
+        <select class="form-select" id="autoSizingSelect" v-model="newItem.category">
+          <option v-for="category in categories.items" :key="category.id" :value="category.id">
             {{ category.label }}
           </option>
         </select>
@@ -41,7 +24,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
-    <hr/>
+    <hr />
     <table class="table">
       <thead>
         <tr>
@@ -49,32 +32,25 @@
             <button class="btn btn-primary" v-on:click="addSelectionToProducts" title="Add to list">
               <i class="bi bi-cart" /></button>
           </th>
-          <th class="text-left">Product</th>
-          <th class="text-left">Categorie</th>
+          <th class="text-left" @click="changeSort('label')">
+            Product <i :class="sortIconClass('label')" />
+          </th>
+          <th class="text-left" @click="changeSort('category')">
+            Category <i :class="sortIconClass('category')" />
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in filteredItems" :key="item.id">
+        <tr v-for="item in sortedItems" :key="item.id">
           <td class="text-left">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              :value="item"
-              v-model="selection.items"
-            />
+            <input class="form-check-input" type="checkbox" :value="item" v-model="selection.items" />
           </td>
           <td class="text-left">{{ item.label }}</td>
           <td class="text-left">{{ categoryLabel(item.category) }}</td>
           <td class="buttons">
-            <button
-              class="btn btn-sm btn-danger"
-              @click="() => removeItem(item.id)"
-            >
+            <button class="btn btn-sm btn-danger" @click="() => removeItem(item.id)">
               <i class="bi bi-trash" /></button>
-            <button
-              class="btn btn-sm btn-warning"
-              @click="() => edit(item)"
-            >
+            <button class="btn btn-sm btn-warning" @click="() => edit(item)">
               <i class="bi bi-pencil-square" /></button>
           </td>
         </tr>
@@ -85,6 +61,7 @@
 
 <script setup>
 import { computed, reactive } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
 import { ref, onValue, child, set, remove } from "firebase/database";
 import slugify from "slugify";
 
@@ -92,9 +69,10 @@ import db from "@/db";
 import store from '../store'
 import useCategories from "@/useCategories";
 import useProducts from "@/useProducts";
-import { onMounted } from "@vue/runtime-core";
+import useSort from "@/useSort";
 
 const { showSelectionHint, hideSelectionHint } = store();
+const { sortField, sortIconClass, changeSort } = useSort("category")
 
 const preselectionRef = ref(db, "preselection");
 const emptyItem = {
@@ -143,16 +121,14 @@ const addSelectionToProducts = () => {
   Object.assign(selection, { items: [] });
 };
 
-const filteredItems = computed(() => {
+const sortedItems = computed(() => {
   return preselection.items.sort((item1, item2) => {
-    const label1 = item1.label.toLowerCase()
-    const label2 = item2.label.toLowerCase()
-    const category1 = item1.category.toLowerCase()
-    const category2 = item2.category.toLowerCase()
+    const value1 = item1[sortField.value]?.toLowerCase();
+    const value2 = item2[sortField.value]?.toLowerCase();
 
-    return category1 < category2 ? -1 : category1 > category2 ? 1 : label1 < label2 ? -1 : label1 > label2 ? 1 : 0;
-  })
-})
+    return !value1 ? -1 : value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+  });
+});
 
 const edit = item => {
   Object.assign(newItem, item)
