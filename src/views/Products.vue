@@ -2,93 +2,45 @@
   <div class="home">
     <h1>
       Products
-      <button
-        v-if="!showProductForm"
-        type="button"
-        class="btn btn-secondary ms-1"
-        @click="toggleProductForm"
-      >
+      <button v-if="!showProductForm" type="button" class="btn btn-secondary ms-1" @click="toggleProductForm">
         Show form
       </button>
     </h1>
-    <form
-      autocomplete="off"
-      class="row gy-2 gx-3 align-items-center"
-      v-on:submit.prevent="addProduct"
-      v-if="showProductForm"
-    >
+    <form autocomplete="off" class="row gy-2 gx-3 align-items-center" v-on:submit.prevent="addProduct"
+      v-if="showProductForm">
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Label></label>
-        <input
-          ref="inputLabel"
-          autocomplete="off"
-          v-model="product.label"
-          type="text"
-          class="form-control"
-          id="autoSizingInput"
-          placeholder="Label"
-        />
+        <input ref="inputLabel" autocomplete="off" v-model="product.label" type="text" class="form-control"
+          id="autoSizingInput" placeholder="Label" />
       </div>
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingSelect">Category</label>
-        <select
-          class="form-select"
-          id="autoSizingSelect"
-          v-model="product.category"
-          text-field="label"
-          value-field="id"
-        >
-          <option
-            v-for="category in categories.items"
-            :key="category.id"
-            :value="category.id"
-          >
+        <select class="form-select" id="autoSizingSelect" v-model="product.category" text-field="label"
+          value-field="id">
+          <option v-for="category in categories.items" :key="category.id" :value="category.id">
             {{ category.label }}
           </option>
         </select>
       </div>
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Quantity></label>
-        <input
-          v-model="product.quantity"
-          type="text"
-          class="form-control"
-          id="autoSizingInput"
-          placeholder="Quantity"
-        />
+        <input v-model="product.quantity" type="text" class="form-control" id="autoSizingInput"
+          placeholder="Quantity" />
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button
-          type="button"
-          class="btn btn-secondary ms-1"
-          @click="cancelEdit"
-        >
+        <button type="button" class="btn btn-secondary ms-1" @click="cancelEdit">
           Cancel
         </button>
-        <button
-          type="button"
-          class="btn btn-secondary ms-1"
-          @click="toggleProductForm"
-        >
+        <button type="button" class="btn btn-secondary ms-1" @click="toggleProductForm">
           Hide form
         </button>
       </div>
     </form>
     <hr />
-    <p
-      v-if="showProductHint"
-      id="product-hint"
-      class="alert alert-info alert-dismissible fade show"
-      role="alert"
-    >
+    <p v-if="showProductHint" id="product-hint" class="alert alert-info alert-dismissible fade show" role="alert">
       You can check/uncheck a product by double clicking on the row.
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-      ></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </p>
 
     <table class="table table-hover table-sm">
@@ -107,20 +59,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="item in filteredItems"
-          :key="item.id"
-          :class="productClass(item.checked)"
-          @dblclick="() => checkProduct(item)"
-        >
+        <tr v-for="item in filteredItems" :key="item.id" :class="productClass(item.checked)"
+          @dblclick="() => checkProduct(item)">
           <td>{{ item.label }}</td>
           <td>{{ categoryLabel(item.category) }}</td>
           <td v-if="listHasQuantities">{{ item.quantity }}</td>
           <td class="buttons">
-            <button
-              class="btn btn-sm btn-danger"
-              @click="() => removeProduct(item.id)"
-            >
+            <button class="btn btn-sm btn-danger" @click="() => removeProduct(item.id)">
               <i class="bi bi-trash" />
             </button>
             <button class="btn btn-sm btn-warning" @click="() => edit(item)">
@@ -138,11 +83,12 @@
 
 <script setup>
 import { computed, ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
 
 import store from "../store";
 import useProducts from "../useProducts";
 import useCategories from "../useCategories";
-import { onMounted } from "@vue/runtime-core";
+import useSort from "../useSort";
 
 const { showProductHint, showProductForm, showChecked, hideProductHint, toggleProductForm } =
   store();
@@ -157,10 +103,10 @@ const {
   deleteAllProducts,
   listHasQuantities,
 } = useProducts();
-const { categories, categoryLabel } = useCategories();
-const sortField = ref("category");
-const sortDirection = "asc";
-const inputLabel = ref(null);
+const { categories, categoryLabel } = useCategories()
+const { sortField, sortIconClass, changeSort } = useSort("category")
+
+const inputLabel = ref(null)
 
 const addProduct = () => {
   saveProduct(product);
@@ -182,17 +128,6 @@ const filteredItems = computed(() => {
     return showChecked.value || false === item.checked;
   });
 });
-
-const changeSort = (fieldName) => {
-  sortField.value = fieldName;
-};
-
-const sortIconClass = (fieldName) => {
-  const iconClass =
-    "asc" === sortDirection ? "bi bi-caret-down" : "bi bi-caret-up";
-
-  return fieldName === sortField.value ? iconClass : "";
-};
 
 const edit = (item) => {
   Object.assign(product, item);
