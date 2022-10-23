@@ -8,13 +8,13 @@ export default function useCategories() {
 
   const categoriesRef = ref(db, "categories");
 
-  const category = reactive({ ...emptyCategory });
-  const categories = reactive({ items: [] });
-
   const emptyCategory = {
     id: null,
     label: null,
   };
+
+  const category = reactive({ ...emptyCategory });
+  const categories = reactive({ items: [] });
 
   const saveCategory = () => {
     const categoryId = category.id || slugify(category.label, { lower: true })

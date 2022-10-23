@@ -26,6 +26,9 @@ export default function useProducts() {
     if (undefined === newProduct.quantity) {
       newProduct.quantity = null
     }
+    if (undefined === newProduct.category) {
+      newProduct.category = null
+    }
     const newProductId = newProduct.id || slugify(newProduct.label, { lower: true })
     const newRef = child(productsRef, newProductId);
     set(newRef, { ...emptyProduct, ...newProduct });
