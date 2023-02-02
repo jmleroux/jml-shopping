@@ -10,8 +10,6 @@ services:
             - ~/.npm:/home/node/.npm
         command: yarn serve
         environment:
-            # https://cli.vuejs.org/guide/mode-and-env.html#modes
-            # development is used by vue-cli-service serve
             - NODE_ENV=development
         ports:
             - 8080:8080

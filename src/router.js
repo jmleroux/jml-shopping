@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import Home from './views/Home.vue'
+import Home from './views/HomeView.vue'
 import useAuthentication from "./useAuthentication";
 
 const { isAuthenticated } = useAuthentication();
@@ -15,24 +15,24 @@ const routes = [
     path: '/products',
     name: 'Products',
     meta: { requiresAuth: true },
-    component: () => import(/* webpackChunkName: "categories" */ './views/Products.vue')
+    component: () => import('./views/ProductsView.vue')
   },
   {
     path: '/categories',
     name: 'Categories',
     meta: { requiresAuth: true },
-    component: () => import(/* webpackChunkName: "categories" */ './views/Categories.vue')
+    component: () => import('./views/CategoriesView.vue')
   },
   {
     path: '/preselection',
     name: 'Preselection',
     meta: { requiresAuth: true },
-    component: () => import(/* webpackChunkName: "preselection" */ './views/Preselection.vue')
+    component: () => import('./views/PreselectionView.vue')
   },
   {
     path: '/contact',
     name: 'Contact',
-    component: () => import(/* webpackChunkName: "about" */ './views/Contact.vue')
+    component: () => import('./views/ContactView.vue')
   }
 ]
 

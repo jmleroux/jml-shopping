@@ -1,8 +1,8 @@
 import { onAuthStateChanged } from "firebase/auth"
-import { ref } from "@vue/reactivity";
+import { ref } from "vue";
 import { auth } from "@/db";
 
-export default function useProducts() {
+export default function useAuthentication() {
     const isAuthenticated = ref(false);
     const currentUser = ref('')
 
@@ -20,8 +20,8 @@ export default function useProducts() {
             }
         },
         (error) => {
-            console.log('authentication error')
-            console.log(error)
+            console.error('authentication error')
+            console.error(error)
         }
     )
 

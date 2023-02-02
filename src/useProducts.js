@@ -1,7 +1,7 @@
 import { ref, child, set, onValue } from "firebase/database"
 import slugify from "slugify";
 import db, { removeById, updateData } from "./db"
-import { reactive } from "@vue/reactivity";
+import { reactive } from "vue";
 import { computed } from "vue";
 
 export default function useProducts() {
