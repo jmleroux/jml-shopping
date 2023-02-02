@@ -23,10 +23,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
+import { computed, ref } from "vue";
 import useAuthentication from "../useAuthentication";
 
-import Authentication from "./Authentication.vue";
+import Authentication from "./AuthenticationComponent.vue";
 
 const { isAuthenticated } = useAuthentication();
 

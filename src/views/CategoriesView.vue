@@ -48,13 +48,14 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import useCategories from "../useCategories";
 
 const { category, categories, saveCategory, removeCategory } = useCategories()
 
 const filteredItems = computed(() => {
-  return categories.items.sort((item1, item2) => {
+  const filtered = categories
+  return filtered.items.sort((item1, item2) => {
     const label1 = item1.label.toLowerCase()
     const label2 = item2.label.toLowerCase()
 

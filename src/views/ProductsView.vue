@@ -82,8 +82,8 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
-import { onMounted } from "@vue/runtime-core";
+import { computed, ref } from "vue";
+import { onMounted } from "vue";
 
 import store from "../store";
 import useProducts from "../useProducts";
