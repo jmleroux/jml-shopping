@@ -75,8 +75,12 @@
         </tr>
       </tbody>
     </table>
-    <button class="btn btn-danger" @click="() => deleteAllProducts()">
-      <i class="bi bi-recycle" /> Delete all products
+
+    <button class="btn btn-warning delete-button" @click="() => deleteCheckedProducts()">
+      <i class="bi bi-check-circle" /> Delete checked products
+    </button>
+    <button class="btn btn-danger delete-button" @click="() => deleteAllProducts()">
+      <i class="bi bi-trash" /> Delete all products
     </button>
   </div>
 </template>
@@ -101,6 +105,7 @@ const {
   saveProduct,
   removeProduct,
   deleteAllProducts,
+  deleteCheckedProducts,
   listHasQuantities,
 } = useProducts();
 const { categories, categoryLabel } = useCategories()
@@ -115,7 +120,8 @@ const addProduct = () => {
 };
 
 const sortedItems = computed(() => {
-  return products.items.sort((item1, item2) => {
+  const sorted = {...products}
+  return sorted.items.sort((item1, item2) => {
     const value1 = item1[sortField.value]?.toLowerCase();
     const value2 = item2[sortField.value]?.toLowerCase();
 
@@ -158,5 +164,9 @@ onMounted(() => {
 
 .buttons {
   width: 100px;
+}
+
+.delete-button {
+  margin-right: 1rem;
 }
 </style>
