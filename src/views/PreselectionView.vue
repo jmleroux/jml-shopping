@@ -60,8 +60,8 @@
 </template>
 
 <script setup>
-import { computed, reactive } from "@vue/reactivity";
-import { onMounted } from "@vue/runtime-core";
+import { computed, reactive } from "vue";
+import { onMounted } from "vue";
 import { ref, onValue, child, set, remove } from "firebase/database";
 import slugify from "slugify";
 

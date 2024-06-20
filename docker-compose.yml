@@ -1,17 +1,13 @@
-version: '3.7'
-
 services:
-    node:
-        build:
-            context: .
-            target: dev
-        volumes:
-            - ./:/app
-            - ~/.npm:/home/node/.npm
-        command: yarn serve
-        environment:
-            # https://cli.vuejs.org/guide/mode-and-env.html#modes
-            # development is used by vue-cli-service serve
-            - NODE_ENV=development
-        ports:
-            - 8080:8080
+  node:
+    build:
+      context: .
+      target: dev
+    volumes:
+      - ./:/app
+      - ~/.npm:/home/node/.npm
+    command: yarn serve
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 8080:8080

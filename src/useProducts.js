@@ -1,8 +1,7 @@
 import { ref, child, set, onValue } from "firebase/database"
 import slugify from "slugify";
 import db, { removeById, updateData } from "./db"
-import { reactive } from "@vue/reactivity";
-import { computed } from "vue";
+import { reactive, computed } from "vue";
 
 export default function useProducts() {
 
@@ -53,6 +52,17 @@ export default function useProducts() {
     }
   }
 
+  const deleteCheckedProducts = () => {
+    if (confirm("Confirm delete all checked products?")) {
+      const filteredProducts = products.items.filter(
+        (product) => !product.checked
+      );
+      updateData({
+        products: filteredProducts,
+      });
+    }
+  };
+
   const listHasQuantities = computed(() => {
     const found = products.items.some(product => product.quantity)
 
@@ -87,6 +97,7 @@ export default function useProducts() {
     saveProduct,
     removeProduct,
     deleteAllProducts,
+    deleteCheckedProducts,
     listHasQuantities,
   }
 }

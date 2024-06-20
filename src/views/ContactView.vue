@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <h1>Contact us (well... me)</h1>
-    <div><img :src="require('../assets/geek.jpg')" alt="Geeking" /></div>
+    <div><img src="/image/geek.jpg" alt="Geeking" /></div>
     <h2>
       <a href="mailto:jmleroux.pro@gmail.com?subject=About JML ShoppingList"
         >jmleroux.pro@gmail.com</a>

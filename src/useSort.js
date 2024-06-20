@@ -1,4 +1,4 @@
-import { ref } from "@vue/reactivity";
+import { ref } from "vue";
 
 export default function useSort(initialSortField) {
   const sortField = ref(initialSortField);

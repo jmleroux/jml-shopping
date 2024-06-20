@@ -1,6 +1,6 @@
 import { ref, set, child, onValue } from "firebase/database"
 import slugify from "slugify";
-import { reactive } from "@vue/reactivity";
+import { reactive } from "vue";
 
 import db, { removeById } from "@/db"
 
