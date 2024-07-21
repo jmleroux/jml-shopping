@@ -1,0 +1,17 @@
+{
+  "name": "JML Shopping",
+  "description": "JML shopping list",
+  "start_url": "/",
+  "display": "standalone",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icon_cart.png",
+      "sizes": "72x72 96x96 128x128 144x144 192x192 256x256 512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#C0FCC5",
+  "background_color": "#C0FCC5"
+}
