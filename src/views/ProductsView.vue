@@ -60,7 +60,7 @@
       </thead>
       <tbody>
         <tr v-for="item in filteredItems" :key="item.id" :class="productClass(item.checked)"
-          @dblclick="() => checkProduct(item)">
+          @click="() => checkProduct(item)">
           <td>{{ item.label }}</td>
           <td>{{ categoryLabel(item.category) }}</td>
           <td v-if="listHasQuantities">{{ item.quantity }}</td>
